@@ -9,6 +9,19 @@
       "Courier New", monospace;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
+    --font-integral: "Integral CF";
+    --font-integral--transform: uppercase;
+    --hero-line-height: 1;
+    --text-hero-desktop: 64px;
+    --text-hero-desktop--line-height: var(--hero-line-height);
+    --text-collectionTitle-desktop: 48px;
+    --font-satoshi: "Satoshi";
+    --font-satoshi--transform: capitalize;
+    --product-line-height: 1;
+    --text-product-title-desktop: 20px;
+    --text-product-title-desktop--line-height: var(--product-line-height);
+    --text-product-price-desktop: 24px;
+    --text-product-price-desktop--line-height: var(--product-line-height);
   }
 }
 @layer base {
@@ -185,11 +198,104 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+  .font-satoshi-review-text {
+    font-family: var(--satoshi);
+    font-weight: 700 !important;
+    color: #000000 !important;
+    text-transform: var(--font-satoshi--transform);
+    font-family: var(--font-satoshi);
+    font-size: 16px !important;
+    line-height: 22px;
+    font-weight: 400 !important;
+    color: #00000099 !important;
+  }
+  .font-satoshi-customer-name {
+    font-family: var(--satoshi);
+    font-weight: 700 !important;
+    color: #000000 !important;
+    text-transform: var(--font-satoshi--transform);
+    font-family: var(--font-satoshi);
+    font-size: 20px;
+    line-height: 22px;
+    text-transform: capitalize;
+  }
+  .font-satoshi-discount {
+    font-family: var(--satoshi);
+    font-weight: 700 !important;
+    color: #000000 !important;
+    text-transform: var(--font-satoshi--transform);
+    font-family: var(--font-satoshi);
+    color: rgba(0, 0, 0, 0.4) !important;
+    text-decoration: line-through;
+  }
+  .font-satoshi-percentage {
+    font-family: var(--satoshi);
+    font-weight: 700 !important;
+    color: #000000 !important;
+    text-transform: var(--font-satoshi--transform);
+    font-family: var(--font-satoshi);
+    font-weight: 500 !important;
+    color: #FF3333 !important;
+  }
+  .font-integral {
+    font-family: var(--font-integral);
+    font-weight: 700 !important;
+    text-transform: var(--font-integral--transform);
+    color: #000000 !important;
+  }
+  .font-satoshi {
+    font-family: var(--satoshi);
+    font-weight: 700 !important;
+    color: #000000 !important;
+    text-transform: var(--font-satoshi--transform);
+  }
+  .font-integral {
+    font-family: var(--font-integral);
+  }
+  .font-satoshi {
+    font-family: var(--font-satoshi);
+  }
+  .text-hero-desktop {
+    font-size: var(--text-hero-desktop);
+    line-height: var(--tw-leading, var(--text-hero-desktop--line-height));
+  }
+  .text-product-price-desktop {
+    font-size: var(--text-product-price-desktop);
+    line-height: var(--tw-leading, var(--text-product-price-desktop--line-height));
+  }
+  .text-product-title-desktop {
+    font-size: var(--text-product-title-desktop);
+    line-height: var(--tw-leading, var(--text-product-title-desktop--line-height));
+  }
+  .text-\[10px\] {
+    font-size: 10px;
+  }
+  .text-\[24px\] {
+    font-size: 24px;
+  }
+  .text-collectionTitle-desktop {
+    font-size: var(--text-collectionTitle-desktop);
+  }
   .italic {
     font-style: italic;
   }
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .md\:text-\[12px\] {
+    @media (width >= 48rem) {
+      font-size: 12px;
+    }
+  }
+  .md\:text-\[36px\] {
+    @media (width >= 48rem) {
+      font-size: 36px;
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+  .font-satoshi-category {
+    font-size: 36px !important;
   }
 }
 @property --tw-rotate-x {

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
@@ -19,6 +20,25 @@
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'tailwind.output.css' | asset_url | stylesheet_tag }}
+    <style>
+  @font-face {
+    font-family: 'Integral CF';
+    src: url("{{ 'Integral-CF-Bold.woff2' | asset_url }}") format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Satoshi';
+    src: url("{{ 'Satoshi-Bold.woff2' | asset_url }}") format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+</style>
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
@@ -27,7 +47,7 @@
   </head>
 
   <body>
-    {% sections 'header-group' %}
+    {% section 'hero' %}
 
     {{ content_for_layout }}
 

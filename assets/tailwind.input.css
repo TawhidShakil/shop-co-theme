@@ -1,1 +1,103 @@
+/* assets/tailwind.input.css */
 @import "tailwindcss";
+
+@theme {
+    /* style for integral CF font*/
+  --font-integral: "Integral CF";
+  --font-integral--weight: 700;
+  --font-integral--transform: uppercase;
+  --font-integral--color: #000000;
+  --hero-line-height: 1;
+
+  --text-hero-desktop: 64px;
+  --text-hero-desktop--line-height: var(--hero-line-height);
+  /* For Mobile*/
+  --text-hero-mobile: 36px;
+  --text-hero-mobile--line-height: var(--hero-line-height);
+  /* ---- 2. Collection typography  */
+  --text-collectionTitle-desktop: 48px;
+  --text-collectionTitle--line-height: 1;
+  --text-collectionTitle-mobile: 32px;
+
+  /* style for Satoshi font*/
+  --font-satoshi: "Satoshi";
+  --font-satoshi--transform: capitalize;
+  --font-satoshi--weight: 700;
+  --product-line-height: 1;
+  /* style for produt info*/
+  --text-product-title-desktop: 20px;
+  --text-product-title-desktop--line-height: 1;
+  --text-product-title-mobile: 16px;
+  --text-product-title-desktop--line-height: var(--product-line-height);
+  --text-product-price-desktop: 24px;
+  --text-product-price-desktop--line-height: var(--product-line-height);
+  --text-product-price-mobile: 20px;
+  --text-product-price-desktop--line-height: var(--product-line-height);
+
+  
+
+}
+
+@utility font-integral {
+  font-family: var(--font-integral);
+  font-weight: 700 !important;
+  text-transform: var(--font-integral--transform);
+  color: #000000 !important;
+}
+
+@utility font-satoshi {
+  font-family: var(--satoshi);
+  font-weight: 700 !important;
+  color: #000000 !important;
+  text-transform: var(--font-satoshi--transform);
+}
+
+/*style for price discount*/
+@utility font-satoshi-discount {
+  @apply font-satoshi;
+  color: rgba(0, 0, 0, 0.4) !important;
+  text-decoration: line-through;
+
+}
+/* style for percentage*/
+@utility font-satoshi-percentage{
+  @apply font-satoshi;
+  font-weight: 500 !important;
+  color: #FF3333 !important;
+  
+}
+
+
+
+/*style for category type*/
+@utility font-satoshi-category{
+  @apply font-satoshi;
+  font-size: 24px !important;
+}
+@media screen and (min-width: 768px){
+    .font-satoshi-category{
+      font-size: 36px !important;
+    }
+    
+  }
+
+
+
+
+/*style for customer review*/
+@utility font-satoshi-customer-name{
+  @apply font-satoshi;
+  font-size: 20px;
+  line-height: 22px;
+  text-transform: capitalize;
+}
+
+
+
+@utility font-satoshi-review-text{
+  @apply font-satoshi;
+  font-size: 16px !important;
+  line-height: 22px;
+  font-weight: 400 !important;
+  color: #00000099 !important;
+}
