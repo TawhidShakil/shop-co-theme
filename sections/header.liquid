@@ -1,31 +1,39 @@
-<header class="max-w-[1440px] py-4 bg-gray-200">
+<header class="max-w-[1440px] py-3">
     <div class="flex justify-between items-center max-w-[1240px] h-[48px] mx-auto">
     <!-- Logo Container -->
-    <div class="bg-red-200 logo w-[160px] h-[22px]">
+    <div class="logo w-[160px] h-[22px]">
         SHOP.CO
     </div>
     <!-- Menu Items -->
-    <nav class="menu bg-yellow-400 w-[321px] h-[22px]">
+    <nav class="menu w-[321px] h-[22px]">
         <ul class="flex justify-center gap-4">
-        <li>Home</li>
-        <li>About</li>
-        <li>Shop Now</li>
-        <li>Contact</li>
+            <li>Home</li>
+            <li>About</li>
+            <li>Shop Now</li>
+            <li>Contact</li>
         </ul>
     </nav>
 
-    <!-- Search Bar -->
-    <form class="search bg-green-200 w-[577px] rounded-xl flex items-center gap-2 px-4">
-        <a>
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-        </a>
-        <input type="text" placeholder="Search For Products" class="w-full">
-    </form>
+    <div class="relative w-[577px] h-[48px] bg-gray-100 rounded-full">
+
+        <!-- Icon -->
+        <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+
+        <!-- Input -->
+        <input type="text"
+                placeholder="Search For Products"
+                class="w-full h-full pl-10 bg-transparent outline-none">
+
+    </div>
+
+
 
     <!-- Icons Container -->
-    <div class="flex justify-center gap-4 bg-blue-200">
+    <div class="flex justify-center gap-4">
         <!--Cart Icon -->
         <a href="#">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
