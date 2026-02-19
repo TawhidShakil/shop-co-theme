@@ -1,11 +1,20 @@
-<header class="max-w-[1440px] py-3">
+<header class="max-w-[1440px] py-3 bg-green-50">
     <div class="flex justify-between items-center max-w-[1240px] h-[48px] mx-auto">
+
+    
+
+
     <!-- Logo Container -->
-    <div class="logo w-[160px] h-[22px]">
-        SHOP.CO
+    <div class="logo w-[160px] h-[22px] flex gap-4 items-center">
+        <button class="lg:hidden px-2 flex-shrink-0">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+        <h6 class="text-2xl font-bold">SHOP.CO</h6>
     </div>
     <!-- Menu Items -->
-    <nav class="menu w-[321px] h-[22px]">
+    <nav class="hidden lg:block menu w-[321px] h-[22px]">
         <ul class="flex justify-center gap-4">
             <li>Home</li>
             <li>About</li>
@@ -14,9 +23,9 @@
         </ul>
     </nav>
 
-    <div class="relative w-[577px] h-[48px] bg-gray-100 rounded-full">
+    <div class="hidden lg:block relative w-[577px] h-[48px] bg-gray-100 rounded-full">
 
-        <!-- Icon -->
+        <!-- Search Icon -->
         <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -33,7 +42,15 @@
 
 
     <!-- Icons Container -->
-    <div class="flex justify-center gap-4">
+    <div class="flex justify-center gap-4 px-2">
+        <a class="lg:hidden">
+            <!-- Search Icon -->
+            <svg class="w-5 h-5"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+        </a>
         <!--Cart Icon -->
         <a href="#">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
