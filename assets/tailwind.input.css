@@ -25,8 +25,8 @@
   --font-satoshi--weight: 700;
   --product-line-height: 1;
   /* style for produt info*/
-  --text-product-title-desktop: 20px;
-  --text-product-title-desktop--line-height: 1;
+  --text-product-title-desktop: 40px;
+  --text-product-title-desktop--line-height: 3;
   --text-product-title-mobile: 16px;
   --text-product-title-desktop--line-height: var(--product-line-height);
   --text-product-price-desktop: 24px;
@@ -64,6 +64,7 @@
   @apply font-satoshi;
   font-weight: 500 !important;
   color: #FF3333 !important;
+  font-size: 12px !important;
   
 }
 
