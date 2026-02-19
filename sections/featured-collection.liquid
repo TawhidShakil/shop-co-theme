@@ -64,10 +64,10 @@
 {% endschema %}
 
 
-<div class=" full-width">
+<div class="full-width">
 
-    <div id="main" class="">
-        <div id="title" class="">
+    <div id="fc-main-{{ section.id }}">
+        <div id="fc-title-{{ section.id }}">
             {% if section.settings.collection_title != blank %}
                 <h1 class="font-integral text-collectionTitle-desktop">{{ section.settings.collection_title }}</h1>
             {% else %}
@@ -75,9 +75,9 @@
             {% endif %} 
         </div>
 
-        <div id="products" class="flex">
+        <div id="fc-products-{{ section.id }}" class="flex">
             {% for product in section.settings.collection.products limit: section.settings.product_shows %}
-                <div class="product" data-index="{{ forloop.index }}">
+                <div class="fc-product-{{ section.id }}" data-index="{{ forloop.index }}">
                     <a href="{{ product.url }}" style="display: block;">
                         <img 
                             src="{{ product.featured_image | image_url: width: 295, height: 295 }}" 
@@ -87,31 +87,31 @@
                         >
                     </a>
 
-                    <h2 id="product-title" class="font-satoshi text-product-title-desktop">{{ product.title }}</h2>
-                    <h2 id="product-rating">⭐4.9(120)</h2>
+                    <h2 id="fc-product-title-{{ section.id }}" class="font-satoshi text-product-title-desktop">{{ product.title }}</h2>
+                    <h2 id="fc-product-rating-{{ section.id }}">⭐4.9(120)</h2>
                     
                     
                     {% if product.compare_at_price > product.price %}
-                        <div id="price-row">
+                        <div id="fc-price-row-{{ section.id }}">
     
-                            <p id="current-price">
+                            <p id="fc-current-price-{{ section.id }}">
                                 ${{ product.price | divided_by: 100 | floor }}
                             </p>
 
-                            <p id="old-price">
+                            <p id="fc-old-price-{{ section.id }}">
                                 ${{ product.compare_at_price | divided_by: 100 | floor }}
                             </p>
 
                             {% assign discount = product.compare_at_price | minus: product.price %}
                             {% assign discount_percentage = discount | times: 100 | divided_by: product.compare_at_price %}
 
-                            <span id="discount-badge">
+                            <span id="fc-discount-badge-{{ section.id }}">
                                 -{{ discount_percentage }}%
                             </span>
 
                         </div>
                     {% else %}
-                        <p id="current-price">
+                        <p id="fc-current-price-{{ section.id }}">
                             ${{ product.price | divided_by: 100 | floor }}
                         </p>
                     {% endif %}
@@ -121,10 +121,10 @@
             {% endfor %}
         </div>
 
-        <div id="viewBtn">
+        <div id="fc-viewBtn-{{ section.id }}">
             {% if section.settings.product_shows < section.settings.collection.products.size %}
                 <a
-                    id="view-all"
+                    id="fc-view-all-{{ section.id }}"
                     href="{{ section.settings.collection.url }}"
                 >
                     View All
@@ -141,25 +141,19 @@
 
 <style>
 
-#main{
+#fc-main-{{ section.id }}{
     padding-left: 100px;
     padding-right: 100px;
-
     padding-top: {{ section.settings.margin_top }}px;
-    
-    
-   
 }
 
-#title{
+#fc-title-{{ section.id }}{
     display: flex;
     justify-content: center;
     align-items: center;
-
-    
 }
 
-#products{
+#fc-products-{{ section.id }}{
     align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
@@ -167,36 +161,31 @@
     margin-top: 55px;
 }
 
-.product {
+.fc-product-{{ section.id }} {
     width: 295px;
 }
 
-#product-title{
+#fc-product-title-{{ section.id }}{
     margin-top: 16px;
 }
 
-#product-rating{
+#fc-product-rating-{{ section.id }}{
     margin-top: 8px;
 }
 
-#product-price{
-    margin-top: 8px;
-}
-
-#viewBtn{
+#fc-viewBtn-{{ section.id }}{
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 60px;
     width: 100%;
-
     padding-bottom: {{ section.settings.margin_bottom }}px;
     {% if section.settings.bottom_border == true %}
         border-bottom: 1px solid #e6e6e6;
     {% endif %}
 }
 
-#view-all{
+#fc-view-all-{{ section.id }}{
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -212,21 +201,21 @@
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-#view-all:hover {
+#fc-view-all-{{ section.id }}:hover {
     background-color: #000000;
     color: #ffffff;
     border-color: #000000;
 }
 
-/* // Price code  */
+/* Price code */
 
-#price-row {
+#fc-price-row-{{ section.id }} {
   display: flex;
   align-items: center;
-  gap: 10px; /* space between prices */
+  gap: 10px;
 }
 
-#current-price {
+#fc-current-price-{{ section.id }} {
   font-family: "Satoshi", sans-serif;
   font-size: 24px;
   font-weight: 700;
@@ -234,20 +223,20 @@
   margin: 0;
 }
 
-#old-price {
+#fc-old-price-{{ section.id }} {
   font-family: "Satoshi", sans-serif;
   font-size: 24px;
-  color: #9ca3af; /* gray */
+  color: #9ca3af;
   text-decoration: line-through;
   margin: 0;
 }
 
-#discount-badge {
+#fc-discount-badge-{{ section.id }} {
   font-size: 14px;
   color: #ef4444;
   background-color: #fee2e2;
   padding: 2px 8px;
-  border-radius: 999px; /* pill shape */
+  border-radius: 999px;
   font-weight: 500;
 }
 
@@ -257,47 +246,48 @@
 /* Mobile responsive code */
 
 @media screen and (max-width: 768px){
-    #main{
+    #fc-main-{{ section.id }}{
         padding-left: 20px;
         padding-right: 20px;
     }
 
     /* 2 products per row */
-    .product {
+    .fc-product-{{ section.id }} {
         width: calc(50% - 10px);
     }
 
     /* Image fills the card, stays square */
-    .product img {
+    .fc-product-{{ section.id }} img {
         width: 100%;
         height: auto;
         aspect-ratio: 1 / 1;
     }
 
     /* Collection title */
-    #title h1{
+    #fc-title-{{ section.id }} h1{
         font-size: var(--text-collectionTitle-mobile);
     }
 
     /* Product title */
-    .product h2#product-title {
+    .fc-product-{{ section.id }} h2#fc-product-title-{{ section.id }} {
         font-size: var(--text-product-title-mobile);
     }
 
     /* Prices */
-    #current-price {
+    #fc-current-price-{{ section.id }} {
         font-size: var(--text-product-price-mobile);
     }
 
-    #old-price {
+    #fc-old-price-{{ section.id }} {
         font-size: var(--text-product-title-mobile);
     }
+
     /* Hide products beyond mobile limit */
-    .product:nth-child(n+{{ section.settings.product_shows_mobile | plus: 1 }}) {
+    .fc-product-{{ section.id }}:nth-child(n+{{ section.settings.product_shows_mobile | plus: 1 }}) {
         display: none;
     }
 
-    #view-all{
+    #fc-view-all-{{ section.id }}{
         width: 358px;
         height: 52px;
     }
