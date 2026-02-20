@@ -1,0 +1,75 @@
+{% schema %}
+{
+    "name": "Logo List",
+    "settings": [
+            {
+                "type": "checkbox",
+                "id": "enable",
+                "label": "Enable",
+                "default": false
+            },
+            {
+                "type": "range",
+                "id": "speed",
+                "label": "Speed",
+                "default": 4,
+                "min": 1,
+                "max": 10,
+                "step": 1
+            },
+            {
+                "type": "select",
+                "id": "direction",
+                "label": "Direction",
+                "default": "ltr",
+                "options": [
+                    {
+                        "value": "ltr",
+                        "label": "Left to Right"
+                    },
+                    {
+                        "value": "rtl",
+                        "label": "Right to Left"
+                    }
+                ]
+            }
+        ],
+        "blocks": [
+            {
+                "type": "logo",
+                "name": "Logo",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "logo",
+                        "label": "Logo"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Logo List"
+            }
+        ]
+}
+{% endschema %}
+
+
+<div id="logo-list" class="bg-black full-width h-auto py-6 flex flex-wrap items-center justify-center gap-4 md:gap-10 px-4 md:px-0">
+    {% for item in section.blocks %}
+        <div class="w-[30%] md:w-1/6 flex justify-center md:first:ml-[200px] md:last:mr-[200px]">
+            {% if item.settings.logo != blank %}
+                <img 
+                src="{{ item.settings.logo | image_url: width: 200 }}" 
+                alt="logo" 
+                class="w-[80px] h-[80px] md:w-[120px] md:h-[120px] object-contain"
+                width="120"
+                height="120"
+            >
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+
