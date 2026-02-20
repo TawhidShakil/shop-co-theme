@@ -6,7 +6,6 @@
   --font-integral: "Integral CF";
   --font-integral--weight: 700;
   --font-integral--transform: uppercase;
-  --font-integral--color: #000000;
   --hero-line-height: 1;
 
   --text-hero-desktop: 64px;
@@ -42,7 +41,7 @@
   font-family: var(--font-integral);
   font-weight: 700 !important;
   text-transform: var(--font-integral--transform);
-  color: #000000 !important;
+  
 }
 
 @utility font-satoshi {
