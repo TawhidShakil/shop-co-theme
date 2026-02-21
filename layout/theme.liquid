@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
@@ -12,45 +12,49 @@
       3. Additional variants load on-demand via @font-face
     {% endcomment %}
     {% unless settings.type_primary_font.system? %}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.shopifycdn.com"
+        crossorigin>
 
       {% comment %} Preload the base font variant for initial page render {% endcomment %}
       {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
+  {% endunless %}
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'tailwind.output.css' | asset_url | stylesheet_tag }}
     <style>
-  @font-face {
-    font-family: 'Integral CF';
-    src: url("{{ 'Integral-CF-Bold.woff2' | asset_url }}") format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
+      @font-face {
+        font-family: 'Integral CF';
+        src: url("{{ 'Integral-CF-Bold.woff2' | asset_url }}") format('woff2');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
 
-  @font-face {
-    font-family: 'Satoshi';
-    src: url("{{ 'Satoshi-Bold.woff2' | asset_url }}") format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-</style>
+      @font-face {
+        font-family: 'Satoshi';
+        src: url("{{ 'Satoshi-Bold.woff2' | asset_url }}") format('woff2');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+  </style>
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
     {{ content_for_header }}
+    
   </head>
 
   <body>
     {% section 'hero' %}
 
     {{ content_for_layout }}
-
+    {% section 'newsletter-banner' %}
     {% sections 'footer-group' %}
   </body>
 </html>
