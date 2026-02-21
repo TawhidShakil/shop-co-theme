@@ -26,12 +26,12 @@
       </div>
 
       <!-- Main Image -->
-      <div class="flex-1  rounded-3xl overflow-hidden">
+      <div class="flex-  rounded-3xl">
         <img
           id="MainProductImage"
           src="{{ product.featured_image | img_url: '1200x' }}"
           alt="{{ product.title }}"
-          class="w-full h-full  p-10"
+          class="w-full h-full"
         >
       </div>
     </div>
@@ -42,11 +42,7 @@
       <!-- Title -->
       <h1 class="font-integral text-[40px]  font-integral--color  leading-tight text-product-title-desktop--line-height">
         {{ product.title }}
-        <!-- Start of Judge.me code --> 
-  <div style='{{ jm_style }}' class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}' data-auto-install='false'> 
- {{ product.metafields.judgeme.badge }} 
- </div> 
-<!-- End of Judge.me code -->
+        
 
       </h1>
 
@@ -330,15 +326,59 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const productForm = document.querySelector('.product-form');
+  const qtyInput = productForm?.querySelector('input[name="quantity"]');
+  const minusBtn = productForm?.querySelector('[data-qty-btn="minus"]');
+  const plusBtn = productForm?.querySelector('[data-qty-btn="plus"]');
+  const variantInput = productForm?.querySelector('input[name="id"]');
 
-{% schema %}
-{
-  "name": "Custom Product Layout",
-  "settings": [],
-  "presets": [
-    {
-      "name": "Custom Product Layout"
-    }
-  ]
-}
-{% endschema %}
+  if (minusBtn && plusBtn && qtyInput) {
+    // Get max quantity from Shopify inventory
+    const getMaxQuantity = () => {
+      const variantId = variantInput?.value;
+      // Shopify will validate this on submission, set a reasonable default
+      return 999;
+    };
+
+    minusBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      let currentValue = parseInt(qtyInput.value) || 1;
+      if (currentValue > 1) {
+        qtyInput.value = currentValue - 1;
+      }
+    });
+
+    plusBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      let currentValue = parseInt(qtyInput.value) || 1;
+      const maxQty = getMaxQuantity();
+      if (currentValue < maxQty) {
+        qtyInput.value = currentValue + 1;
+      }
+    });
+
+    // Validate input on change
+    qtyInput.addEventListener("change", function () {
+      let value = parseInt(this.value) || 1;
+      if (value < 1) {
+        this.value = 1;
+      }
+    });
+  }
+
+  // Handle form submission with Shopify cart
+  if (productForm) {
+    productForm.addEventListener("submit", function (e) {
+      const qtyValue = parseInt(qtyInput?.value) || 1;
+      if (qtyValue < 1) {
+        e.preventDefault();
+        alert("Please select a valid quantity");
+        return false;
+      }
+    });
+  }
+});
+</script>
+
