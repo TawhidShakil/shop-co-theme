@@ -1,0 +1,179 @@
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+{%- assign banner_bg   = section.settings.banner_bg   | default: '#0a0a0a' -%}
+{%- assign section_bg  = section.settings.section_bg  | default: '#f3f4f6' -%}
+{%- assign btn_label   = section.settings.button_label | default: 'Subscribe to Newsletter' -%}
+{%- assign placeholder = section.settings.placeholder  | default: 'Enter your email address' -%}
+{%- assign success_msg = section.settings.success_msg  | default: '🎉 Thanks for subscribing!' -%}
+
+<!-- Outer page wrapper -->
+<div
+  class="w-full px-4 py-8 sm:px-6 lg:px-8"
+  style="background-color: {{ section_bg }};"
+>
+
+  <!-- Inner banner card -->
+  <div
+    class="mx-auto max-w-7xl rounded-2xl flex flex-col md:flex-row items-center justify-between gap-8 px-8 py-10 md:px-14 md:py-12"
+    style="background-color: {{ banner_bg }};"
+  >
+
+    <!-- LEFT: Heading -->
+    <div class="flex-1 text-center md:text-left">
+      <h2
+        class="uppercase leading-none tracking-tight text-white text-4xl sm:text-5xl font-black"
+        style="font-family: 'Barlow Condensed', sans-serif;"
+      >
+        {{ section.settings.heading_line1 | default: 'STAY UP TO DATE ABOUT' }}<br>
+        {{ section.settings.heading_line2 | default: 'OUR LATEST OFFERS' }}
+      </h2>
+
+      
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="w-full md:w-auto md:min-w-[300px] md:max-w-sm flex flex-col  items-center">
+
+     {%- form 'customer', 
+    id: 'newsletter-{{ section.id }}',
+    class: 'flex flex-col gap-4 w-full'
+-%}
+
+        <!-- Email input -->
+        <div class="relative flex items-center">
+
+          <span class="absolute left-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5
+                   a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0
+                   A2.25 2.25 0 0019.5 4.5H4.5
+                   a2.25 2.25 0 00-2.25 2.25m19.5 0
+                   l-9.75 6.75L2.25 6.75"/>
+            </svg>
+          </span>
+
+          <input
+            id="email-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            required
+            placeholder="{{ placeholder }}"
+            class="w-full rounded-full border border-gray-300 bg-white pl-10 pr-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent transition duration-200"
+          >
+        </div>
+
+        
+
+        <!-- Success -->
+        {%- if form.posted_successfully? -%}
+          <p class="text-green-400 text-xs px-1" role="status">
+            {{ success_msg }}
+          </p>
+        {%- endif -%}
+
+        <!-- Subscribe button -->
+        <button
+          type="submit"
+          class="w-full rounded-full border border-gray-200 bg-white py-3 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-100 active:scale-95 transition duration-200 cursor-pointer"
+        >
+          {{ btn_label }}
+        </button>
+
+      {%- endform -%}
+
+      {%- if section.settings.privacy_text != blank -%}
+        <p class="text-center text-gray-500 text-xs">
+          {{ section.settings.privacy_text }}
+        </p>
+      {%- endif -%}
+
+    </div>
+    <!-- /form -->
+
+  </div>
+  <!-- /banner card -->
+
+</div>
+<!-- /outer wrapper -->
+
+
+{% schema %}
+{
+  "name": "Newsletter Banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Heading — line 1",
+      "default": "STAY UPTO DATE ABOUT"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Heading — line 2",
+      "default": "OUR LATEST OFFERS"
+    },
+    
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder text",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe to Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "success_msg",
+      "label": "Success message",
+      "default": "🎉 Thanks for subscribing!"
+    },
+    
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Outer / page background",
+      "default": "#f3f4f6"
+    },
+    {
+      "type": "color",
+      "id": "banner_bg",
+      "label": "Banner card background",
+      "default": "#0a0a0a"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Banner",
+      "settings": {
+        "heading_line1": "STAY UPTO DATE ABOUT",
+        "heading_line2": "OUR LATEST OFFERS",
+        "button_label": "Subscribe to Newsletter",
+        "placeholder": "Enter your email address"
+      }
+    }
+  ]
+}
+{% endschema %}
