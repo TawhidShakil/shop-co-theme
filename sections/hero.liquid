@@ -1,12 +1,202 @@
-<h1 class="text-hero-desktop font-integral">FIND CLOTHES THAT MATCHES YOUR STYLE</h1>
-<h1 class="font-integral">Welcome to my kingdom!</h1>
+<section class="bg-[#f4f4f4]">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-8 py-12 lg:py-20">
+    
+    <div class="grid lg:grid-cols-2 items-center gap-14">
+      
+      <!-- LEFT -->
+      <div class="text-left">
+        
+        <!-- Heading -->
+        <h1 class="
+          text-[28px]
+          sm:text-[36px]
+          md:text-[48px]
+          lg:text-[64px]
+          font-black
+          uppercase
+          leading-[1]
+          sm:leading-[1.05]
+          lg:leading-[1.05]
+          tracking-[-0.5px]
+          text-[#2b2b2b]
+        ">
+          <span class="block">{{ section.settings.heading_line_1 }}</span>
+          <span class="block">{{ section.settings.heading_line_2 }}</span>
+          <span class="block">{{ section.settings.heading_line_3 }}</span>
+        </h1>
 
-<h1 class="text-collectionTitle-desktop font-integral">New Arrivals</h1>
+        <!-- Paragraph -->
+        <p class="
+          mt-5
+          text-[#6b7280]
+          text-[14px]
+          sm:text-[15px]
+          leading-relaxed
+          max-w-sm
+          mx-auto
+          lg:mx-0
+        ">
+          {{ section.settings.subtext }}
+        </p>
 
-<span class="text-product-title-desktop font-satoshi">T- shirt with tape</span>
-<span class="font-satoshi text-product-price-desktop">$120</span>
-<span class="font-satoshi-discount text-product-price-desktop">$150</span>
-<span class="font-satoshi-percentage text-[10px] md:text-[12px]">-20%</span>
-<div class="font-satoshi text-[24px] md:text-[36px]">Casual</div>
-<p class="font-satoshi-customer-name">Sarah M.</p>
-<p class="font-satoshi-review-text">"I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.”</p>
+        <!-- Button -->
+        {% if section.settings.button_label != blank %}
+          <a href="{{ section.settings.button_link }}"
+            class="
+              mt-7
+              w-full
+              sm:w-auto
+              inline-flex
+              justify-center
+              items-center
+              bg-black
+              text-white
+              px-8
+              py-4
+              rounded-[40px]
+              text-[15px]
+              font-medium
+              transition
+            ">
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+
+<!-- Stats -->
+<div class="mt-12 border-t border-gray-300 pt-8">
+
+  <div class="grid grid-cols-2 lg:grid-cols-3 gap-y-8 text-center lg:text-left">
+
+    {% for block in section.blocks %}
+      <div class="
+        {% if forloop.index == 3 %}
+          col-span-2 lg:col-span-1
+        {% endif %}
+        lg:border-r
+        lg:last:border-none
+        lg:pr-6
+      ">
+
+        <h3 class="text-[22px] lg:text-[28px] font-bold text-[#2b2b2b]">
+          {{ block.settings.stat_number }}
+        </h3>
+
+        <p class="text-xs lg:text-sm text-gray-500 mt-1">
+          {{ block.settings.stat_label }}
+        </p>
+
+      </div>
+    {% endfor %}
+
+  </div>
+
+</div>
+
+      </div>
+
+
+      <!-- IMAGE -->
+      <div class="relative flex justify-center lg:justify-end mt-4 sm:mt-6 lg:mt-0">
+        
+        {% if section.settings.hero_image %}
+          <img 
+            src="{{ section.settings.hero_image | image_url: width: 2000 }}"
+            alt="Hero Image"
+            class="
+              w-full
+              max-w-[420px]
+              sm:max-w-[500px]
+              lg:max-w-[600px]
+              object-contain
+            "
+          >
+        {% endif %}
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Fashion Hero Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading Line 1",
+      "default": "FIND CLOTHES"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading Line 2",
+      "default": "THAT MATCHES"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_3",
+      "label": "Heading Line 3",
+      "default": "YOUR STYLE"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_number",
+          "label": "Number",
+          "default": "200+"
+        },
+        {
+          "type": "text",
+          "id": "stat_label",
+          "label": "Label",
+          "default": "International Brands"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Fashion Hero",
+      "blocks": [
+        { "type": "stat" },
+        { "type": "stat" },
+        { "type": "stat" }
+      ]
+    }
+  ]
+}
+{% endschema %}

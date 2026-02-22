@@ -11,14 +11,13 @@
   "sections": {
     "main": {
       "type": "product",
-      "disabled": true,
       "settings": {}
     },
     "collections_4tdm9n": {
       "type": "collections",
       "name": "t:general.collections_grid",
       "settings": {
-        "grid_item_width": "collections--full",
+        "grid_item_width": "collections--compact",
         "grid_gap": 10
       }
     }

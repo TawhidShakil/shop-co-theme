@@ -38,16 +38,18 @@
     --font-integral: "Integral CF";
     --font-integral--transform: uppercase;
     --hero-line-height: 1;
-    --text-hero-desktop: 64px;
-    --text-hero-desktop--line-height: var(--hero-line-height);
     --text-collectionTitle-desktop: 48px;
+    --text-collectionTitle-mobile: 32px;
     --font-satoshi: "Satoshi";
     --font-satoshi--transform: capitalize;
+    --font-satoshi--weight: 700;
     --product-line-height: 1;
-    --text-product-title-desktop: 20px;
+    --text-product-title-desktop: 40px;
     --text-product-title-desktop--line-height: var(--product-line-height);
+    --text-product-title-mobile: 16px;
     --text-product-price-desktop: 24px;
     --text-product-price-desktop--line-height: var(--product-line-height);
+    --text-product-price-mobile: 20px;
   }
 }
 @layer base {
@@ -255,14 +257,20 @@
   .block {
     display: block;
   }
-  .contents {
-    display: contents;
+  .md\:gap-10 {
+    @media (width >= 48rem) {
+      gap: calc(var(--spacing) * 10);
+    }
   }
-  .flex {
-    display: flex;
+  .md\:overflow-visible {
+    @media (width >= 48rem) {
+      overflow: visible;
+    }
   }
-  .grid {
-    display: grid;
+  .md\:px-0 {
+    @media (width >= 48rem) {
+      padding-inline: calc(var(--spacing) * 0);
+    }
   }
   .hidden {
     display: none;
@@ -516,15 +524,10 @@
     font-weight: 400 !important;
     color: #00000099 !important;
   }
-  .font-satoshi-customer-name {
-    font-family: var(--satoshi);
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-transform: var(--font-satoshi--transform);
-    font-family: var(--font-satoshi);
-    font-size: 20px;
-    line-height: 22px;
-    text-transform: capitalize;
+  .md\:text-left {
+    @media (width >= 48rem) {
+      text-align: left;
+    }
   }
   .font-satoshi-category {
     font-family: var(--satoshi);
@@ -543,32 +546,32 @@
     color: rgba(0, 0, 0, 0.4) !important;
     text-decoration: line-through;
   }
-  .font-satoshi-percentage {
-    font-family: var(--satoshi);
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-transform: var(--font-satoshi--transform);
-    font-family: var(--font-satoshi);
-    font-weight: 500 !important;
-    color: #FF3333 !important;
+  .md\:text-5xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-5xl);
+      line-height: var(--tw-leading, var(--text-5xl--line-height));
+    }
   }
-  .font-integral {
-    font-family: var(--font-integral);
-    font-weight: 700 !important;
-    text-transform: var(--font-integral--transform);
-    color: #000000 !important;
+  .md\:text-base {
+    @media (width >= 48rem) {
+      font-size: var(--text-base);
+      line-height: var(--tw-leading, var(--text-base--line-height));
+    }
   }
-  .font-satoshi {
-    font-family: var(--satoshi);
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-transform: var(--font-satoshi--transform);
+  .md\:text-\[48px\] {
+    @media (width >= 48rem) {
+      font-size: 48px;
+    }
   }
-  .font-integral {
-    font-family: var(--font-integral);
+  .md\:text-\[52px\] {
+    @media (width >= 48rem) {
+      font-size: 52px;
+    }
   }
-  .font-satoshi {
-    font-family: var(--font-satoshi);
+  .md\:text-\[64px\] {
+    @media (width >= 48rem) {
+      font-size: 64px;
+    }
   }
   .text-2xl {
     font-size: var(--text-2xl);
@@ -578,13 +581,17 @@
     font-size: var(--text-hero-desktop);
     line-height: var(--tw-leading, var(--text-hero-desktop--line-height));
   }
-  .text-product-price-desktop {
-    font-size: var(--text-product-price-desktop);
-    line-height: var(--tw-leading, var(--text-product-price-desktop--line-height));
+  .md\:last\:mr-\[200px\] {
+    @media (width >= 48rem) {
+      &:last-child {
+        margin-right: 200px;
+      }
+    }
   }
-  .text-product-title-desktop {
-    font-size: var(--text-product-title-desktop);
-    line-height: var(--tw-leading, var(--text-product-title-desktop--line-height));
+  .lg\:top-12 {
+    @media (width >= 64rem) {
+      top: calc(var(--spacing) * 12);
+    }
   }
   .text-sm {
     font-size: var(--text-sm);
@@ -597,11 +604,15 @@
   .text-\[10px\] {
     font-size: 10px;
   }
-  .text-\[24px\] {
-    font-size: 24px;
+  .lg\:bottom-12 {
+    @media (width >= 64rem) {
+      bottom: calc(var(--spacing) * 12);
+    }
   }
-  .text-collectionTitle-desktop {
-    font-size: var(--text-collectionTitle-desktop);
+  .lg\:left-12 {
+    @media (width >= 64rem) {
+      left: calc(var(--spacing) * 12);
+    }
   }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
@@ -805,9 +816,170 @@
       font-size: 12px;
     }
   }
-  .md\:text-\[36px\] {
-    @media (width >= 48rem) {
-      font-size: 36px;
+  .lg\:block {
+    @media (width >= 64rem) {
+      display: block;
+    }
+  }
+  .lg\:hidden {
+    @media (width >= 64rem) {
+      display: none;
+    }
+  }
+  .lg\:w-\[550px\] {
+    @media (width >= 64rem) {
+      width: 550px;
+    }
+  }
+  .lg\:w-\[800px\] {
+    @media (width >= 64rem) {
+      width: 800px;
+    }
+  }
+  .lg\:w-full {
+    @media (width >= 64rem) {
+      width: 100%;
+    }
+  }
+  .lg\:max-w-\[600px\] {
+    @media (width >= 64rem) {
+      max-width: 600px;
+    }
+  }
+  .lg\:grid-cols-2 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .lg\:grid-cols-3 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .lg\:grid-cols-\[1fr_1\.2fr\] {
+    @media (width >= 64rem) {
+      grid-template-columns: 1fr 1.2fr;
+    }
+  }
+  .lg\:justify-end {
+    @media (width >= 64rem) {
+      justify-content: flex-end;
+    }
+  }
+  .lg\:gap-12 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 12);
+    }
+  }
+  .lg\:gap-16 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 16);
+    }
+  }
+  .lg\:border-r {
+    @media (width >= 64rem) {
+      border-right-style: var(--tw-border-style);
+      border-right-width: 1px;
+    }
+  }
+  .lg\:px-8 {
+    @media (width >= 64rem) {
+      padding-inline: calc(var(--spacing) * 8);
+    }
+  }
+  .lg\:px-\[100px\] {
+    @media (width >= 64rem) {
+      padding-inline: 100px;
+    }
+  }
+  .lg\:py-20 {
+    @media (width >= 64rem) {
+      padding-block: calc(var(--spacing) * 20);
+    }
+  }
+  .lg\:py-24 {
+    @media (width >= 64rem) {
+      padding-block: calc(var(--spacing) * 24);
+    }
+  }
+  .lg\:pr-6 {
+    @media (width >= 64rem) {
+      padding-right: calc(var(--spacing) * 6);
+    }
+  }
+  .lg\:text-left {
+    @media (width >= 64rem) {
+      text-align: left;
+    }
+  }
+  .lg\:text-2xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
+  }
+  .lg\:text-3xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-3xl);
+      line-height: var(--tw-leading, var(--text-3xl--line-height));
+    }
+  }
+  .lg\:text-6xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-6xl);
+      line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+  }
+  .lg\:text-sm {
+    @media (width >= 64rem) {
+      font-size: var(--text-sm);
+      line-height: var(--tw-leading, var(--text-sm--line-height));
+    }
+  }
+  .lg\:text-\[28px\] {
+    @media (width >= 64rem) {
+      font-size: 28px;
+    }
+  }
+  .lg\:text-\[40px\] {
+    @media (width >= 64rem) {
+      font-size: 40px;
+    }
+  }
+  .lg\:text-\[64px\] {
+    @media (width >= 64rem) {
+      font-size: 64px;
+    }
+  }
+  .lg\:text-\[72px\] {
+    @media (width >= 64rem) {
+      font-size: 72px;
+    }
+  }
+  .lg\:leading-\[1\.05\] {
+    @media (width >= 64rem) {
+      --tw-leading: 1.05;
+      line-height: 1.05;
+    }
+  }
+  .lg\:last\:border-none {
+    @media (width >= 64rem) {
+      &:last-child {
+        --tw-border-style: none;
+        border-style: none;
+      }
+    }
+  }
+  .xl\:w-\[900px\] {
+    @media (width >= 80rem) {
+      width: 900px;
+    }
+  }
+  .peer-checked\:\[\&_svg\]\:opacity-100 {
+    &:is(:where(.peer):checked ~ *) {
+      & svg {
+        opacity: 100%;
+      }
     }
   }
   .lg\:block {
@@ -902,6 +1074,11 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
@@ -969,6 +1146,25 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -980,6 +1176,7 @@
       --tw-rotate-z: initial;
       --tw-skew-x: initial;
       --tw-skew-y: initial;
+      --tw-space-y-reverse: 0;
       --tw-border-style: solid;
       --tw-font-weight: initial;
       --tw-outline-style: solid;
@@ -996,6 +1193,10 @@
       --tw-drop-shadow-color: initial;
       --tw-drop-shadow-alpha: 100%;
       --tw-drop-shadow-size: initial;
+      --tw-duration: initial;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-scale-z: 1;
     }
   }
 }

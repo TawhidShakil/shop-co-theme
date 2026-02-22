@@ -12,9 +12,148 @@
     "main": {
       "type": "hello-world",
       "settings": {}
+    },
+    "logo_list_PMjGjh": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_8tgX3P": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group.png"
+          }
+        },
+        "logo_fCYBz8": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/zara-logo-1_1.png"
+          }
+        },
+        "logo_zUkeUy": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/gucci-logo-1_1.png"
+          }
+        },
+        "logo_GxFdpk": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/prada-logo-1_1.png"
+          }
+        },
+        "logo_YaUHqH": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "logo_8tgX3P",
+        "logo_fCYBz8",
+        "logo_zUkeUy",
+        "logo_GxFdpk",
+        "logo_YaUHqH"
+      ],
+      "name": "Logo List",
+      "settings": {
+        "enable": false,
+        "speed": 4,
+        "direction": "ltr"
+      }
+    },
+    "collections_FHLQjj": {
+      "type": "collections",
+      "disabled": true,
+      "name": "t:general.collections_grid",
+      "settings": {
+        "grid_item_width": "collections--full",
+        "grid_gap": 10
+      }
+    },
+    "featured_collection_Hr444K": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "collection_title": "",
+        "collection": "new-arrivals",
+        "product_shows": 4,
+        "product_shows_mobile": 2,
+        "margin_top": 72,
+        "margin_bottom": 64,
+        "bottom_border": true
+      }
+    },
+    "featured_collection_BaXn4J": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "collection_title": "",
+        "collection": "new-arrivals",
+        "product_shows": 4,
+        "product_shows_mobile": 2,
+        "margin_top": 72,
+        "margin_bottom": 64,
+        "bottom_border": true
+      }
+    },
+    "category_grid_section_JHinHa": {
+      "type": "Category-Grid-Section",
+      "blocks": {
+        "category_VYy7e9": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_11.png",
+            "category_name": "Casual",
+            "category_link": "",
+            "category_collection": "oxford-shirts"
+          }
+        },
+        "category_nkar3T": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_13.png",
+            "category_name": "Formal",
+            "category_link": "",
+            "category_collection": ""
+          }
+        },
+        "category_3x4x9x": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_12.png",
+            "category_name": "Party",
+            "category_link": "",
+            "category_collection": ""
+          }
+        },
+        "category_xaTURH": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_14.png",
+            "category_name": "Gym",
+            "category_link": "",
+            "category_collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_VYy7e9",
+        "category_nkar3T",
+        "category_3x4x9x",
+        "category_xaTURH"
+      ],
+      "name": "Category List",
+      "settings": {
+        "category_title": "Browse By Dress Style"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "logo_list_PMjGjh",
+    "collections_FHLQjj",
+    "featured_collection_Hr444K",
+    "featured_collection_BaXn4J",
+    "category_grid_section_JHinHa"
   ]
 }

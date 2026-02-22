@@ -138,3 +138,38 @@
     });
   </script>
 </header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Select Logo",
+      "info": "Recommanded Size 200px X 200px"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "header",
+      "content": "Search Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_search_box",
+      "label": "Enable Search Box",
+      "default": true
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
+}
+{% endschema %}
