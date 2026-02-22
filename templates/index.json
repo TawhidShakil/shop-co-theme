@@ -63,10 +63,24 @@
     },
     "collections_FHLQjj": {
       "type": "collections",
+      "disabled": true,
       "name": "t:general.collections_grid",
       "settings": {
         "grid_item_width": "collections--full",
         "grid_gap": 10
+      }
+    },
+    "featured_collection_Hr444K": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "collection_title": "",
+        "collection": "new-arrivals",
+        "product_shows": 4,
+        "product_shows_mobile": 2,
+        "margin_top": 72,
+        "margin_bottom": 64,
+        "bottom_border": true
       }
     },
     "featured_collection_BaXn4J": {
@@ -87,6 +101,7 @@
     "main",
     "logo_list_PMjGjh",
     "collections_FHLQjj",
+    "featured_collection_Hr444K",
     "featured_collection_BaXn4J"
   ]
 }
