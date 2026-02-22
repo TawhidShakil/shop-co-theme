@@ -11,7 +11,6 @@
   "sections": {
     "main": {
       "type": "product",
-      "disabled": false,
       "settings": {}
     },
     "collections_4tdm9n": {
