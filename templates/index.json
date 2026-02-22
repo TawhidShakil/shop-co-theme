@@ -116,11 +116,31 @@
             "category_link": "",
             "category_collection": ""
           }
+        },
+        "category_3x4x9x": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_12.png",
+            "category_name": "Party",
+            "category_link": "",
+            "category_collection": ""
+          }
+        },
+        "category_xaTURH": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_14.png",
+            "category_name": "Gym",
+            "category_link": "",
+            "category_collection": ""
+          }
         }
       },
       "block_order": [
         "category_VYy7e9",
-        "category_nkar3T"
+        "category_nkar3T",
+        "category_3x4x9x",
+        "category_xaTURH"
       ],
       "name": "Category List",
       "settings": {
