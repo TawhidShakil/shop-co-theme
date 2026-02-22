@@ -1,15 +1,14 @@
-<section class="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6" id="ProductSection-{{ section.id }}">
+<section class="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10" id="ProductSection-{{ section.id }}">
   
   <!-- Breadcrumb -->
-  <nav class="flex flex-wrap text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6 space-x-2">
+  <nav class="flex flex-wrap items-center text-xs sm:text-sm text-gray-400 mb-6 sm:mb-8 gap-x-2">
     <a href="/" class="hover:text-black transition">Home</a>
-    <span>›</span>
-    <a href="/collections/all" class=" gap-4 hover:text-black transition ">Shop</a>
-    <span class="gap-4">›</span>
+    <span>&gt;</span>
+    <a href="/collections/all" class="hover:text-black transition">Shop</a>
     
   </nav>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
     <!-- LEFT: Images -->
     <div class="flex flex-col-reverse md:flex-row gap-4">
@@ -18,7 +17,7 @@
       <div class="flex md:flex-col gap-3 w-full md:w-20 overflow-x-auto md:overflow-visible pb-2 md:pb-0 -mx-1 md:mx-0">
          {% for image in product.images %}
           <button 
-            class="thumbnail-btn flex-shrink-0 border-2 rounded-xl overflow-hidden transition-all duration-200 {% if forloop.first %}border-black{% else %}border-transparent{% endif %}"
+            class="thumbnail-btn flex-shrink-0 border-2 rounded-2xl overflow-hidden transition-all duration-200 {% if forloop.first %}border-black{% else %}border-transparent{% endif %}"
             data-image-url="{{ image | img_url: '800x' }}"
             data-image-id="{{ image.id }}">
             <img src="{{ image | img_url: '150x150', crop: 'center' }}" alt="{{ image.alt }}" class="w-16 h-16 md:w-full md:h-20 object-cover">
@@ -38,7 +37,7 @@
     </div>
 
     <!-- RIGHT: Product Info -->
-    <div class="flex flex-col justify-start gap-2">
+    <div class="flex flex-col justify-start gap-4 sm:gap-5">
 
       <!-- Title -->
       <h1 class="font-integral text-xl sm:text-2xl md:text-3xl lg:text-[40px] font-integral--color leading-tight text-product-title-desktop--line-height">
@@ -77,23 +76,21 @@
     </span>
   </div>
 
-  <p class="text-gray-500 text-sm sm:text-[16px] leading-snug w-full max-w-[590px] mt-1">
+  <p class="text-gray-500 text-sm sm:text-[16px] leading-snug w-full max-w-[590px] mt-1 sm:mt-3">
     {{ product.description | strip_html | truncatewords: 30 }}
   </p>
 
-  <hr class="border-t-4 border-gray-200 w-full max-w-[590px] mb-4 mt-4">
-
       <!-- Product Form -->
-      {% form 'product', product, class: 'product-form' %}
+      {% form 'product', product, class: 'product-form flex flex-col gap-6' %}
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
         {% for option in product.options_with_values %}
-          <div class=" flex flex-col justify-start gap-1">
-            <h3 class="text-sm sm:text-[16px] text-gray-500 gap-4">
+          <div class="flex flex-col justify-start gap-4">
+            <h3 class="text-sm sm:text-[16px] text-gray-600 font-medium">
               {{ option.name }}
             </h3>
 
-            <div class="flex flex-wrap items-center gap-3 sm:gap-4 mt-4 mb-4 py-4 sm:py-8">
+            <div class="flex flex-wrap items-center gap-3 sm:gap-4">
               {% for value in option.values %}
                 <label class="cursor-pointer">
                   <input
@@ -106,19 +103,6 @@
 
                   {% if option.name contains 'Color' or option.name contains 'Colour' %}
                     {% assign color_val = value %}
-                    {% assign color_image_url = nil %}
-                    {% assign color_image_id = nil %}
-                    {% for v in product.variants %}
-                      {% assign opt_match = false %}
-                      {% if option.position == 1 and v.option1 == value %}{% assign opt_match = true %}{% endif %}
-                      {% if option.position == 2 and v.option2 == value %}{% assign opt_match = true %}{% endif %}
-                      {% if option.position == 3 and v.option3 == value %}{% assign opt_match = true %}{% endif %}
-                      {% if opt_match and v.featured_image %}
-                        {% assign color_image_url = v.featured_image | img_url: '1200x' %}
-                        {% assign color_image_id = v.featured_image.id %}
-                        {% break %}
-                      {% endif %}
-                    {% endfor %}
                     {% if value contains '#' %}
                     {% elsif value == 'Olive' or value == 'olive' %}{% assign color_val = '#556b2f' %}
                     {% elsif value == 'Navy' or value == 'navy' %}{% assign color_val = '#1e3a5f' %}
@@ -132,9 +116,7 @@
                     <span
                       class="color-swatch w-10 h-10 rounded-full border border-gray-200 ring-2 ring-transparent ring-offset-2 peer-checked:ring-black peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
                       style="background-color: {{ color_val }};"
-                      data-option-value="{{ value | escape }}"
-                      data-variant-image-url="{{ color_image_url }}"
-                      data-variant-image-id="{{ color_image_id }}">
+                      data-option-value="{{ value | escape }}">
                       <svg class="w-5 h-5 text-white opacity-0 transition-opacity pointer-events-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M16 5L7 14L4 11"/>
                       </svg>
@@ -150,10 +132,8 @@
           </div>
         {% endfor %}
 
-        <hr class="border-gray-200 mb-6 py-4">
-
         <!-- Quantity + Button -->
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-6 pt-6 sm:pt-8">
 
           <!-- Quantity -->
           <div class="flex items-center w-full sm:w-[170px] sm:min-w-[170px] justify-between bg-gray-100 rounded-full h-[52px] gap-4 px-6">
@@ -394,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Variant switching: image, price, add-to-cart
   if (productJsonEl && productForm && variantIdInput) {
-    let productData;
+    var productData;
     try {
       productData = JSON.parse(productJsonEl.textContent);
     } catch (e) {
@@ -402,35 +382,45 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    var optionNames = productData.option_names || productData.options || [];
+
     function getSelectedOptions() {
-      const selected = [];
-      (productData.options || []).forEach(function(optionName) {
-        const input = productForm.querySelector('input[name="' + optionName + '"]:checked, select[name="' + optionName + '"]');
+      var selected = [];
+      for (var i = 0; i < optionNames.length; i++) {
+        var name = optionNames[i];
+        var input = productForm.querySelector('input[name="' + CSS.escape(name) + '"]:checked, select[name="' + CSS.escape(name) + '"]');
         selected.push(input ? input.value : null);
-      });
+      }
       return selected;
     }
 
     function findVariant(selectedOptions) {
-      return (productData.variants || []).find(function(v) {
-        var o1 = (v.option1 || '').toString();
-        var o2 = (v.option2 || '').toString();
-        var o3 = (v.option3 || '').toString();
-        var s1 = (selectedOptions[0] || '').toString();
-        var s2 = (selectedOptions[1] || '').toString();
-        var s3 = (selectedOptions[2] || '').toString();
-        return o1 === s1 && o2 === s2 && o3 === s3;
-      });
+      var opts = selectedOptions || [];
+      var list = productData.variants || [];
+      for (var i = 0; i < list.length; i++) {
+        var v = list[i];
+        var o1 = String(v.option1 || '').toLowerCase();
+        var o2 = String(v.option2 || '').toLowerCase();
+        var o3 = String(v.option3 || '').toLowerCase();
+        var s1 = String(opts[0] || '').toLowerCase();
+        var s2 = String(opts[1] || '').toLowerCase();
+        var s3 = String(opts[2] || '').toLowerCase();
+        if ((!s1 || o1 === s1) && (!s2 || o2 === s2) && (!s3 || o3 === s3)) {
+          return v;
+        }
+      }
+      return null;
     }
 
     function syncThumbnailBorder(imageId) {
-      thumbs.forEach(function(btn) {
+      for (var i = 0; i < thumbs.length; i++) {
+        var btn = thumbs[i];
         if (String(btn.dataset.imageId || '') === String(imageId || '')) {
           btn.classList.add("border-black");
         } else {
           btn.classList.remove("border-black");
         }
-      });
+      }
     }
 
     function updateVariant(variant) {
@@ -479,9 +469,32 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
+    function handleOptionInteraction(e) {
+  // Force the radio button to be checked if the label/span was clicked
+  const label = e.target.closest('label');
+  if (label) {
+    const input = label.querySelector('input[type="radio"]');
+    if (input) input.checked = true;
+  }
+  onVariantChange();
+}
+
+// Ensure you are listening to the correct container
+productForm.addEventListener('click', function(e) {
+  if (e.target.closest('.color-swatch') || e.target.closest('label')) {
+    handleOptionInteraction(e);
+  }
+});
+
     productForm.addEventListener('change', function(e) {
-      if (e.target.matches('input[type="radio"]') || e.target.matches('select')) {
-        onVariantChange();
+      if (e.target.type === 'radio' || (e.target.tagName === 'SELECT' && e.target.name)) {
+        handleOptionInteraction();
+      }
+    });
+
+    productForm.addEventListener('click', function(e) {
+      if (e.target.closest && e.target.closest('label') && e.target.closest('label').querySelector('input[type="radio"]')) {
+        handleOptionInteraction();
       }
     });
 
