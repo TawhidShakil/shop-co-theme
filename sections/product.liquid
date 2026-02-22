@@ -5,7 +5,14 @@
     <a href="/" class="hover:text-black transition">Home</a>
     <span>&gt;</span>
     <a href="/collections/all" class="hover:text-black transition">Shop</a>
-    
+    {% if product.collections.first %}
+      <span>&gt;</span>
+      <a href="{{ product.collections.first.url }}" class="hover:text-black transition">{{ product.collections.first.title }}</a>
+    {% endif %}
+    {% if product.type != blank and product.collections.first %}
+      <span>&gt;</span>
+      <span class="text-gray-600">{{ product.type }}</span>
+    {% endif %}
   </nav>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -17,7 +24,7 @@
       <div class="flex md:flex-col gap-3 w-full md:w-20 overflow-x-auto md:overflow-visible pb-2 md:pb-0 -mx-1 md:mx-0">
          {% for image in product.images %}
           <button 
-            class="thumbnail-btn flex-shrink-0 border-2 rounded-2xl overflow-hidden transition-all duration-200 {% if forloop.first %}border-black{% else %}border-transparent{% endif %}"
+            class="thumbnail-btn flex-shrink-0 border-2 rounded-xl overflow-hidden transition-all duration-200 bg-gray-100 {% if forloop.first %}border-gray-300{% else %}border-transparent{% endif %}"
             data-image-url="{{ image | img_url: '800x' }}"
             data-image-id="{{ image.id }}">
             <img src="{{ image | img_url: '150x150', crop: 'center' }}" alt="{{ image.alt }}" class="w-16 h-16 md:w-full md:h-20 object-cover">
@@ -26,12 +33,12 @@
       </div>
 
       <!-- Main Image -->
-      <div class="flex-1 min-w-0 rounded-3xl">
+      <div class="flex-1 min-w-0 rounded-3xl bg-gray-100">
         <img
           id="MainProductImage"
           src="{{ product.featured_image | img_url: '1200x' }}"
           alt="{{ product.title }}"
-          class="w-full  h-auto aspect-[444/530] object-cover rounded-3xl"
+          class="w-full max-w-[444px] h-auto aspect-[444/530] object-cover rounded-3xl"
         >
       </div>
     </div>
@@ -71,7 +78,7 @@
       {{ first_variant.compare_at_price | money }}
     </span>
 
-    <span class="bg-red-100 text-red-500 text-sm px-3 py-1 rounded-full font-satoshi-percentage {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}" data-variant-savings>
+    <span class="bg-red-500 text-white text-sm px-3 py-1.5 rounded-lg font-satoshi-percentage {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}" data-variant-savings>
       -{{ first_variant.compare_at_price | minus: first_variant.price | times: 100 | divided_by: first_variant.compare_at_price }}%
     </span>
   </div>
@@ -86,8 +93,8 @@
 
         {% for option in product.options_with_values %}
           <div class="flex flex-col justify-start gap-4">
-            <h3 class="text-sm sm:text-[16px] text-gray-600 font-medium">
-              {{ option.name }}
+            <h3 class="text-sm sm:text-[16px] text-black font-normal">
+              {% if option.name contains 'Color' or option.name contains 'Colour' %}Select Colors{% elsif option.name contains 'Size' or option.name contains 'size' %}Choose Size{% else %}{{ option.name }}{% endif %}
             </h3>
 
             <div class="flex flex-wrap items-center gap-3 sm:gap-4">
@@ -114,15 +121,15 @@
                     {% elsif value == 'Gray' or value == 'Grey' %}{% assign color_val = '#6b7280' %}
                     {% endif %}
                     <span
-                      class="color-swatch w-10 h-10 rounded-full border border-gray-200 ring-2 ring-transparent ring-offset-2 peer-checked:ring-black peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
+                      class="color-swatch w-10 h-10 rounded-full border-2 border-transparent peer-checked:border-gray-300 peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
                       style="background-color: {{ color_val }};"
                       data-option-value="{{ value | escape }}">
-                      <svg class="w-5 h-5 text-white opacity-0 transition-opacity pointer-events-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <svg class="w-5 h-5 text-white opacity-0 transition-opacity pointer-events-none drop-shadow-sm" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M16 5L7 14L4 11"/>
                       </svg>
                     </span>
                   {% else %}
-                    <span class=" px-4 py-3 bg-gray-100 rounded-full text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white">
+                    <span class="px-4 py-3 bg-white border border-gray-200 rounded-lg text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white peer-checked:border-black">
                       {{ value }}
                     </span>
                   {% endif %}
@@ -136,10 +143,10 @@
         <div class="flex flex-col sm:flex-row gap-3 sm:gap-6 pt-6 sm:pt-8">
 
           <!-- Quantity -->
-          <div class="flex items-center w-full sm:w-[170px] sm:min-w-[170px] justify-between bg-gray-100 rounded-full h-[52px] gap-4 px-6">
-            <button type="button" data-qty-btn="minus" class="text-[16px] font-bold">−</button>
-            <input type="number" name="quantity" value="1" min="1" class="bg-transparent text-[16px] text-center w-12 border-none focus:ring-0 font-semibold">
-            <button type="button" data-qty-btn="plus" class="text-[16px] font-bold">+</button>
+          <div class="flex items-center w-full sm:w-[170px] sm:min-w-[170px] gap-0">
+            <button type="button" data-qty-btn="minus" class="flex items-center justify-center w-12 h-12 border border-gray-200 rounded-l-lg bg-white text-black text-[16px] font-medium hover:bg-gray-50 transition">−</button>
+            <input type="number" name="quantity" value="1" min="1" class="w-12 h-12 text-center border-y border-gray-200 bg-white text-[16px] font-medium focus:outline-none focus:ring-0">
+            <button type="button" data-qty-btn="plus" class="flex items-center justify-center w-12 h-12 border border-gray-200 rounded-r-lg bg-white text-black text-[16px] font-medium hover:bg-gray-50 transition">+</button>
           </div>
 
           <!-- Add to Cart -->
@@ -147,7 +154,7 @@
             type="submit"
             data-add-to-cart-btn
             {% unless product.available %}disabled{% endunless %}
-            class="bg-black text-white rounded-full h-[52px] w-full font-semibold hover:bg-gray-800 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            class="bg-black text-white rounded-xl h-[52px] w-full font-semibold hover:bg-gray-800 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             <span data-add-to-cart-text>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
           </button>
