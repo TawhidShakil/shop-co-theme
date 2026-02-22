@@ -1,46 +1,46 @@
-<section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6" id="ProductSection-{{ section.id }}">
+<section class="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10" id="ProductSection-{{ section.id }}">
   
   <!-- Breadcrumb -->
-  <nav class="flex text-sm text-gray-400 mb-6 space-x-2">
+  <nav class="flex flex-wrap items-center text-xs sm:text-sm text-gray-400 mb-6 sm:mb-8 gap-x-2">
     <a href="/" class="hover:text-black transition">Home</a>
-    <span>›</span>
-    <a href="/collections/all" class=" gap-4 hover:text-black transition ">Shop</a>
-    <span class="gap-4">›</span>
+    <span>&gt;</span>
+    <a href="/collections/all" class="hover:text-black transition">Shop</a>
     
   </nav>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-10">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
     <!-- LEFT: Images -->
     <div class="flex flex-col-reverse md:flex-row gap-4">
 
       <!-- Thumbnails -->
-      <div class="flex md:flex-col gap-3 w-full md:w-20 overflow-x-auto">
+      <div class="flex md:flex-col gap-3 w-full md:w-20 overflow-x-auto md:overflow-visible pb-2 md:pb-0 -mx-1 md:mx-0">
          {% for image in product.images %}
           <button 
-            class="thumbnail-btn flex-shrink-0 border-2 rounded-xl overflow-hidden transition-all duration-200 {% if forloop.first %}border-black{% else %}border-transparent{% endif %}"
-            data-image-url="{{ image | img_url: '800x' }}">
+            class="thumbnail-btn flex-shrink-0 border-2 rounded-2xl overflow-hidden transition-all duration-200 {% if forloop.first %}border-black{% else %}border-transparent{% endif %}"
+            data-image-url="{{ image | img_url: '800x' }}"
+            data-image-id="{{ image.id }}">
             <img src="{{ image | img_url: '150x150', crop: 'center' }}" alt="{{ image.alt }}" class="w-16 h-16 md:w-full md:h-20 object-cover">
           </button>
         {% endfor %}
       </div>
 
       <!-- Main Image -->
-      <div class="flex-  rounded-3xl">
+      <div class="flex-1 min-w-0 rounded-3xl">
         <img
           id="MainProductImage"
           src="{{ product.featured_image | img_url: '1200x' }}"
           alt="{{ product.title }}"
-          class="w-full h-full"
+          class="w-full max-w-[444px] h-auto aspect-[444/530] object-cover rounded-3xl"
         >
       </div>
     </div>
 
     <!-- RIGHT: Product Info -->
-    <div class= "flex flex-col justify-start gap-2">
+    <div class="flex flex-col justify-start gap-4 sm:gap-5">
 
       <!-- Title -->
-      <h1 class="font-integral text-[40px]  font-integral--color  leading-tight text-product-title-desktop--line-height">
+      <h1 class="font-integral text-xl sm:text-2xl md:text-3xl lg:text-[40px] font-integral--color leading-tight text-product-title-desktop--line-height">
         {{ product.title }}
         
 
@@ -49,7 +49,7 @@
       <!-- Rating -->
 
       
-     <div class="flex items-center gap-2 w-[139px] h-[24px]">
+     <div class="flex items-center gap-2">
     <div class="flex text-yellow-400">
       {% for i in (1..5) %}
         <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
@@ -61,39 +61,36 @@
   </div>
 
       <!-- Price -->
-      <div class="flex items-center gap-4 py-1">
-    <span class="text-product-price-desktop font-satoshi font-satoshi--weight text-[32px] leading-none">
-      {{ product.price | money }}
+      <div class="flex flex-wrap items-center gap-3 sm:gap-4 py-1" id="ProductPriceWrapper-{{ section.id }}">
+    <span class="text-product-price-desktop font-satoshi font-satoshi--weight text-2xl sm:text-[32px] leading-none" data-variant-price>
+      {{ product.selected_or_first_available_variant.price | money }}
     </span>
 
-    {% if product.compare_at_price > product.price %}
-      <span class="text-gray-400 line-through text-[32px] font-satoshi-discount leading-none">
-        {{ product.compare_at_price | money }}
-      </span>
+    {% assign first_variant = product.selected_or_first_available_variant %}
+    <span class="text-gray-400 line-through text-xl sm:text-[32px] font-satoshi-discount leading-none {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}" data-variant-compare-price>
+      {{ first_variant.compare_at_price | money }}
+    </span>
 
-      <span class="bg-red-100 text-red-500 text-sm px-3 py-1 rounded-full font-satoshi-percentage">
-        -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
-      </span>
-    {% endif %}
+    <span class="bg-red-100 text-red-500 text-sm px-3 py-1 rounded-full font-satoshi-percentage {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}" data-variant-savings>
+      -{{ first_variant.compare_at_price | minus: first_variant.price | times: 100 | divided_by: first_variant.compare_at_price }}%
+    </span>
   </div>
 
-  <p class="text-gray-500 text-[16px] leading-snug w-[590px] mt-1">
+  <p class="text-gray-500 text-sm sm:text-[16px] leading-snug w-full max-w-[590px] mt-1 sm:mt-3">
     {{ product.description | strip_html | truncatewords: 30 }}
   </p>
 
-  <hr class="border-t-4 border-gray-200 w-[590px] mb-4 mt-4">
-
       <!-- Product Form -->
-      {% form 'product', product, class: 'product-form' %}
+      {% form 'product', product, class: 'product-form flex flex-col gap-6' %}
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
         {% for option in product.options_with_values %}
-          <div class=" flex flex-col justify-start gap-1">
-            <h3 class=" text-[16px] w-[93px] h-[11px]  text-gray-500 gap-4">
+          <div class="flex flex-col justify-start gap-4">
+            <h3 class="text-sm sm:text-[16px] text-gray-600 font-medium">
               {{ option.name }}
             </h3>
 
-            <div class="flex items-center gap-4 mt-4 mb-4  py-8 ">
+            <div class="flex flex-wrap items-center gap-3 sm:gap-4">
               {% for value in option.values %}
                 <label class="cursor-pointer">
                   <input
@@ -105,9 +102,24 @@
                   >
 
                   {% if option.name contains 'Color' or option.name contains 'Colour' %}
+                    {% assign color_val = value %}
+                    {% if value contains '#' %}
+                    {% elsif value == 'Olive' or value == 'olive' %}{% assign color_val = '#556b2f' %}
+                    {% elsif value == 'Navy' or value == 'navy' %}{% assign color_val = '#1e3a5f' %}
+                    {% elsif value == 'Teal' or value == 'teal' %}{% assign color_val = '#0d9488' %}
+                    {% elsif value == 'Black' or value == 'black' %}{% assign color_val = '#000000' %}
+                    {% elsif value == 'White' or value == 'white' %}{% assign color_val = '#ffffff' %}
+                    {% elsif value == 'Blue' or value == 'blue' %}{% assign color_val = '#2563eb' %}
+                    {% elsif value == 'Red' or value == 'red' %}{% assign color_val = '#dc2626' %}
+                    {% elsif value == 'Gray' or value == 'Grey' %}{% assign color_val = '#6b7280' %}
+                    {% endif %}
                     <span
-                      class="w-10 h-10 rounded-full border  border-gray-200 ring-2 ring-transparent ring-offset-2 peer-checked:ring-black block"
-                      style="background-color: {{ value | handle }};">
+                      class="color-swatch w-10 h-10 rounded-full border border-gray-200 ring-2 ring-transparent ring-offset-2 peer-checked:ring-black peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
+                      style="background-color: {{ color_val }};"
+                      data-option-value="{{ value | escape }}">
+                      <svg class="w-5 h-5 text-white opacity-0 transition-opacity pointer-events-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 5L7 14L4 11"/>
+                      </svg>
                     </span>
                   {% else %}
                     <span class=" px-4 py-3 bg-gray-100 rounded-full text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white">
@@ -120,13 +132,11 @@
           </div>
         {% endfor %}
 
-        <hr class="border-gray-200 mb-6 py-4">
-
         <!-- Quantity + Button -->
-        <div class="flex flex-row gap-4">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-6 pt-6 sm:pt-8">
 
           <!-- Quantity -->
-          <div class="flex items-center w-[170px] justify-between bg-gray-100 rounded-full h-[52px] ml-4 gap-4 sm:w-[170px] px-6">
+          <div class="flex items-center w-full sm:w-[170px] sm:min-w-[170px] justify-between bg-gray-100 rounded-full h-[52px] gap-4 px-6">
             <button type="button" data-qty-btn="minus" class="text-[16px] font-bold">−</button>
             <input type="number" name="quantity" value="1" min="1" class="bg-transparent text-[16px] text-center w-12 border-none focus:ring-0 font-semibold">
             <button type="button" data-qty-btn="plus" class="text-[16px] font-bold">+</button>
@@ -135,38 +145,62 @@
           <!-- Add to Cart -->
           <button
             type="submit"
+            data-add-to-cart-btn
             {% unless product.available %}disabled{% endunless %}
-            class="bg-black text-white rounded-full h-[52px] w-full font-semibold hover:bg-gray-800 transition disabled:bg-gray-300"
+            class="bg-black text-white rounded-full h-[52px] w-full font-semibold hover:bg-gray-800 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
-            {% if product.available %}
-              Add to Cart
-            {% else %}
-              Sold Out
-            {% endif %}
+            <span data-add-to-cart-text>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
           </button>
         </div>
       {% endform %}
     </div>
   </div>
 </section>
+<div id="ProductJson-{{ section.id }}-container" data-section-id="{{ section.id }}">
+<script type="application/json" id="ProductJson-{{ section.id }}">
+{
+  "variants": [
+    {% for variant in product.variants %}
+    {
+      "id": {{ variant.id }},
+      "option1": {{ variant.option1 | json }},
+      "option2": {{ variant.option2 | json }},
+      "option3": {{ variant.option3 | json }},
+      "price": {{ variant.price }},
+      "compare_at_price": {{ variant.compare_at_price | default: 0 }},
+      "price_formatted": {{ variant.price | money | json }},
+      "compare_at_price_formatted": {{ variant.compare_at_price | money | json }},
+      "available": {{ variant.available | json }},
+      "featured_image": {% if variant.featured_image %}{
+        "src": "{{ variant.featured_image | img_url: '1200x' }}",
+        "alt": {{ variant.featured_image.alt | default: product.title | json }},
+        "id": {{ variant.featured_image.id }}
+      }{% else %}null{% endif %}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  "option_names": [{% for option in product.options_with_values %}{{ option.name | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]
+}
+</script>
+</div>
 
-<section class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-12" id="ProductTabsSection">
+<section class="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12" id="ProductTabsSection">
   
-  <div class="flex border-b border-gray-200 mb-8 relative" role="tablist">
+  <div class="flex flex-col sm:flex-row border-b border-gray-200 mb-8 relative overflow-x-auto" role="tablist">
     <button 
-      class="tab-trigger flex-1 pb-4 text-center text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent" 
+      class="tab-trigger flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent whitespace-nowrap" 
       data-tab-target="#tab-details">
       Product Details
     </button>
     
     <button 
-      class="tab-trigger flex-1 pb-4 text-center text-black font-bold border-b-2 border-black transition" 
+      class="tab-trigger flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-black font-bold border-b-2 border-black transition whitespace-nowrap" 
       data-tab-target="#tab-reviews">
       Rating & Reviews
     </button>
     
     <button 
-      class="tab-trigger flex-1 pb-4 text-center text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent" 
+      class="tab-trigger flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent whitespace-nowrap" 
       data-tab-target="#tab-faqs">
       FAQs
     </button>
@@ -175,8 +209,8 @@
   <div class="tab-main-container">
 
     <div id="tab-details" class="tab-pane hidden animate-in fade-in duration-300">
-      <div class="prose max-w-none py-6">
-        <h2 class="text-2xl font-bold mb-4">Product Specifications</h2>
+      <div class="prose max-w-none py-4 sm:py-6">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4">Product Specifications</h2>
         <div class="text-gray-600 leading-relaxed">
           {{ product.description }}
         </div>
@@ -184,13 +218,13 @@
     </div>
 
     <div id="tab-reviews" class="tab-pane animate-in fade-in duration-300">
-      <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div class="flex items-center gap-2">
-          <h2 class="text-2xl font-bold">All Reviews</h2>
+          <h2 class="text-xl sm:text-2xl font-bold">All Reviews</h2>
           <span class="text-gray-500 text-sm">(451)</span>
         </div>
         
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
           <button class="p-3 bg-gray-100 rounded-full hover:bg-gray-200 transition" aria-label="Filter reviews">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11 19V11H3V19H11ZM11 7V5H3V7H11ZM21 19V17H13V19H21ZM21 7V15H13V7H21Z" fill="black"/>
@@ -205,7 +239,7 @@
             </select>
           </div>
 
-          <button class="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition">
+          <button class="bg-black text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-medium hover:bg-gray-800 transition w-full sm:w-auto">
             Write a Review
           </button>
         </div>
@@ -213,7 +247,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="ReviewsGrid">
         {% for i in (1..6) %}
-          <div class="border border-gray-200 rounded-[20px] p-6 flex flex-col gap-3">
+          <div class="border border-gray-200 rounded-xl sm:rounded-[20px] p-4 sm:p-6 flex flex-col gap-3">
             <div class="flex justify-between items-start">
               <div class="flex text-yellow-400">
                 {% for star in (1..5) %}
@@ -239,16 +273,16 @@
         {% endfor %}
       </div>
 
-      <div class="flex justify-center mt-10">
-        <button id="LoadMoreAction" class="px-10 py-4 border border-gray-200 rounded-full font-bold hover:bg-gray-50 transition">
+      <div class="flex justify-center mt-8 sm:mt-10">
+        <button id="LoadMoreAction" class="px-6 sm:px-10 py-3 sm:py-4 border border-gray-200 rounded-full text-sm sm:text-base font-bold hover:bg-gray-50 transition w-full sm:w-auto max-w-sm sm:max-w-none">
           Load More Reviews
         </button>
       </div>
     </div>
 
     <div id="tab-faqs" class="tab-pane hidden animate-in fade-in duration-300">
-      <div class="py-6 max-w-2xl">
-        <h2 class="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+      <div class="py-4 sm:py-6 max-w-2xl">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Frequently Asked Questions</h2>
         <div class="space-y-4">
           <details class="group border-b border-gray-100 pb-4 cursor-pointer">
             <summary class="flex justify-between items-center font-bold list-none">
@@ -314,17 +348,158 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const mainImage = document.getElementById("MainProductImage");
-  const thumbs = document.querySelectorAll(".thumbnail-btn");
+  var sectionId = {{ section.id | json }};
+  var mainImage = document.getElementById("MainProductImage");
+  var thumbs = document.querySelectorAll(".thumbnail-btn");
+  var productForm = document.querySelector('#ProductSection-' + sectionId + ' .product-form');
+  var variantIdInput = productForm ? productForm.querySelector('input[name="id"]') : null;
+  var productJsonEl = document.getElementById('ProductJson-' + sectionId) || document.querySelector('#ProductJson-' + sectionId + '-container script[type="application/json"]');
+  var productSection = document.getElementById('ProductSection-' + sectionId);
+  var priceEl = productSection ? productSection.querySelector('[data-variant-price]') : document.querySelector('[data-variant-price]');
+  var comparePriceEl = productSection ? productSection.querySelector('[data-variant-compare-price]') : document.querySelector('[data-variant-compare-price]');
+  var savingsEl = productSection ? productSection.querySelector('[data-variant-savings]') : document.querySelector('[data-variant-savings]');
+  var addToCartBtn = productSection ? productSection.querySelector('[data-add-to-cart-btn]') : document.querySelector('[data-add-to-cart-btn]');
+  var addToCartText = productSection ? productSection.querySelector('[data-add-to-cart-text]') : document.querySelector('[data-add-to-cart-text]');
 
-  thumbs.forEach(btn => {
-    btn.addEventListener("click", () => {
-      mainImage.src = btn.dataset.imageUrl;
-
-      thumbs.forEach(t => t.classList.remove("border-black"));
-      btn.classList.add("border-black");
+  // Thumbnail click: update main image
+  if (mainImage && thumbs.length) {
+    thumbs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        mainImage.src = btn.dataset.imageUrl;
+        thumbs.forEach(t => t.classList.remove("border-black"));
+        btn.classList.add("border-black");
+      });
     });
-  });
+  }
+
+  // Variant switching: image, price, add-to-cart
+  if (productJsonEl && productForm && variantIdInput) {
+    var productData;
+    try {
+      productData = JSON.parse(productJsonEl.textContent);
+    } catch (e) {
+      console.warn('Product JSON parse error:', e);
+      return;
+    }
+
+    var optionNames = productData.option_names || productData.options || [];
+
+    function getSelectedOptions() {
+      var selected = [];
+      for (var i = 0; i < optionNames.length; i++) {
+        var name = optionNames[i];
+        var input = productForm.querySelector('input[name="' + CSS.escape(name) + '"]:checked, select[name="' + CSS.escape(name) + '"]');
+        selected.push(input ? input.value : null);
+      }
+      return selected;
+    }
+
+    function findVariant(selectedOptions) {
+      var opts = selectedOptions || [];
+      var list = productData.variants || [];
+      for (var i = 0; i < list.length; i++) {
+        var v = list[i];
+        var o1 = String(v.option1 || '').toLowerCase();
+        var o2 = String(v.option2 || '').toLowerCase();
+        var o3 = String(v.option3 || '').toLowerCase();
+        var s1 = String(opts[0] || '').toLowerCase();
+        var s2 = String(opts[1] || '').toLowerCase();
+        var s3 = String(opts[2] || '').toLowerCase();
+        if ((!s1 || o1 === s1) && (!s2 || o2 === s2) && (!s3 || o3 === s3)) {
+          return v;
+        }
+      }
+      return null;
+    }
+
+    function syncThumbnailBorder(imageId) {
+      for (var i = 0; i < thumbs.length; i++) {
+        var btn = thumbs[i];
+        if (String(btn.dataset.imageId || '') === String(imageId || '')) {
+          btn.classList.add("border-black");
+        } else {
+          btn.classList.remove("border-black");
+        }
+      }
+    }
+
+    function updateVariant(variant) {
+      variantIdInput.value = variant.id;
+
+      if (priceEl) priceEl.textContent = variant.price_formatted || '';
+
+      if (comparePriceEl) {
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          comparePriceEl.textContent = variant.compare_at_price_formatted || '';
+          comparePriceEl.classList.remove("hidden");
+        } else {
+          comparePriceEl.classList.add("hidden");
+        }
+      }
+
+      if (savingsEl) {
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          var pct = Math.round(((variant.compare_at_price - variant.price) / variant.compare_at_price) * 100);
+          savingsEl.textContent = '-' + pct + '%';
+          savingsEl.classList.remove("hidden");
+        } else {
+          savingsEl.classList.add("hidden");
+        }
+      }
+
+      if (addToCartBtn) {
+        addToCartBtn.disabled = !variant.available;
+      }
+      if (addToCartText) {
+        addToCartText.textContent = variant.available ? 'Add to Cart' : 'Sold Out';
+      }
+
+      if (mainImage && variant.featured_image) {
+        mainImage.src = variant.featured_image.src;
+        mainImage.alt = variant.featured_image.alt || '';
+        syncThumbnailBorder(variant.featured_image.id);
+      }
+    }
+
+    function onVariantChange() {
+      var selected = getSelectedOptions();
+      var variant = findVariant(selected);
+      if (variant) {
+        updateVariant(variant);
+      }
+    }
+
+    function handleOptionInteraction(e) {
+  // Force the radio button to be checked if the label/span was clicked
+  const label = e.target.closest('label');
+  if (label) {
+    const input = label.querySelector('input[type="radio"]');
+    if (input) input.checked = true;
+  }
+  onVariantChange();
+}
+
+// Ensure you are listening to the correct container
+productForm.addEventListener('click', function(e) {
+  if (e.target.closest('.color-swatch') || e.target.closest('label')) {
+    handleOptionInteraction(e);
+  }
+});
+
+    productForm.addEventListener('change', function(e) {
+      if (e.target.type === 'radio' || (e.target.tagName === 'SELECT' && e.target.name)) {
+        handleOptionInteraction();
+      }
+    });
+
+    productForm.addEventListener('click', function(e) {
+      if (e.target.closest && e.target.closest('label') && e.target.closest('label').querySelector('input[type="radio"]')) {
+        handleOptionInteraction();
+      }
+    });
+
+    onVariantChange();
+  }
 });
 </script>
 
@@ -383,5 +558,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
+
 
 
