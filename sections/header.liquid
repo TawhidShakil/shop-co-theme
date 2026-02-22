@@ -44,43 +44,19 @@
           </ul>
         </div>
       </div>
-      {% if section.settings.logo != blank %}
-        <img
-          src="{{ section.settings.logo | image_url: width: 200 }}"
-          alt="{{ shop.name }}"
-        >
-      {% else %}
-        <a class="text-2xl font-bold">SHOP.CO</a>
-      {% endif %}
+
+      <h6 class="text-2xl font-bold">SHOP.CO</h6>
     </div>
     <!-- Menu Items -->
     <nav class="hidden lg:block menu w-[321px] h-[22px]">
-      <ul class="flex justify-center gap-2 text-sm">
-        {% for link in section.settings.menu.links %}
-          <li class="relative group">
-            <a href="{{ link.url }}">
-              {{ link.title }}
-            </a>
-            {% if link.links != blank %}
-              <span class="text-xs">▼</span>
-            {% endif %}
-            {% if link.links != blank %}
-              <ul class="absolute hidden group-hover:block bg-white text-black mt-2 p-2 shadow">
-                {% for child in link.links %}
-                  <li>
-                    <a href="{{ child.url }}" class="block px-3 py-1">
-                      {{ child.title }}
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-          </li>
-        {% endfor %}
+      <ul class="flex justify-center gap-4 text-sm">
+        <li>Home</li>
+        <li>About</li>
+        <li>Shop Now</li>
+        <li>Contact</li>
       </ul>
     </nav>
 
-    {%  if section.settings.enable_search_box %}  
     <div class="hidden lg:block relative w-[577px] h-[48px] bg-gray-100 rounded-full text-sm">
       <!-- Search Icon -->
       <svg
@@ -101,7 +77,7 @@
         class="w-full h-full pl-10 bg-transparent outline-none"
       >
     </div>
-    {% endif %}
+
     <!-- Icons Container -->
     <div class="flex justify-center gap-4 px-2">
       <a class="lg:hidden">
