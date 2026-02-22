@@ -7,10 +7,6 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-yellow-400: oklch(85.2% 0.199 91.936);
-    --color-green-200: oklch(92.5% 0.084 155.995);
-    --color-green-300: oklch(87.1% 0.15 154.449);
-    --color-green-400: oklch(79.2% 0.209 151.711);
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-pink-500: oklch(65.6% 0.241 354.308);
     --color-gray-100: oklch(96.7% 0.003 264.542);
@@ -222,14 +218,8 @@
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
-  .top-1 {
-    top: calc(var(--spacing) * 1);
-  }
   .top-1\/2 {
     top: calc(1/2 * 100%);
-  }
-  .top-2 {
-    top: calc(var(--spacing) * 2);
   }
   .top-2\.5 {
     top: calc(var(--spacing) * 2.5);
@@ -267,9 +257,6 @@
   .hidden {
     display: none;
   }
-  .table {
-    display: table;
-  }
   .h-4 {
     height: calc(var(--spacing) * 4);
   }
@@ -303,17 +290,8 @@
   .h-screen {
     height: 100vh;
   }
-  .max-h-\[18px\] {
-    max-height: 18px;
-  }
   .max-h-\[108px\] {
     max-height: 108px;
-  }
-  .max-h-\[180px\] {
-    max-height: 180px;
-  }
-  .max-h-\[293px\] {
-    max-height: 293px;
   }
   .min-h-\[177px\] {
     min-height: 177px;
@@ -357,23 +335,14 @@
   .max-w-\[349px\] {
     max-width: 349px;
   }
-  .max-w-\[358px\] {
-    max-width: 358px;
-  }
   .max-w-\[1240px\] {
     max-width: 1240px;
   }
   .max-w-\[1440px\] {
     max-width: 1440px;
   }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
   .flex-shrink-0 {
     flex-shrink: 0;
-  }
-  .border-collapse {
-    border-collapse: collapse;
   }
   .-translate-x-full {
     --tw-translate-x: -100%;
@@ -383,19 +352,12 @@
     --tw-translate-x: calc(var(--spacing) * 0);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
-  .-translate-y-1 {
-    --tw-translate-y: calc(var(--spacing) * -1);
-    translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
-  .resize {
-    resize: both;
   }
   .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -526,14 +488,6 @@
     line-height: 22px;
     text-transform: capitalize;
   }
-  .font-satoshi-category {
-    font-family: var(--satoshi);
-    font-weight: 700 !important;
-    color: #000000 !important;
-    text-transform: var(--font-satoshi--transform);
-    font-family: var(--font-satoshi);
-    font-size: 24px !important;
-  }
   .font-satoshi-discount {
     font-family: var(--satoshi);
     font-weight: 700 !important;
@@ -626,10 +580,6 @@
   .underline {
     text-decoration-line: underline;
   }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
@@ -673,11 +623,6 @@
       display: block;
     }
   }
-  .sm\:min-w-\[3px\] {
-    @media (width >= 40rem) {
-      min-width: 3px;
-    }
-  }
   .sm\:min-w-\[250px\] {
     @media (width >= 40rem) {
       min-width: 250px;
@@ -686,11 +631,6 @@
   .sm\:min-w-\[280px\] {
     @media (width >= 40rem) {
       min-width: 280px;
-    }
-  }
-  .sm\:min-w-\[300px\] {
-    @media (width >= 40rem) {
-      min-width: 300px;
     }
   }
   .sm\:flex-row {
@@ -762,11 +702,6 @@
   .md\:min-w-\[280px\] {
     @media (width >= 48rem) {
       min-width: 280px;
-    }
-  }
-  .md\:min-w-\[320px\] {
-    @media (width >= 48rem) {
-      min-width: 320px;
     }
   }
   .md\:translate-y-24 {
@@ -911,11 +846,6 @@
   syntax: "*";
   inherits: false;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -982,7 +912,6 @@
       --tw-skew-y: initial;
       --tw-border-style: solid;
       --tw-font-weight: initial;
-      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
