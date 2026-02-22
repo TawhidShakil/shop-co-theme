@@ -51,10 +51,12 @@
   </head>
 
   <body>
-    {% section 'hero' %}
+  
+   
+    {% comment %} {% section 'hero' %} {% endcomment %}
 
     {{ content_for_layout }}
-    {% section 'newsletter-banner' %}
+    
     {% sections 'footer-group' %}
   </body>
 </html>
