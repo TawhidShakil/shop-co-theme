@@ -1,37 +1,45 @@
-{% comment %}
-  This section is used in the cart template to render /cart page with an
-  overview of the items in customer's cart.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
-{% endcomment %}
-
-<h1>{{ 'cart.title' | t }}</h1>
+<h1 class="text-3xl font-bold mb-8">Your Cart</h1>
 
 <form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
+  {% for item in cart.items %}
+    <div class="flex gap-6 mb-6 border-b pb-6">
+      
+      <img src="{{ item.image | image_url: width: 200 }}" width="120">
+
+      <div class="flex-1">
+        <h2 class="text-lg font-semibold">{{ item.product.title }}</h2>
+        <p>{{ item.variant.title }}</p>
+        <p class="font-bold mt-2">{{ item.line_price | money }}</p>
+
+        <input 
+          type="number" 
+          name="updates[]" 
+          value="{{ item.quantity }}" 
+          min="1"
+          class="border w-20 mt-3"
+        >
+
+        <a href="{{ item.url_to_remove }}" class="text-red-500 block mt-2">
+          Remove
+        </a>
+      </div>
+
+    </div>
+  {% endfor %}
+
+  <div class="mt-10 text-right">
+    <p class="text-xl font-bold">
+      Total: {{ cart.total_price | money }}
+    </p>
+
+    <button 
+      type="submit" 
+      name="checkout"
+      class="bg-black text-white px-8 py-4 rounded-xl mt-4"
+    >
+      Proceed to Checkout
+    </button>
+  </div>
+
 </form>
-
-{% schema %}
-{
-  "name": "t:general.cart",
-  "settings": []
-}
-{% endschema %}
