@@ -9,6 +9,24 @@
  */
 {
   "current": {
+    "sections": {
+      "hero": {
+        "type": "hero",
+        "settings": {}
+      },
+      "newsletter-banner": {
+        "type": "newsletter-banner",
+        "settings": {
+          "heading_line1": "STAY UPTO DATE ABOUT",
+          "heading_line2": "OUR LATEST OFFERS",
+          "placeholder": "Enter your email address",
+          "button_label": "Subscribe to Newsletter",
+          "success_msg": "🎉 Thanks for subscribing!",
+          "section_bg": "#FFFFFF",
+          "banner_bg": "#333333"
+        }
+      }
+    },
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
