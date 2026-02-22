@@ -1,0 +1,270 @@
+{% schema %}
+{
+    "name": "Category Grid Section",
+    "settings": [
+        {
+            "type": "text",
+            "id": "category_title",
+            "label": "Category Title",
+            "default": "Browse By Dress Style"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "category",
+            "name": "Category",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "category_image",
+                    "label": "Category Image"
+                },
+                {
+                    "type": "text",
+                    "id": "category_name",
+                    "label": "Category Name"
+                },
+                {
+                    "type": "url",
+                    "id": "category_link",
+                    "label": "Category Link"
+                },
+                {
+                    "type": "collection",
+                    "id": "category_collection",
+                    "label": "Category Collection"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Category List"
+        }
+    ]
+}
+{% endschema %}
+
+
+<div id="category-main-{{ section.id }}">
+  <div id="category-content-{{ section.id }}">
+
+    <div id="category-title-{{ section.id }}">
+      <h1 class="font-integral">{{ section.settings.category_title }}</h1>
+    </div>
+
+    <div id="category-grid-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% if block.type == 'category' %}
+
+            {%- assign collection = block.settings.category_collection -%}
+            {%- assign category_url = block.settings.category_link | default: collection.url -%}
+            {%- assign category_name = block.settings.category_name | default: collection.title -%}
+            {%- assign category_image = block.settings.category_image | default: collection.featured_image -%}
+
+          <a
+            class="category-card-{{ section.id }}"
+            href="{{ category_url }}"
+            {{ block.shopify_attributes }}
+          >
+            <span class="category-card-name-{{ section.id }}">
+              {{ category_name }}
+            </span>
+            {% if category_image != blank %}
+              <img
+                src="{{ category_image | image_url: width: 600 }}"
+                alt="{{ category_name | escape }}"
+                class="category-card-img-{{ section.id }}"
+                loading="lazy"
+                width="600"
+                height="auto"
+              >
+            {% else %}
+              <div class="category-card-placeholder-{{ section.id }}"></div>
+            {% endif %}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+
+<style>
+
+  /* ── Outer wrapper ── */
+  #category-main-{{ section.id }} {
+    width: 100%;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    box-sizing: border-box;
+  }
+
+  /* ── Inner content (100px L/R padding) ── */
+  #category-content-{{ section.id }} {
+    padding-left: 100px;
+    padding-right: 100px;
+    border-radius: 30px;
+    background-color: #F0F0F0;
+
+    padding-top: 70px;
+    padding-bottom: 76px;
+  }
+
+  /* ── Section title ── */
+  #category-title-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+
+  #category-title-{{ section.id }} h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    text-align: center;
+    margin: 0;
+  }
+
+ /* ── Grid: Zigzag 40-60 / 60-40 ── */
+#category-grid-{{ section.id }} {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 cols for 40% (2/5) and 60% (3/5) */
+  gap: 20px;
+}
+
+/* Row 1, Card 1: 40% */
+#category-grid-{{ section.id }} .category-card-{{ section.id }}:nth-child(4n+1) {
+  grid-column: span 2;
+}
+/* Row 1, Card 2: 60% */
+#category-grid-{{ section.id }} .category-card-{{ section.id }}:nth-child(4n+2) {
+  grid-column: span 3;
+}
+/* Row 2, Card 3: 60% */
+#category-grid-{{ section.id }} .category-card-{{ section.id }}:nth-child(4n+3) {
+  grid-column: span 3;
+}
+/* Row 2, Card 4: 40% */
+#category-grid-{{ section.id }} .category-card-{{ section.id }}:nth-child(4n+4) {
+  grid-column: span 2;
+}
+
+  /* ── Card ── */
+  .category-card-{{ section.id }} {
+    position: relative;
+    display: block;
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    text-decoration: none;
+    height: 290px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .category-card-{{ section.id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  /* ── Category name – top-left, above the image ── */
+  .category-card-name-{{ section.id }} {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    font-family: var(--font-satoshi);
+    font-size: 36px;
+  }
+
+  /* ── Image – right side, fills card height ── */
+  .category-card-img-{{ section.id }} {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: auto;
+    max-width: 65%;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 0 20px 20px 0;
+    display: block;
+  }
+
+  /* ── Placeholder when no image is set ── */
+  .category-card-placeholder-{{ section.id }} {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 65%;
+    background-color: #e5e7eb;
+    border-radius: 0 20px 20px 0;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 768px) {
+    #category-content-{{ section.id }} {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    #category-grid-{{ section.id }} {
+      grid-template-columns: 100%;
+      gap: 12px;
+    }
+
+    #category-content-{{ section.id }} {
+        padding-top: 40px;
+        padding-bottom: 28px;
+    }
+
+    /* Reset desktop zigzag spans for mobile */
+    #category-grid-{{ section.id }} .category-card-{{ section.id }} {
+      grid-column: auto !important;
+    }
+
+    .category-card-{{ section.id }} {
+      height: 180px;
+      border-radius: 12px;
+    }
+
+    .category-card-name-{{ section.id }} {
+      top: 16px;
+      left: 16px;
+      font-family: var(--font-satoshi);
+      font-size: 24px;
+    }
+
+    .category-card-img-{{ section.id }} {
+      border-radius: 0 12px 12px 0;
+    }
+
+    .category-card-placeholder-{{ section.id }} {
+      border-radius: 0 12px 12px 0;/* ── Grid: Zigzag 60-40 / 40-60 ── */
+#category-grid-{{ section.id }} {
+  display: grid;
+  grid-template-columns: 60% 40%; /* First row = 60/40 */
+  gap: 20px;
+}
+
+/* 2nd row (card 3 & 4) -> make 40/60 */
+#category-grid-{{ section.id }} .category-card-{{ section.id }}:nth-child(4n+3) {
+  grid-column: 2; /* goes to 40% column */
+}
+
+#category-grid-{{ section.id }} .category-card-{{ section.id }}:nth-child(4n+4) {
+  grid-column: 1; /* goes to 60% column */
+}
+
+    }
+
+    #category-title-{{ section.id }} h1 {
+      font-size: 32px;
+    }
+  }
+
+</style>
