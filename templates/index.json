@@ -99,6 +99,15 @@
     "category_grid_section_JHinHa": {
       "type": "Category-Grid-Section",
       "blocks": {
+        "category_nkar3T": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_13.png",
+            "category_name": "",
+            "category_link": "",
+            "category_collection": ""
+          }
+        },
         "category_VYy7e9": {
           "type": "category",
           "settings": {
@@ -110,6 +119,7 @@
         }
       },
       "block_order": [
+        "category_nkar3T",
         "category_VYy7e9"
       ],
       "name": "Category List",
