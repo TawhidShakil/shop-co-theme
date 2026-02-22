@@ -106,6 +106,19 @@
 
                   {% if option.name contains 'Color' or option.name contains 'Colour' %}
                     {% assign color_val = value %}
+                    {% assign color_image_url = nil %}
+                    {% assign color_image_id = nil %}
+                    {% for v in product.variants %}
+                      {% assign opt_match = false %}
+                      {% if option.position == 1 and v.option1 == value %}{% assign opt_match = true %}{% endif %}
+                      {% if option.position == 2 and v.option2 == value %}{% assign opt_match = true %}{% endif %}
+                      {% if option.position == 3 and v.option3 == value %}{% assign opt_match = true %}{% endif %}
+                      {% if opt_match and v.featured_image %}
+                        {% assign color_image_url = v.featured_image | img_url: '1200x' %}
+                        {% assign color_image_id = v.featured_image.id %}
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
                     {% if value contains '#' %}
                     {% elsif value == 'Olive' or value == 'olive' %}{% assign color_val = '#556b2f' %}
                     {% elsif value == 'Navy' or value == 'navy' %}{% assign color_val = '#1e3a5f' %}
@@ -119,7 +132,9 @@
                     <span
                       class="color-swatch w-10 h-10 rounded-full border border-gray-200 ring-2 ring-transparent ring-offset-2 peer-checked:ring-black peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
                       style="background-color: {{ color_val }};"
-                      data-option-value="{{ value | escape }}">
+                      data-option-value="{{ value | escape }}"
+                      data-variant-image-url="{{ color_image_url }}"
+                      data-variant-image-id="{{ color_image_id }}">
                       <svg class="w-5 h-5 text-white opacity-0 transition-opacity pointer-events-none" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M16 5L7 14L4 11"/>
                       </svg>
@@ -161,7 +176,7 @@
     </div>
   </div>
 </section>
-
+<div id="ProductJson-{{ section.id }}-container" data-section-id="{{ section.id }}">
 <script type="application/json" id="ProductJson-{{ section.id }}">
 {
   "variants": [
@@ -184,9 +199,10 @@
     }{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ],
-  "options": {{ product.options | json }}
+  "option_names": [{% for option in product.options_with_values %}{{ option.name | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]
 }
 </script>
+</div>
 
 <section class="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12" id="ProductTabsSection">
   
@@ -352,17 +368,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const sectionId = {{ section.id | json }};
-  const mainImage = document.getElementById("MainProductImage");
-  const thumbs = document.querySelectorAll(".thumbnail-btn");
-  const productForm = document.querySelector('.product-form');
-  const variantIdInput = productForm?.querySelector('input[name="id"]');
-  const productJsonEl = document.getElementById('ProductJson-' + sectionId);
-  const priceEl = document.querySelector('[data-variant-price]');
-  const comparePriceEl = document.querySelector('[data-variant-compare-price]');
-  const savingsEl = document.querySelector('[data-variant-savings]');
-  const addToCartBtn = document.querySelector('[data-add-to-cart-btn]');
-  const addToCartText = document.querySelector('[data-add-to-cart-text]');
+  var sectionId = {{ section.id | json }};
+  var mainImage = document.getElementById("MainProductImage");
+  var thumbs = document.querySelectorAll(".thumbnail-btn");
+  var productForm = document.querySelector('#ProductSection-' + sectionId + ' .product-form');
+  var variantIdInput = productForm ? productForm.querySelector('input[name="id"]') : null;
+  var productJsonEl = document.getElementById('ProductJson-' + sectionId) || document.querySelector('#ProductJson-' + sectionId + '-container script[type="application/json"]');
+  var productSection = document.getElementById('ProductSection-' + sectionId);
+  var priceEl = productSection ? productSection.querySelector('[data-variant-price]') : document.querySelector('[data-variant-price]');
+  var comparePriceEl = productSection ? productSection.querySelector('[data-variant-compare-price]') : document.querySelector('[data-variant-compare-price]');
+  var savingsEl = productSection ? productSection.querySelector('[data-variant-savings]') : document.querySelector('[data-variant-savings]');
+  var addToCartBtn = productSection ? productSection.querySelector('[data-add-to-cart-btn]') : document.querySelector('[data-add-to-cart-btn]');
+  var addToCartText = productSection ? productSection.querySelector('[data-add-to-cart-text]') : document.querySelector('[data-add-to-cart-text]');
 
   // Thumbnail click: update main image
   if (mainImage && thumbs.length) {
