@@ -95,6 +95,27 @@
         "margin_bottom": 64,
         "bottom_border": true
       }
+    },
+    "category_grid_section_JHinHa": {
+      "type": "Category-Grid-Section",
+      "blocks": {
+        "category_VYy7e9": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/image_11.png",
+            "category_name": "Casual",
+            "category_link": "",
+            "category_collection": "oxford-shirts"
+          }
+        }
+      },
+      "block_order": [
+        "category_VYy7e9"
+      ],
+      "name": "Category List",
+      "settings": {
+        "category_title": "Browse By Dress Style"
+      }
     }
   },
   "order": [
@@ -102,6 +123,7 @@
     "logo_list_PMjGjh",
     "collections_FHLQjj",
     "featured_collection_Hr444K",
-    "featured_collection_BaXn4J"
+    "featured_collection_BaXn4J",
+    "category_grid_section_JHinHa"
   ]
 }
