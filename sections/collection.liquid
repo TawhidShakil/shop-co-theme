@@ -1,47 +1,198 @@
-{% comment %}
-  This section is used in the collection template to render collection page
-  listing all products within a collection.
+<section
+  class="max-auto max-w-7xl px-4 py-8 font-sans text-black"
+  id="MainCollectionSection"
+  data-id="{{ section.id }}">
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
-{% endcomment %}
+  <div class="mb-8 flex flex-col justify-between gap-4 border-b pb-6 md:flex-row md:items-end">
+    <div>
+      <h1 class="text-4xl font-extrabold tracking-tight">{{ collection.title | default: "Casual" }}</h1>
+    </div>
+    <div class="flex items-center justify-between gap-4 md:justify-end">
+      <p class="text-sm text-gray-500" id="ProductCount">
+        Showing {{ collection.products.size }} of {{ collection.products_count }} Products
+      </p>
+    </div>
+  </div>
 
-<h1>{{ collection.title }}</h1>
+  <div class="flex flex-col gap-10 md:flex-row">
+    <aside class="w-full md:w-64 flex-shrink-0" id="ProductFiltersContainer">
+      <div class="rounded-3xl border border-gray-200 p-6">
+        <h2 class="text-xl font-bold mb-6">Filters</h2>
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
-        </div>
+        {%- for filter in collection.filters -%}
+          <div class="mb-8 border-b pb-8 filter-group">
+            <h3 class="mb-4 font-bold">{{ filter.label }}</h3>
+
+            {%- case filter.type -%}
+              {%- when 'list' -%}
+                {%- if filter.label contains 'Color' or filter.label contains 'color' -%}
+                  <div class="flex flex-wrap gap-3">
+                    {%- for value in filter.values -%}
+                      {%- liquid
+                        # TOGGLE LOGIC: Use url_to_remove if active to allow deselection
+                        if value.active
+                          assign target_url = value.url_to_remove
+                        else
+                          assign target_url = value.url_to_add
+                        endif
+                      -%}
+                      <a
+                        href="{{ target_url }}"
+                        class="js-filter-link h-8 w-8 rounded-full border border-black/10 transition-all hover:scale-110 {% if value.active %}ring-2 ring-black ring-offset-2{% endif %}"
+                        style="background-color: {{ value.label | downcase }};"
+                        title="{{ value.label }}"></a>
+                    {%- endfor -%}
+                  </div>
+                {%- else -%}
+                  <div class="flex flex-wrap gap-2">
+                    {%- for value in filter.values -%}
+                      {%- liquid
+                        if value.active
+                          assign target_url = value.url_to_remove
+                        else
+                          assign target_url = value.url_to_add
+                        endif
+                      -%}
+                      <a href="{{ target_url }}" class="js-filter-link rounded-full px-5 py-2 text-sm font-medium transition-colors {% if value.active %}bg-black text-white{% else %}bg-gray-100 text-gray-600 hover:bg-black hover:text-white{% endif %}">
+                        {{ value.label }}
+                      </a>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+              {%- when 'price_range' -%}
+                <div class="price-range-wrapper">
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                    value="{{ filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' }}"
+                    id="PriceRangeSlider"
+                    class="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black">
+                  <div class="flex justify-between text-xs font-medium mt-2">
+                    <span>$0</span>
+                    <span id="PriceValueDisplay">{{ filter.max_value.value | default: filter.range_max | money }}</span>
+                  </div>
+                </div>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+
+        <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="js-filter-link block text-center text-sm text-gray-500 underline mt-4">Clear All</a>
       </div>
-    {% endfor %}
+    </aside>
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
-</div>
+    <main class="flex-1 relative" id="ProductGridContainer">
+      <div id="GridOverlay" class="absolute inset-0 bg-white/50 z-10 hidden transition-opacity items-center justify-center">
+        <div class="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+      </div>
 
-{% stylesheet %}
-  .collection-products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        {% paginate collection.products by section.settings.products_per_page %}
+          {% for product in collection.products %}
+            {% render 'product-card'
+              , product_item: product %}
+          {% endfor %}
+
+          {% if paginate.pages > 1 %}
+            <div class="col-span-full flex justify-center mt-10">
+              {{ paginate | default_pagination }}
+            </div>
+          {% endif %}
+        {% endpaginate %}
+      </div>
+    </main>
+  </div>
+</section>
+
+<style>
+  /* Custom slider styling */
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: black;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   }
-{% endstylesheet %}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sectionId = document.querySelector('#MainCollectionSection').dataset.id;
+    const overlay = document.querySelector('#GridOverlay');
+
+    const updateView = async (url) => {
+      if(overlay) overlay.classList.replace('hidden', 'flex');
+      
+      try {
+        const response = await fetch(`${url}${url.includes('?') ? '&' : '?'}section_id=${sectionId}`);
+        const text = await response.text();
+        const html = new DOMParser().parseFromString(text, 'text/html');
+        
+        // Dynamic Content Swap
+        document.querySelector('#ProductGridContainer').innerHTML = html.querySelector('#ProductGridContainer').innerHTML;
+        document.querySelector('#ProductFiltersContainer').innerHTML = html.querySelector('#ProductFiltersContainer').innerHTML;
+        document.querySelector('#ProductCount').innerHTML = html.querySelector('#ProductCount').innerHTML;
+
+        // Sync Browser URL
+        window.history.pushState({ path: url }, '', url);
+      } catch (err) {
+        console.error("AJAX Error:", err);
+      } finally {
+        if(overlay) overlay.classList.replace('flex', 'hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    // Handle Clicks (Links & Filters)
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('.js-filter-link');
+      if (link) {
+        e.preventDefault();
+        updateView(link.getAttribute('href'));
+      }
+    });
+
+    // Price Slider Logic (Debounced)
+    let debounceTimer;
+    document.addEventListener('input', (e) => {
+      if (e.target.id === 'PriceRangeSlider') {
+        const val = e.target.value;
+        document.querySelector('#PriceValueDisplay').textContent = `$${val}`;
+        
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          const url = new URL(window.location.href);
+          url.searchParams.set('filter.v.price.lte', val);
+          url.searchParams.set('filter.v.price.gte', '0');
+          updateView(url.toString());
+        }, 600);
+      }
+    });
+  });
+</script>
 
 {% schema %}
-{
-  "name": "t:general.collection",
-  "settings": []
-}
+  {
+    "name": "Collection Grid",
+    "settings": [
+      {
+        "type": "range",
+        "id": "products_per_page",
+        "min": 6,
+        "max": 24,
+        "step": 3,
+        "label": "Products per page",
+        "default": 9
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection Grid"
+      }
+    ]
+  }
 {% endschema %}
