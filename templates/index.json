@@ -23,7 +23,6 @@
     },
     "collections_FHLQjj": {
       "type": "collections",
-      "disabled": true,
       "name": "t:general.collections_grid",
       "settings": {
         "grid_item_width": "collections--full",
