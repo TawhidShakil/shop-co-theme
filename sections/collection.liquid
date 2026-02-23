@@ -1,414 +1,197 @@
-<script src="https://cdn.tailwindcss.com"></script>
-{{ 'template-collection.css' | asset_url | stylesheet_tag }}
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-price.css' | asset_url | stylesheet_tag }}
+<section
+  class="max-auto max-w-7xl px-4 py-8 font-sans text-black"
+  id="MainCollectionSection"
+  data-id="{{ section.id }}">
 
-{% if section.settings.image_shape == 'blob' %}
-  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
-
-{%- unless section.settings.quick_add == 'none' -%}
-  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
-{%- endunless -%}
-
-{%- if section.settings.quick_add == 'standard' -%}
-  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
-
-{%- if section.settings.quick_add == 'bulk' -%}
-  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
-
-
-
-<style>
-  .font-inter {
-    font-family: 'Inter'
-    , sans-serif;
-  }
-  .tab-link.active {
-    color: black !important;
-    border-bottom: 2px solid black;
-  }
-  .tab-content {
-    display: none;
-  }
-  .tab-content.active {
-    display: grid;
-  }
-  /* Hidden on mobile */
-#one {
-  display: none;
-}
-
-/* Show from 640px (sm) and above */
-@media screen and (min-width: 640px) {
-  #one {
-    display: flex;
-  }
-}
-
-</style>
-
-
-
-<div >
-  <div class="max-w-[1119px] mx-auto px-8 pb-[80px] md:px-[80px] ">
-    
-    <nav class="flex items-center gap-4 text-[16px] font-medium text-[#A4A4A4]" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-black transition-colors">Home</a>
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-      <a href="/collections" class="hover:text-black transition-colors">Catalog</a>
-      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-      <span class="text-black font-semibold">{{ collection.title }}</span>
-    </nav>
-
-    {%- paginate collection.products by section.settings.products_per_page -%}
-    <div class="flex flex-col md:flex-row gap-10">
-        
-    <div class="pt-6 sm:hidden">
-        <button class="flex items-center justify-between w-[164px] h-[36px] bg-white text-black border border-gray-300 rounded-lg px-4 font-inter"  id="filterBtn">
-          
-          <span>Filter</span>
-
-          <!-- Filter SVG -->
-          <svg xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              class="w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 4h18M6 12h12M10 20h4"/>
-          </svg>
-
-        </button>
+  <div class="mb-8 flex flex-col justify-between gap-4 border-b pb-6 md:flex-row md:items-end">
+    <div>
+      <h1 class="text-4xl font-extrabold tracking-tight">{{ collection.title | default: "Casual" }}</h1>
     </div>
+    <div class="flex items-center justify-between gap-4 md:justify-end">
+      <p class="text-sm text-gray-500" id="ProductCount">
+        Showing {{ collection.products.size }} of {{ collection.products_count }} Products
+      </p>
+    </div>
+  </div>
 
-        <aside class="w-full md:w-[280px] flex-shrink-0" id="one">
-          <form id="FacetFiltersForm" class="sticky top-10">
-            {%- for filter in collection.filters -%}
-              <div class="border-b border-gray-100 py-6 first:pt-0">
-                <div class="flex items-center justify-between w-full mb-4 group cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden')">
-                  <span class="text-[18px] font-medium text-black">{{ filter.label }}</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                </div>
+  <div class="flex flex-col gap-10 md:flex-row">
+    <aside class="w-full md:w-64 flex-shrink-0" id="ProductFiltersContainer">
+      <div class="rounded-3xl border border-gray-200 p-6">
+        <h2 class="text-xl font-bold mb-6">Filters</h2>
 
-                <div class="filter-content" id="filter">
-                  {% if filter.label == 'Brand' %}
-                    <div class="relative mb-4 mt-2">
-                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                      </div>
-  
-                      <input 
-                        type="text" 
-                        id="BrandSearch" 
-                        onkeyup="filterBrands()" 
-                        placeholder="Search" 
-                        class="w-full bg-[#F5F5F5] border-none rounded-[8px] py-3 pl-10 pr-4 text-[14px] placeholder-gray-400 focus:ring-1 focus:ring-black outline-none transition-all"
-                      >
-                    </div>
-                  {% endif %}
+        {%- for filter in collection.filters -%}
+          <div class="mb-8 border-b pb-8 filter-group">
+            <h3 class="mb-4 font-bold">{{ filter.label }}</h3>
 
-                  <div id="BrandList" class="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
+            {%- case filter.type -%}
+              {%- when 'list' -%}
+                {%- if filter.label contains 'Color' or filter.label contains 'color' -%}
+                  <div class="flex flex-wrap gap-3">
                     {%- for value in filter.values -%}
-                      <label class="brand-item flex items-center justify-between cursor-pointer group">
-                        <div class="flex items-center gap-3">
-                          <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} onchange="this.form.submit()" class="w-4 h-4 rounded border-gray-300 text-black focus:ring-black">
-                          <span class="brand-name text-[15px] {% if value.active %}font-medium text-black{% else %}text-[#000000]{% endif %}">{{ value.label }}</span>
-                        </div>
-                        <span class="text-[12px] text-gray-400 font-medium">{{ value.count }}</span>
-                      </label>
+                      {%- liquid
+                        # TOGGLE LOGIC: Use url_to_remove if active to allow deselection
+                        if value.active
+                          assign target_url = value.url_to_remove
+                        else
+                          assign target_url = value.url_to_add
+                        endif
+                      -%}
+                      <a
+                        href="{{ target_url }}"
+                        class="js-filter-link h-8 w-8 rounded-full border border-black/10 transition-all hover:scale-110 {% if value.active %}ring-2 ring-black ring-offset-2{% endif %}"
+                        style="background-color: {{ value.label | downcase }};"
+                        title="{{ value.label }}"></a>
                     {%- endfor -%}
                   </div>
+                {%- else -%}
+                  <div class="flex flex-wrap gap-2">
+                    {%- for value in filter.values -%}
+                      {%- liquid
+                        if value.active
+                          assign target_url = value.url_to_remove
+                        else
+                          assign target_url = value.url_to_add
+                        endif
+                      -%}
+                      <a href="{{ target_url }}" class="js-filter-link rounded-full px-5 py-2 text-sm font-medium transition-colors {% if value.active %}bg-black text-white{% else %}bg-gray-100 text-gray-600 hover:bg-black hover:text-white{% endif %}">
+                        {{ value.label }}
+                      </a>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+              {%- when 'price_range' -%}
+                <div class="price-range-wrapper">
+                  <input
+                    type="range"
+                    min="0"
+                    max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                    value="{{ filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' }}"
+                    id="PriceRangeSlider"
+                    class="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black">
+                  <div class="flex justify-between text-xs font-medium mt-2">
+                    <span>$0</span>
+                    <span id="PriceValueDisplay">{{ filter.max_value.value | default: filter.range_max | money }}</span>
+                  </div>
                 </div>
-              </div>
-            {%- endfor -%}
-          </form>
-        </aside>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
 
-        <div class="flex-grow" id="three">
-          <div class="flex justify-between items-center mb-8">
-            <div class="text-[16px] text-[#A4A4A4]">
-              Selected Products: <span class="font-medium text-[20px] text-black">{{ collection.products_count }}</span>
-        </div>
-            
-    <div class="flex items-center gap-4">
-      <div class="relative flex items-center">
-        <select onchange="location = this.value;" class="bg-white border border-gray-200 rounded-[8px] py-2 pl-4 pr-10 text-[15px] font-medium focus:ring-1 focus:ring-black appearance-none cursor-pointer w-full">
-          {%- for option in collection.sort_options -%}
-            <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>
-              {{ option.name }}
-            </option>
-          {%- endfor -%}
-        </select>
-        <span class="absolute right-4 pointer-events-none text-[#000000]">
-          <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
+        <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="js-filter-link block text-center text-sm text-gray-500 underline mt-4">Clear All</a>
+      </div>
+    </aside>
+
+    <main class="flex-1 relative" id="ProductGridContainer">
+      <div id="GridOverlay" class="absolute inset-0 bg-white/50 z-10 hidden transition-opacity items-center justify-center">
+        <div class="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
       </div>
 
-</div>
-</div>
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        {% paginate collection.products by section.settings.products_per_page %}
+          {% for product in collection.products %}
+            {% render 'product-card-item',product_item: product %}
+          {% endfor %}
 
-          <ul id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-6">
-            {%- for product in collection.products -%}
-              <li>{% render 'product-card-item', card_product: product %}</li>
-            {%- endfor -%}
-          </ul>
-
-          {%- if paginate.pages > 1 -%}
-            <div class="mt-2">
-              {% render 'pagination', paginate: paginate %}
+          {% if paginate.pages > 1 %}
+            <div class="col-span-full flex justify-center mt-10">
+              {{ paginate | default_pagination }}
             </div>
-          {%- endif -%}
-        </div>
-
+          {% endif %}
+        {% endpaginate %}
       </div>
-    {%- endpaginate -%}
+    </main>
   </div>
-</div>
-<script>
-  document.getElementById("filterBtn").addEventListener("click", function() {
-    const sidebar = document.getElementById("one");
+</section>
 
-    if (sidebar.style.display === "block") {
-      sidebar.style.display = "none";
-    } else {
-      sidebar.style.display = "block";
-    }
+<style>
+  /* Custom slider styling */
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: black;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sectionId = document.querySelector('#MainCollectionSection').dataset.id;
+    const overlay = document.querySelector('#GridOverlay');
+
+    const updateView = async (url) => {
+      if(overlay) overlay.classList.replace('hidden', 'flex');
+      
+      try {
+        const response = await fetch(`${url}${url.includes('?') ? '&' : '?'}section_id=${sectionId}`);
+        const text = await response.text();
+        const html = new DOMParser().parseFromString(text, 'text/html');
+        
+        // Dynamic Content Swap
+        document.querySelector('#ProductGridContainer').innerHTML = html.querySelector('#ProductGridContainer').innerHTML;
+        document.querySelector('#ProductFiltersContainer').innerHTML = html.querySelector('#ProductFiltersContainer').innerHTML;
+        document.querySelector('#ProductCount').innerHTML = html.querySelector('#ProductCount').innerHTML;
+
+        // Sync Browser URL
+        window.history.pushState({ path: url }, '', url);
+      } catch (err) {
+        console.error("AJAX Error:", err);
+      } finally {
+        if(overlay) overlay.classList.replace('flex', 'hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+
+    // Handle Clicks (Links & Filters)
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('.js-filter-link');
+      if (link) {
+        e.preventDefault();
+        updateView(link.getAttribute('href'));
+      }
+    });
+
+    // Price Slider Logic (Debounced)
+    let debounceTimer;
+    document.addEventListener('input', (e) => {
+      if (e.target.id === 'PriceRangeSlider') {
+        const val = e.target.value;
+        document.querySelector('#PriceValueDisplay').textContent = `$${val}`;
+        
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          const url = new URL(window.location.href);
+          url.searchParams.set('filter.v.price.lte', val);
+          url.searchParams.set('filter.v.price.gte', '0');
+          updateView(url.toString());
+        }, 600);
+      }
+    });
   });
 </script>
 
-<script>
-  function filterBrands() {
-    const input = document.getElementById('BrandSearch');
-    const filter = input.value.toLowerCase();
-    const items = document.getElementsByClassName('brand-item');
-    for (let i = 0; i < items.length; i++) {
-      const name = items[i].querySelector('.brand-name').innerText.toLowerCase();
-      items[i].style.display = name.includes(filter) ? "" : "none";
-    }
-  }
-</script>
-
 {% schema %}
-{
-  "name": "t:sections.main-collection-product-grid.name",
-  "class": "section",
-  "settings": [
-    {
-      "type": "range",
-      "id": "products_per_page",
-      "min": 8,
-      "max": 36,
-      "step": 4,
-      "default": 16,
-      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
-    },
-    {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 4,
-      "label": "t:sections.main-collection-product-grid.settings.columns_desktop.label"
-    },
-    {
-      "type": "select",
-      "id": "columns_mobile",
-      "default": "2",
-      "label": "t:sections.main-collection-product-grid.settings.columns_mobile.label",
-      "options": [
-        {
-          "value": "1",
-          "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label"
-        }
-      ]
-    },    
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "info": "t:sections.all.colors.has_cards_info",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.main-collection-product-grid.settings.header__3.content"
-    },
-    {
-      "type": "select",
-      "id": "image_ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
-        }
-      ],
-      "default": "adapt",
-      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
-    },
-    {
-      "type": "select",
-      "id": "image_shape",
-      "options": [
-        {
-          "value": "default",
-          "label": "t:sections.all.image_shape.options__1.label"
-        },
-        {
-          "value": "arch",
-          "label": "t:sections.all.image_shape.options__2.label"
-        },
-        {
-          "value": "blob",
-          "label": "t:sections.all.image_shape.options__3.label"
-        },
-        {
-          "value": "chevronleft",
-          "label": "t:sections.all.image_shape.options__4.label"
-        },
-        {
-          "value": "chevronright",
-          "label": "t:sections.all.image_shape.options__5.label"
-        },
-        {
-          "value": "diamond",
-          "label": "t:sections.all.image_shape.options__6.label"
-        },
-        {
-          "value": "parallelogram",
-          "label": "t:sections.all.image_shape.options__7.label"
-        },
-        {
-          "value": "round",
-          "label": "t:sections.all.image_shape.options__8.label"
-        }
-      ],
-      "default": "default",
-      "label": "t:sections.all.image_shape.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "default": false,
-      "label": "t:sections.main-collection-product-grid.settings.show_secondary_image.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "default": false,
-      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "default": false,
-      "label": "t:sections.main-collection-product-grid.settings.show_rating.label",
-      "info": "t:sections.main-collection-product-grid.settings.show_rating.info"
-    },
-    {
-      "type": "select",
-      "id": "quick_add",
-      "default": "none",
-      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
-        },
-        {
-          "value": "standard",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
-        },
-        {
-          "value": "bulk",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
-        }
-      ]
-    },
-    {
-      "type": "header",
-      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_filtering",
-      "default": true,
-      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
-      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
-    },
-    {
-      "type": "select",
-      "id": "filter_type",
-      "options": [
-        {
-          "value": "horizontal",
-          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__1.label"
-        },
-        {
-          "value": "vertical",
-          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__2.label"
-        },
-        {
-          "value": "drawer",
-          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__3.label"
-        }
-      ],
-      "default": "horizontal",
-      "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_sorting",
-      "default": true,
-      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
-    }
-  ]
-}
+  {
+    "name": "Collection Grid",
+    "settings": [
+      {
+        "type": "range",
+        "id": "products_per_page",
+        "min": 6,
+        "max": 24,
+        "step": 3,
+        "label": "Products per page",
+        "default": 9
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection Grid"
+      }
+    ]
+  }
 {% endschema %}

@@ -1,83 +1,51 @@
-{% comment %}
-  This section is used in the list-collections template to render a list of
-  collections.
+<div class="collection-list py-12">
+  <div class="max-w-7xl mx-auto px-4">
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
-{% endcomment %}
+    <!-- Header -->
+    <div class="mb-8">
+      <h4 class="text-2xl font-semibold">
+        {{ page_title }}
+      </h4>
+    </div>
 
-<h1>{{ 'collections.title' | t }}</h1>
+    <!-- Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-<div
-  class="collections {{ section.settings.grid_item_width }}"
-  style="--grid-gap: {{ section.settings.grid_gap }}px"
->
-  {% for collection in collections %}
-    <a class="collection-card" href="{{ collection.url }}">
-      {% if collection.featured_image %}
-        {% render 'image',
-          class: 'collection-card__image',
-          image: collection.featured_image,
-          width: 600,
-          height: 600,
-          crop: 'center'
-        %}
-      {% endif %}
+      {% for collection in collections %}
+      {% unless collection.handle contains 'frontpage' %}
 
-      <div class="collection-card__content">
-        <p>{{ collection.title }}</p>
+      <div class="bg-white rounded-lg shadow hover:shadow-lg transition">
 
-        {% if collection.description %}
-          <p>{{ collection.description | strip_html | truncatewords: 15 }}</p>
-        {% endif %}
+        <!-- Image -->
+        <div class="p-4">
+          <div class="w-full aspect-square overflow-hidden rounded-md">
+            {% if collection.featured_image != blank and collection.products.first != blank %}
+              <img 
+                src="{{ collection.featured_image | img_url: 'medium' }}" 
+                alt="{{ collection.title }}"
+                class="w-full h-full object-cover"
+              >
+            {% else %}
+              <img 
+                src="{{ collection.products.first | img_url }}"
+                class="w-full h-full object-cover"
+              >
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t px-4 py-3">
+          <h6 class="text-sm font-medium">
+            {{ collection.title | escape | link_to: collection.url }}
+          </h6>
+        </div>
+
       </div>
-    </a>
-  {% endfor %}
+
+      {% endunless %}
+      {% endfor %}
+
+    </div>
+  </div>
 </div>
-
-{% stylesheet %}
-  .collections {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(var(--collection-card-size), 100%), 1fr));
-    gap: var(--grid-gap);
-  }
-  .collections--compact {
-    --collection-card-size: 160px;
-  }
-  .collections--full {
-    --collection-card-size: 280px;
-  }
-  .collection-card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-{% endstylesheet %}
-
-{% schema %}
-{
-  "name": "t:general.collections_grid",
-  "settings": [
-    {
-      "type": "select",
-      "id": "grid_item_width",
-      "label": "t:labels.grid_item_width",
-      "options": [
-        { "value": "collections--compact", "label": "t:options.size.small" },
-        { "value": "collections--full", "label": "t:options.size.large" }
-      ],
-      "default": "collections--full"
-    },
-    {
-      "type": "range",
-      "id": "grid_gap",
-      "label": "t:labels.grid_gap",
-      "min": 0,
-      "max": 50,
-      "step": 5,
-      "unit": "px",
-      "default": 10
-    }
-  ],
-  "presets": [{ "name": "t:general.collections_grid" }]
-}
-{% endschema %}
