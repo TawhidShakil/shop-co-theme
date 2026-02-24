@@ -18,7 +18,7 @@
           </a>
         </div>
         <!-- Hard Coded -->
-        <div class="py-2 border-b border-gray-300">
+        {% comment %} <div class="py-2 border-b border-gray-300">
           <ul class="text-xs">
             <li class="flex justify-between p-1">
               <span class="text-gray-600">T-Shirt</span>
@@ -43,18 +43,29 @@
               <button>></button>
             </li>
           </ul>
-        </div>
+        </div> {% endcomment %}
         <!-- End Hard Coded -->
-
-        <!-- Dynamic Code -->
-        {% comment %} <ul class="text-xs">
-          {% for category in categories %}
-            <li class="flex justify-between p-1">
-              <span>{{ category.title }}</span>
-              <button>&gt;</button>
+        <ul class="text-xs">
+          {% for link in section.settings.menu.links %}
+            <li class="flex justify-between items-center p-2 rounded hover:bg-gray-50">
+              <a href="{{ link.url }}" class="text-gray-700">
+                {{ link.title }}
+              </a>
+              <span class="text-gray-400">›</span>
             </li>
           {% endfor %}
-        </ul> {% endcomment %}
+        </ul>
+        <!-- Dynamic Code -->
+        {% comment %}
+          <ul class="text-xs">
+            {% for category in categories %}
+              <li class="flex justify-between p-1">
+                <span>{{ category.title }}</span>
+                <button>&gt;</button>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endcomment %}
         <!-- Dynamic Code -->
 
         {%- for filter in collection.filters -%}
@@ -304,6 +315,11 @@
       "step": 3,
       "label": "Products per page",
       "default": 9
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Category menu"
     }
   ],
   "presets": [
