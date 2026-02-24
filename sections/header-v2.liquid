@@ -57,37 +57,24 @@
       {% endif %}
     </div>
     <!-- Menu Items -->
-    <nav class="hidden lg:block menu w-[321px] h-[22px]">
-      <ul class="flex justify-center gap-2 text-sm">
+    <nav class="hidden lg:block">
+      <ul class="flex justify-center text-sm  min-w-[351px]">
         {% for link in section.settings.menu.links %}
-          <li class="relative group">
-            <a href="{{ link.url }}">
+          <li class="flex justify-center px-4">
+            <a href="{{ link.url }}" class="whitespace-nowrap">
               {{ link.title }}
             </a>
-            {% if link.links != blank %}
-              <span class="text-xs">▼</span>
-            {% endif %}
-            {% if link.links != blank %}
-              <ul class="absolute hidden group-hover:block bg-white text-black mt-2 p-2 shadow">
-                {% for child in link.links %}
-                  <li>
-                    <a href="{{ child.url }}" class="block px-3 py-1">
-                      {{ child.title }}
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% endif %}
           </li>
         {% endfor %}
       </ul>
     </nav>
 
     {% if section.settings.enable_search_box %}
-      <div
-        class="hidden lg:block relative w-[577px] h-[48px] bg-gray-100 rounded-full text-sm"
+      <form
         action="{{ routes.search_url }}"
         method="get"
+        role="search"
+        class="hidden lg:block relative w-[577px] h-[48px] bg-gray-100 rounded-full text-sm px-4"
       >
         <!-- Search Icon -->
         <svg
@@ -98,16 +85,17 @@
           stroke-width="2"
         >
           <path stroke-linecap="round" stroke-linejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
 
         <!-- Input -->
         <input
-          type="text"
-          placeholder="Search For Products"
+          type="search"
+          name="q"
+          placeholder="Search for products"
           class="w-full h-full pl-10 bg-transparent outline-none"
         >
-      </div>
+      </form>
     {% endif %}
     <!-- Icons Container -->
     <div class="flex justify-center gap-4 px-2">
@@ -131,7 +119,7 @@
         </svg>
       </a>
       <!-- Profile Icon -->
-      <a href="href="{{ routes.account_url }}>
+      <a href="href=" {{ routes.account_url }}>
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
         </svg>
