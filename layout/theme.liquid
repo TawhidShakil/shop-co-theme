@@ -55,7 +55,10 @@
    
     {% comment %} {% section 'hero' %} {% endcomment %}
 
+    {% section 'header' %}
+
     {{ content_for_layout }}
+    {% render 'cart-drawer' %}
     
     {% sections 'footer-group' %}
   </body>
