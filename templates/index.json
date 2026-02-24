@@ -9,6 +9,47 @@
  */
 {
   "sections": {
+    "hero_hQyHPX": {
+      "type": "hero",
+      "blocks": {
+        "stat_cFzhpE": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        },
+        "stat_C9UzQa": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        },
+        "stat_Rcp6y7": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        }
+      },
+      "block_order": [
+        "stat_cFzhpE",
+        "stat_C9UzQa",
+        "stat_Rcp6y7"
+      ],
+      "name": "Fashion Hero",
+      "settings": {
+        "heading_line_1": "FIND CLOTHES",
+        "heading_line_2": "THAT MATCHES",
+        "heading_line_3": "YOUR STYLE",
+        "subtext": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
+        "button_label": "Shop Now",
+        "button_link": "",
+        "hero_image": "shopify://shop_images/Rectangle_2_858b0465-9a09-4af8-a378-db7f207ef63a.png"
+      }
+    },
     "main": {
       "type": "hello-world",
       "settings": {}
@@ -120,6 +161,7 @@
     }
   },
   "order": [
+    "hero_hQyHPX",
     "main",
     "logo_list_8bbVHz",
     "collections_FHLQjj",
