@@ -1,37 +1,145 @@
-{% comment %}
-  This section is used in the cart template to render /cart page with an
-  overview of the items in customer's cart.
+<div id="container-{{ section.id }}" class="max-w-[1340px] mx-auto px-4 md:px-[100px] flex flex-col gap-2 md:gap-[24px]">
+  
+  <h1 class="font-integral text-3xl md:text-5xl uppercase">Your Cart</h1>
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
-{% endcomment %}
+  <form action="{{ routes.cart_url }}" method="post" class="grid grid-cols-1 lg:grid-cols-10 gap-8 items-start">
 
-<h1>{{ 'cart.title' | t }}</h1>
+    <div class="lg:col-span-6 flex flex-col gap-6">
+      {% if cart.item_count > 0 %}
+        <div class="flex flex-col gap-6 border border-black/10 rounded-[20px] p-4 md:p-6">
+          {% for item in cart.items %}
+            {% render 'product_cart', item: item, is_last: forloop.last %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="py-20 text-center flex flex-col gap-12">
+          <p class="text-xl text-black/60 font-satoshi">Your cart is empty.</p>
+          <br>
+          <a href="{{ routes.all_products_collection_url }}" class="inline-block mt-4 bg-black text-white px-8 py-3 rounded-full font-medium">Shop Our Products</a>
+        </div>
+      {% endif %}
+    </div>
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+    {% if cart.item_count > 0 %}
+        <div class="lg:col-span-4 border border-black/10 rounded-[20px] p-5 md:p-6 flex flex-col gap-6 sticky top-8">
+        <h2 id="order-summary" class="font-satoshi text-product-price-desktop">Order Summary</h2>
+        
+        <div id="order-summary-details" class="flex flex-col gap-4">
+          <!-- Subtotal -->
+          <div class="flex justify-between items-center font-satoshi text-product-title-desktop">
+            <span class="text-black/60">
+              Subtotal
+            </span>
+            <span class="text-black font-bold">
+              {{ cart.original_total_price | money }}
+            </span>
+          </div>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+          <!-- Discount -->
+          <div class="flex justify-between items-center font-satoshi text-product-title-desktop">
+            <span class="text-black/60">Discount</span>
+            <span class="text-red-500 font-bold">
+              -{{ cart.total_discounts | money }}
+            </span>
+          </div>
+
+          <!-- Delivery Fee -->
+          <div class="flex justify-between items-center font-satoshi text-product-title-desktop">
+            <span class="text-black/60">Delivery Fee</span>
+            <span class="text-black font-bold">
+              {{ 0 | money }}
+            </span>
+          </div>
+        </div>
+
+        <div id="order-summary-total" class="border-t border-black/10 pt-4 flex justify-between items-center font-satoshi text-product-title-desktop">
+            <span class="text-black">Total</span>
+            <span class="font-bold">{{ cart.total_price | money }}</span>
+        </div>
+
+        <div class="flex gap-3">
+            <div class="relative flex-1">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-black/40">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                </span>
+                <input id="prome-input-field" type="text" placeholder="Add promo code" class="w-full bg-[#F0EEED] rounded-full pl-12 pr-4 py-3 focus:outline-none">
+            </div>
+            <button type="button" class="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-black/90 transition-colors">Apply</button>
+        </div>
+
+        <button 
+            type="submit" 
+            name="checkout"
+            id="checkoutBtn"
+            class="bg-black text-white w-full py-4 rounded-full font-satoshi text-product-title-mobile flex items-center justify-center gap-3 hover:bg-black/90 transition-all group"
+        >
+            Go to Checkout
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 transition-transform group-hover:translate-x-1"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        </div>
+    {% endif %}
+
+  </form>
+</div>
+
+<style>
+  #container-{{ section.id }} {
+    padding-top: {{ section.settings.container_top_padding }}px;
+    padding-bottom: {{ section.settings.container_bottom_padding }}px;
+  }
+  #prome-input-field {
+    border-radius: 50px;
+  }
+  #checkoutBtn {
+      color: white !important;
+  }
+
+
+
+  @media (max-width: 768px) {
+    #order-summary {
+      font-size: 20px !important;
+    }
+    #order-summary-details, #order-summary-details * {
+      font-size: 16px !important;
+    }
+    #order-summary-total, #order-summary-total * {
+      font-size: 20px !important;
+    }
+  }
+
+
+</style>
 
 {% schema %}
 {
-  "name": "t:general.cart",
-  "settings": []
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "range",
+      "id": "container_top_padding",
+      "label": "Container Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "container_bottom_padding",
+      "label": "Container Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart"
+    }
+  ]
 }
 {% endschema %}
