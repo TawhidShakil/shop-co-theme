@@ -1,0 +1,202 @@
+<div id="CartDrawerOverlay" class="fixed inset-0 bg-black/40 z-[100] hidden backdrop-blur-sm opacity-0 transition-opacity duration-300 cursor-pointer"></div>
+
+<div id="CartDrawer" class="fixed top-0 right-0 h-full w-full max-w-[450px] bg-white z-[101] translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col font-satoshi">
+  
+ <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+  
+  <div class="w-1/3">
+    <h2 class="text-xl font-bold text-black whitespace-nowrap" id="DrawerCartCount">
+      Cart (0)
+    </h2>
+  </div>
+
+  <div class="w-1/3 flex justify-center">
+    <button id="ClearAllCart" type="button" class="hidden text-[11px] text-[#EB5757] font-bold uppercase cursor-pointer border-b border-[#EB5757]/30 leading-none transition-colors">
+      Clear All
+    </button>
+  </div>
+
+  <div class="w-1/3 flex justify-end">
+    <button id="CloseDrawer" class="w-10 h-10 flex items-center justify-center border border-gray-200 rounded-full hover:bg-gray-50 transition text-black cursor-pointer group" aria-label="Close cart">
+      <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+  
+</div>
+
+  <div id="ShippingTracker" class="px-6 py-4 border-b border-gray-50 {% if cart.item_count == 0 %}hidden{% endif %}">
+    <p class="text-center text-[15px] font-bold mb-3" id="ShippingMessage">
+      You're $0.00 away from free shipping!
+    </p>
+    <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+      <div id="ShippingBar" class="bg-black h-full transition-all duration-500" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <div id="DrawerContent" class="flex-1 overflow-y-auto p-6 flex flex-col transition-opacity duration-150">
+    {% if cart.item_count == 0 %}
+      <div class="flex-1 flex flex-col items-center justify-center text-center">
+        <p class="text-xl text-gray-500 mb-8 font-medium">Your cart is currently empty.</p>
+        <button onclick="document.getElementById('CloseDrawer').click()" class="bg-black text-white px-12 py-4 rounded-full font-bold tracking-widest text-sm hover:bg-gray-800 transition uppercase cursor-pointer">
+          Continue Shopping
+        </button>
+      </div>
+    {% endif %}
+  </div>
+
+  <div id="DrawerFooter" class="p-6 border-t border-gray-100 bg-white {% if cart.item_count == 0 %}hidden{% endif %}">
+    <div class="text-center mb-6">
+      <h3 class="text-[24px] font-bold text-black" id="DrawerSubtotal">Subtotal: $0.00</h3>
+      <p class="text-sm text-gray-500 mt-1">Tax included. <a href="/cart" class="underline">Shipping</a> calculated at checkout.</p>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <a href="/cart" class="flex items-center justify-center gap-2 border-2 border-gray-200 text-black py-4 rounded-sm font-bold uppercase text-sm hover:bg-gray-50 transition cursor-pointer">
+        View Cart <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      <a href="/checkout" class="flex items-center justify-center gap-2 bg-black text-white py-4 rounded-sm font-bold uppercase text-sm hover:bg-gray-900 transition cursor-pointer">
+        Checkout <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+const FREE_SHIPPING_THRESHOLD = 150; 
+
+window.refreshCartUI = function() {
+  fetch('/cart.js', { cache: 'no-store' })
+    .then(res => res.json())
+    .then(cart => {
+      const content = document.getElementById('DrawerContent');
+      const footer = document.getElementById('DrawerFooter');
+      const countHeader = document.getElementById('DrawerCartCount');
+      const subtotalEl = document.getElementById('DrawerSubtotal');
+      const clearBtn = document.getElementById('ClearAllCart');
+      const tracker = document.getElementById('ShippingTracker');
+
+      // 1. Update Header Text without forcing a re-render of the whole header
+      if (countHeader) countHeader.innerText = `Cart (${cart.item_count})`;
+      
+      // 2. Shipping Logic
+      const totalAmount = cart.total_price / 100;
+      const remaining = FREE_SHIPPING_THRESHOLD - totalAmount;
+      const progress = Math.min((totalAmount / FREE_SHIPPING_THRESHOLD) * 100, 100);
+      
+      const shippingBar = document.getElementById('ShippingBar');
+      const shippingMsg = document.getElementById('ShippingMessage');
+      
+      if (shippingBar) shippingBar.style.width = `${progress}%`;
+      if (shippingMsg) {
+        shippingMsg.innerText = progress >= 100 
+          ? "Congrats! You've unlocked free shipping!" 
+          : `You're $${remaining.toFixed(2)} away from free shipping!`;
+      }
+
+      // 3. Update visibility and Content
+      if (cart.item_count > 0) {
+        tracker?.classList.remove('hidden');
+        footer?.classList.remove('hidden');
+        clearBtn?.classList.remove('hidden');
+        if (subtotalEl) subtotalEl.innerText = `Subtotal: $${totalAmount.toFixed(2)}`;
+
+        // We only re-render the list if the item count changed or on initial load
+        // This prevents the "flash" of content
+        content.innerHTML = cart.items.map(item => `
+          <div class="flex gap-4 mb-6 pb-6 border-b border-gray-50 last:border-0">
+            <div class="w-24 h-32 bg-[#F9F9F9] flex-shrink-0">
+              <img src="${item.image}" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-start">
+                  <h4 class="font-bold text-[18px] text-black leading-tight">${item.product_title}</h4>
+                  <button onclick="window.changeCartQty('${item.key}', 0)" class="text-black/40 hover:text-black cursor-pointer p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </div>
+                <p class="text-sm text-black/50 mt-1">${item.variant_title || ''}</p>
+                <div class="flex gap-2 mt-2">
+                   <span class="text-[#EB5757] font-bold">$${(item.final_line_price / 100).toFixed(2)}</span>
+                </div>
+              </div>
+              <div class="flex items-center border border-gray-100 w-max rounded-sm bg-white">
+                <button onclick="window.changeCartQty('${item.key}', ${item.quantity - 1})" class="px-3 py-1 hover:bg-gray-50 transition text-lg cursor-pointer">-</button>
+                <span class="px-3 font-bold text-[14px]">${item.quantity}</span>
+                <button onclick="window.changeCartQty('${item.key}', ${item.quantity + 1})" class="px-3 py-1 hover:bg-gray-50 transition text-lg cursor-pointer">+</button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        tracker?.classList.add('hidden');
+        footer?.classList.add('hidden');
+        clearBtn?.classList.add('hidden');
+        content.innerHTML = `
+          <div class="flex-1 flex flex-col items-center justify-center text-center">
+            <p class="text-xl text-gray-500 mb-8 font-medium">Your cart is currently empty.</p>
+            <button onclick="document.getElementById('CloseDrawer').click()" class="bg-black text-white px-12 py-4 rounded-full font-bold tracking-widest text-sm hover:bg-gray-800 transition uppercase cursor-pointer">
+              Continue Shopping
+            </button>
+          </div>`;
+      }
+      // Remove any loading styles
+      content.style.opacity = '1';
+    });
+};
+
+window.changeCartQty = (key, newQty) => {
+  // We remove the opacity change here to prevent the color "flicker"
+  // The UI will update once the fetch is complete
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: key, quantity: newQty })
+  }).then(() => window.refreshCartUI());
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const drawer = document.getElementById('CartDrawer');
+  const overlay = document.getElementById('CartDrawerOverlay');
+  
+  const toggle = (open) => {
+    if (open) {
+      overlay.classList.remove('hidden');
+      setTimeout(() => { overlay.classList.add('opacity-100'); drawer.classList.remove('translate-x-full'); }, 10);
+      document.body.style.overflow = 'hidden';
+      window.refreshCartUI();
+    } else {
+      overlay.classList.remove('opacity-100');
+      drawer.classList.add('translate-x-full');
+      setTimeout(() => overlay.classList.add('hidden'), 300);
+      document.body.style.overflow = '';
+    }
+  };
+
+  document.getElementById('CloseDrawer').addEventListener('click', () => toggle(false));
+  overlay.addEventListener('click', () => toggle(false));
+  
+  document.getElementById('ClearAllCart').addEventListener('click', () => {
+    if(confirm('Empty cart?')) {
+      fetch('/cart/clear.js', { method: 'POST' }).then(() => window.refreshCartUI());
+    }
+  });
+
+  document.addEventListener("submit", (e) => {
+    const form = e.target.closest('.product-form');
+    if (form) {
+      e.preventDefault();
+      // No opacity change here either for a smoother transition
+      fetch('/cart/add.js', { method: 'POST', body: new FormData(form) })
+        .then(() => {
+          toggle(true);
+          window.refreshCartUI();
+        });
+    }
+  });
+});
+</script>

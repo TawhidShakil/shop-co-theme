@@ -89,80 +89,83 @@
 
       <!-- Product Form -->
       {% form 'product', product, class: 'product-form flex flex-col gap-6' %}
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
-        {% for option in product.options_with_values %}
-          <div class="flex flex-col justify-start gap-4">
-            <h3 class="text-sm sm:text-[16px] text-black font-normal">
-              {% if option.name contains 'Color' or option.name contains 'Colour' %}Select Colors{% elsif option.name contains 'Size' or option.name contains 'size' %}Choose Size{% else %}{{ option.name }}{% endif %}
-            </h3>
+  {% for option in product.options_with_values %}
+    <div class="flex flex-col justify-start gap-4">
+      <h3 class="text-sm sm:text-[16px] text-black font-normal">
+        {% if option.name contains 'Color' or option.name contains 'Colour' %}Select Colors{% elsif option.name contains 'Size' or option.name contains 'size' %}Choose Size{% else %}{{ option.name }}{% endif %}
+      </h3>
 
-            <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-              {% for value in option.values %}
-                <label class="cursor-pointer">
-                  <input
-                    type="radio"
-                    name="{{ option.name }}"
-                    value="{{ value }}"
-                    class="hidden peer justify-between  gap-4"
-                    {% if option.selected_value == value %}checked{% endif %}
-                  >
+      <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+        {% for value in option.values %}
+          <label class="cursor-pointer">
+            <input
+              type="radio"
+              name="{{ option.name }}"
+              value="{{ value }}"
+              class="hidden peer"
+              {% if option.selected_value == value %}checked{% endif %}
+            >
 
-                  {% if option.name contains 'Color' or option.name contains 'Colour' %}
-                    {% assign color_val = value %}
-                    {% if value contains '#' %}
-                    {% elsif value == 'Olive' or value == 'olive' %}{% assign color_val = '#556b2f' %}
-                    {% elsif value == 'Navy' or value == 'navy' %}{% assign color_val = '#1e3a5f' %}
-                    {% elsif value == 'Teal' or value == 'teal' %}{% assign color_val = '#0d9488' %}
-                    {% elsif value == 'Black' or value == 'black' %}{% assign color_val = '#000000' %}
-                    {% elsif value == 'White' or value == 'white' %}{% assign color_val = '#ffffff' %}
-                    {% elsif value == 'Blue' or value == 'blue' %}{% assign color_val = '#2563eb' %}
-                    {% elsif value == 'Red' or value == 'red' %}{% assign color_val = '#dc2626' %}
-                    {% elsif value == 'Gray' or value == 'Grey' %}{% assign color_val = '#6b7280' %}
-                    {% endif %}
-                    <span
-                      class="color-swatch w-10 h-10 rounded-full border-2 border-transparent peer-checked:border-gray-300 peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
-                      style="background-color: {{ color_val }};"
-                      data-option-value="{{ value | escape }}">
-                      <svg class="w-5 h-5 text-white opacity-0 transition-opacity pointer-events-none drop-shadow-sm" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 5L7 14L4 11"/>
-                      </svg>
-                    </span>
-                  {% else %}
-                    <span class="px-4 py-3 bg-white border border-gray-200 rounded-lg text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white peer-checked:border-black">
-                      {{ value }}
-                    </span>
-                  {% endif %}
-                </label>
-              {% endfor %}
-            </div>
-          </div>
+            {% if option.name contains 'Color' or option.name contains 'Colour' %}
+              {% comment %} Dynamic color mapping logic {% endcomment %}
+              {% assign color_val = value | downcase %}
+              {% case color_val %}
+                {% when 'olive' %}{% assign color_val = '#556b2f' %}
+                {% when 'navy' %}{% assign color_val = '#1e3a5f' %}
+                {% when 'teal' %}{% assign color_val = '#0d9488' %}
+                {% when 'black' %}{% assign color_val = '#000000' %}
+                {% when 'white' %}{% assign color_val = '#ffffff' %}
+                {% when 'blue' %}{% assign color_val = '#2563eb' %}
+                {% when 'red' %}{% assign color_val = '#dc2626' %}
+                {% when 'gray' or 'grey' %}{% assign color_val = '#6b7280' %}
+              {% endcase %}
+              
+              <span
+                class="color-swatch w-10 h-10 rounded-full border-2 border-transparent peer-checked:border-gray-300 peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
+                style="background-color: {{ color_val }};">
+                <svg class="w-5 h-5 text-white opacity-0 transition-opacity pointer-events-none drop-shadow-sm" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 5L7 14L4 11"/>
+                </svg>
+              </span>
+            {% else %}
+              <span class="px-4 py-3 bg-white border border-gray-200 rounded-lg text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white peer-checked:border-black transition-colors">
+                {{ value }}
+              </span>
+            {% endif %}
+          </label>
         {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
 
-        <!-- Quantity + Button -->
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-6 pt-6 sm:pt-8">
+  <div class="flex flex-col sm:flex-row gap-3 sm:gap-6 pt-6 sm:pt-8">
+    <div class="flex items-center w-full sm:w-[170px] sm:min-w-[170px]">
+      <button type="button" data-qty-btn="minus" class="flex items-center justify-center cursor-pointer w-12 h-12 border border-gray-200 rounded-l-lg bg-white text-black text-[16px] font-medium hover:bg-gray-50 transition">−</button>
+      <input type="number" name="quantity" value="1" min="1" class="w-12 h-12 text-center border-y border-gray-200 bg-white text-[16px] font-medium focus:outline-none focus:ring-0">
+      <button type="button" data-qty-btn="plus" class="flex items-center justify-center w-12 h-12 border cursor-pointer border-gray-200 rounded-r-lg bg-white text-black text-[16px] font-medium hover:bg-gray-50 transition">+</button>
+    </div>
 
-          <!-- Quantity -->
-          <div class="flex items-center w-full sm:w-[170px] sm:min-w-[170px] gap-0">
-            <button type="button" data-qty-btn="minus" class="flex items-center justify-center cursor-pointer w-12 h-12 border border-gray-200 rounded-l-lg bg-white text-black text-[16px] font-medium hover:bg-gray-50 transition">−</button>
-            <input type="number" name="quantity" value="1" min="1" class="w-12 h-12 text-center border-y border-gray-200 bg-white text-[16px] font-medium focus:outline-none focus:ring-0">
-            <button type="button" data-qty-btn="plus" class="flex items-center justify-center w-12 h-12 border cursor-pointer border-gray-200 rounded-r-lg bg-white text-black text-[16px] font-medium hover:bg-gray-50 transition">+</button>
-          </div>
+    <button
+      type="submit"
+      data-add-to-cart-btn
+      {% unless product.available %}disabled{% endunless %}
+      class="bg-black text-white rounded-xl h-[52px] w-full font-semibold hover:bg-gray-800 transition disabled:bg-gray-300 cursor-pointer"
+    >
+      <span data-add-to-cart-text>
+        {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+      </span>
+    </button>
+  </div>
+{% endform %}
 
-          <!-- Add to Cart -->
-          <button
-            type="submit"
-            data-add-to-cart-btn
-            {% unless product.available %}disabled{% endunless %}
-            class="bg-black text-white rounded-xl h-[52px] w-full font-semibold hover:bg-gray-800 transition disabled:bg-gray-300 cursor-pointer"
-          >
-            <span data-add-to-cart-text>{% if product.available %}Add to Cart{% else %}Sold Out{% endif %}</span>
-          </button>
-        </div>
-      {% endform %}
     </div>
   </div>
 </section>
+
+
+
 <div id="ProductJson-{{ section.id }}-container" data-section-id="{{ section.id }}">
 <script type="application/json" id="ProductJson-{{ section.id }}">
 {
@@ -555,17 +558,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Handle form submission with Shopify cart
-  if (productForm) {
-    productForm.addEventListener("submit", function (e) {
-      const qtyValue = parseInt(qtyInput?.value) || 1;
-      if (qtyValue < 1) {
-        e.preventDefault();
-        alert("Please select a valid quantity");
-        return false;
-      }
-    });
-  }
+ 
+
 });
 </script>
 
