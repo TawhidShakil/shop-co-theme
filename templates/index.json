@@ -9,24 +9,28 @@
  */
 {
   "sections": {
-    "hero_hQyHPX": {
+    "main": {
+      "type": "hello-world",
+      "settings": {}
+    },
+    "hero_WLjD89": {
       "type": "hero",
       "blocks": {
-        "stat_cFzhpE": {
+        "stat_8axtLk": {
           "type": "stat",
           "settings": {
             "stat_number": "200+",
             "stat_label": "International Brands"
           }
         },
-        "stat_C9UzQa": {
+        "stat_WejW6a": {
           "type": "stat",
           "settings": {
             "stat_number": "200+",
             "stat_label": "International Brands"
           }
         },
-        "stat_Rcp6y7": {
+        "stat_4TaXpQ": {
           "type": "stat",
           "settings": {
             "stat_number": "200+",
@@ -35,9 +39,9 @@
         }
       },
       "block_order": [
-        "stat_cFzhpE",
-        "stat_C9UzQa",
-        "stat_Rcp6y7"
+        "stat_8axtLk",
+        "stat_WejW6a",
+        "stat_4TaXpQ"
       ],
       "name": "Fashion Hero",
       "settings": {
@@ -50,22 +54,39 @@
         "hero_image": "shopify://shop_images/Rectangle_2_858b0465-9a09-4af8-a378-db7f207ef63a.png"
       }
     },
-    "main": {
-      "type": "hello-world",
-      "settings": {}
-    },
-    "logo_list_8bbVHz": {
+    "logo_list_waRF6r": {
       "type": "logo-list",
       "blocks": {
-        "logo_Y64UEb": {
+        "logo_zFfU6i": {
           "type": "logo",
           "settings": {
             "logo": "shopify://shop_images/Group.png"
           }
+        },
+        "logo_kM9XRn": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/zara-logo-1_1.png"
+          }
+        },
+        "logo_q3tmb6": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/gucci-logo-1_1.png"
+          }
+        },
+        "logo_tLVq3a": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/prada-logo-1_1.png"
+          }
         }
       },
       "block_order": [
-        "logo_Y64UEb"
+        "logo_zFfU6i",
+        "logo_kM9XRn",
+        "logo_q3tmb6",
+        "logo_tLVq3a"
       ],
       "name": "Logo List",
       "settings": {
@@ -161,9 +182,9 @@
     }
   },
   "order": [
-    "hero_hQyHPX",
     "main",
-    "logo_list_8bbVHz",
+    "hero_WLjD89",
+    "logo_list_waRF6r",
     "collections_FHLQjj",
     "featured_collection_Hr444K",
     "featured_collection_BaXn4J",
