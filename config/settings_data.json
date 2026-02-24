@@ -25,6 +25,20 @@
           "section_bg": "#FFFFFF",
           "banner_bg": "#333333"
         }
+      },
+      "header-v2": {
+        "type": "header-v2",
+        "settings": {
+          "menu": "main-menu",
+          "enable_search_box": true
+        }
+      },
+      "footer-v1": {
+        "type": "footer-v1",
+        "settings": {
+          "logo_text": "SHOP.CO",
+          "description": "We have clothes that suits your style and which you’re proud to wear. From women to men."
+        }
       }
     },
     "content_for_index": [],
