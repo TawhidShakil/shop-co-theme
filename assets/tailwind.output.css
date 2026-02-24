@@ -7,9 +7,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-200: oklch(88.5% 0.062 18.334);
     --color-red-500: oklch(63.7% 0.237 25.331);
-    --color-yellow-200: oklch(94.5% 0.129 101.54);
     --color-yellow-400: oklch(85.2% 0.199 91.936);
     --color-green-200: oklch(92.5% 0.084 155.995);
     --color-green-400: oklch(79.2% 0.209 151.711);
@@ -50,6 +48,7 @@
     --text-4xl--line-height: calc(2.5 / 2.25);
     --text-5xl: 3rem;
     --text-5xl--line-height: 1;
+    --font-weight-light: 300;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
@@ -329,21 +328,6 @@
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
-  .mx-4 {
-    margin-inline: calc(var(--spacing) * 4);
-  }
-  .mx-\[1\] {
-    margin-inline: 1;
-  }
-  .mx-\[4p\] {
-    margin-inline: 4p;
-  }
-  .mx-\[4px\] {
-    margin-inline: 4px;
-  }
-  .mx-\[12px\] {
-    margin-inline: 12px;
-  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -458,6 +442,9 @@
   .h-\[3rem\] {
     height: 3rem;
   }
+  .h-\[18px\] {
+    height: 18px;
+  }
   .h-\[22px\] {
     height: 22px;
   }
@@ -496,9 +483,6 @@
   }
   .max-h-\[108px\] {
     max-height: 108px;
-  }
-  .min-h-\[22px\] {
-    min-height: 22px;
   }
   .min-h-\[177px\] {
     min-height: 177px;
@@ -548,6 +532,9 @@
   .w-\[110px\] {
     width: 110px;
   }
+  .w-\[126px\] {
+    width: 126px;
+  }
   .w-\[160px\] {
     width: 160px;
   }
@@ -557,14 +544,8 @@
   .w-\[295px\] {
     width: 295px;
   }
-  .w-\[351px\] {
-    width: 351px;
-  }
   .w-\[577px\] {
     width: 577px;
-  }
-  .w-\[1440px\] {
-    width: 1440px;
   }
   .w-auto {
     width: auto;
@@ -616,12 +597,6 @@
   }
   .min-w-0 {
     min-width: calc(var(--spacing) * 0);
-  }
-  .min-w-\[150px\] {
-    min-width: 150px;
-  }
-  .min-w-\[321px\] {
-    min-width: 321px;
   }
   .min-w-\[351px\] {
     min-width: 351px;
@@ -892,9 +867,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-white) 50%, transparent);
     }
-  }
-  .bg-yellow-200 {
-    background-color: var(--color-yellow-200);
   }
   .fill-current {
     fill: currentcolor;
@@ -1256,10 +1228,6 @@
   .mix-blend-multiply {
     mix-blend-mode: multiply;
   }
-  .shadow {
-    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
   .ring-2 {
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -1327,13 +1295,6 @@
   .group-open\:rotate-180 {
     &:is(:where(.group):is([open], :popover-open, :open) *) {
       rotate: 180deg;
-    }
-  }
-  .group-hover\:block {
-    &:is(:where(.group):hover *) {
-      @media (hover: hover) {
-        display: block;
-      }
     }
   }
   .group-hover\:scale-105 {
@@ -1510,6 +1471,21 @@
   .sm\:mb-8 {
     @media (width >= 40rem) {
       margin-bottom: calc(var(--spacing) * 8);
+    }
+  }
+  .sm\:h-8 {
+    @media (width >= 40rem) {
+      height: calc(var(--spacing) * 8);
+    }
+  }
+  .sm\:w-6 {
+    @media (width >= 40rem) {
+      width: calc(var(--spacing) * 6);
+    }
+  }
+  .sm\:w-8 {
+    @media (width >= 40rem) {
+      width: calc(var(--spacing) * 8);
     }
   }
   .sm\:w-\[170px\] {
@@ -1707,6 +1683,11 @@
       height: calc(var(--spacing) * 20);
     }
   }
+  .md\:h-\[22px\] {
+    @media (width >= 48rem) {
+      height: 22px;
+    }
+  }
   .md\:h-\[28px\] {
     @media (width >= 48rem) {
       height: 28px;
@@ -1770,6 +1751,11 @@
   .md\:w-\[130px\] {
     @media (width >= 48rem) {
       width: 130px;
+    }
+  }
+  .md\:w-\[160px\] {
+    @media (width >= 48rem) {
+      width: 160px;
     }
   }
   .md\:w-\[228px\] {
