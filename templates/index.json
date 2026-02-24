@@ -13,6 +13,26 @@
       "type": "hello-world",
       "settings": {}
     },
+    "logo_list_8bbVHz": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_Y64UEb": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group.png"
+          }
+        }
+      },
+      "block_order": [
+        "logo_Y64UEb"
+      ],
+      "name": "Logo List",
+      "settings": {
+        "enable": false,
+        "speed": 4,
+        "direction": "ltr"
+      }
+    },
     "collections_FHLQjj": {
       "type": "collections",
       "name": "t:general.collections_grid",
@@ -101,6 +121,7 @@
   },
   "order": [
     "main",
+    "logo_list_8bbVHz",
     "collections_FHLQjj",
     "featured_collection_Hr444K",
     "featured_collection_BaXn4J",
