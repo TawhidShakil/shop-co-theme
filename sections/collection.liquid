@@ -1,28 +1,68 @@
 <section
   class="max-auto max-w-7xl px-4 py-8 font-sans text-black"
   id="MainCollectionSection"
-  data-id="{{ section.id }}">
-
-  <div class="mb-8 flex flex-col justify-between gap-4 border-b pb-6 md:flex-row md:items-end">
-    <div>
-      <h1 class="text-4xl font-extrabold tracking-tight">{{ collection.title | default: "Casual" }}</h1>
-    </div>
-    <div class="flex items-center justify-between gap-4 md:justify-end">
-      <p class="text-sm text-gray-500" id="ProductCount">
-        Showing {{ collection.products.size }} of {{ collection.products_count }} Products
-      </p>
-    </div>
-  </div>
-
+  data-id="{{ section.id }}"
+>
   <div class="flex flex-col gap-10 md:flex-row">
     <aside class="w-full md:w-64 flex-shrink-0" id="ProductFiltersContainer">
-      <div class="rounded-3xl border border-gray-200 p-6">
-        <h2 class="text-xl font-bold mb-6">Filters</h2>
+      <div class="rounded-3xl border border-gray-200 px-6 py-2">
+        <div class="flex justify-between items-center pb-2 border-b border-gray-300">
+          <h2 class="text-l font-bold mb-6">Filters</h2>
+          <a>
+            <img
+              width="18"
+              height="18"
+              src="https://img.icons8.com/fluency-systems-regular/48/sort-amount-up.png"
+              alt="sort-amount-up"
+            >
+          </a>
+        </div>
+        <!-- Hard Coded -->
+        <div class="py-2 border-b border-gray-300">
+          <ul class="text-xs">
+            <li class="flex justify-between p-1">
+              <span class="text-gray-600">T-Shirt</span>
+              <button>></button>
+            </li>
+
+            <li class="flex justify-between p-1">
+              <span class="text-gray-600">Shirt</span>
+              <button>></button>
+            </li>
+
+            <li class="flex justify-between p-1">
+              <span class="text-gray-600">Shorts</span>
+              <button>></button>
+            </li>
+            <li class="flex justify-between p-1">
+              <span class="text-gray-600">Hoodie</span>
+              <button>></button>
+            </li>
+            <li class="flex justify-between p-1">
+              <span class="text-gray-600">Jeans</span>
+              <button>></button>
+            </li>
+          </ul>
+        </div>
+        <!-- End Hard Coded -->
+
+        <!-- Dynamic Code -->
+        {% comment %} <ul class="text-xs">
+          {% for category in categories %}
+            <li class="flex justify-between p-1">
+              <span>{{ category.title }}</span>
+              <button>&gt;</button>
+            </li>
+          {% endfor %}
+        </ul> {% endcomment %}
+        <!-- Dynamic Code -->
 
         {%- for filter in collection.filters -%}
-          <div class="mb-8 border-b pb-8 filter-group">
-            <h3 class="mb-4 font-bold">{{ filter.label }}</h3>
-
+          <div class="mb-8 border-b border-gray-300 pb-8 filter-group">
+            <div class="flex justify-between py-3">
+              <h3 class="mb-4 font-bold">{{ filter.label }}</h3>
+              <a> ^ </a>
+            </div>
             {%- case filter.type -%}
               {%- when 'list' -%}
                 {%- if filter.label contains 'Color' or filter.label contains 'color' -%}
@@ -40,7 +80,8 @@
                         href="{{ target_url }}"
                         class="js-filter-link h-8 w-8 rounded-full border border-black/10 transition-all hover:scale-110 {% if value.active %}ring-2 ring-black ring-offset-2{% endif %}"
                         style="background-color: {{ value.label | downcase }};"
-                        title="{{ value.label }}"></a>
+                        title="{{ value.label }}"
+                      ></a>
                     {%- endfor -%}
                   </div>
                 {%- else -%}
@@ -53,7 +94,10 @@
                           assign target_url = value.url_to_add
                         endif
                       -%}
-                      <a href="{{ target_url }}" class="js-filter-link rounded-full px-5 py-2 text-sm font-medium transition-colors {% if value.active %}bg-black text-white{% else %}bg-gray-100 text-gray-600 hover:bg-black hover:text-white{% endif %}">
+                      <a
+                        href="{{ target_url }}"
+                        class="js-filter-link rounded-full px-3 py-2 text-xs font-medium transition-colors {% if value.active %}bg-black text-white{% else %}bg-gray-100 text-gray-600 hover:bg-black hover:text-white{% endif %}"
+                      >
                         {{ value.label }}
                       </a>
                     {%- endfor -%}
@@ -68,7 +112,8 @@
                     max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                     value="{{ filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' }}"
                     id="PriceRangeSlider"
-                    class="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black">
+                    class="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black"
+                  >
                   <div class="flex justify-between text-xs font-medium mt-2">
                     <span>$0</span>
                     <span id="PriceValueDisplay">{{ filter.max_value.value | default: filter.range_max | money }}</span>
@@ -78,28 +123,98 @@
           </div>
         {%- endfor -%}
 
-        <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="js-filter-link block text-center text-sm text-gray-500 underline mt-4">Clear All</a>
+        <div class="py-2 flex justify-center">
+          <a
+            href="{{ collection.url }}?sort_by={{ collection.sort_by }}"
+            class="js-filter-link inline-flex  bg-black text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-800 transition"
+          >
+            Clear All
+          </a>
+        </div>
       </div>
     </aside>
 
     <main class="flex-1 relative" id="ProductGridContainer">
-      <div id="GridOverlay" class="absolute inset-0 bg-white/50 z-10 hidden transition-opacity items-center justify-center">
+      <div
+        id="GridOverlay"
+        class="absolute inset-0 bg-white/50 z-10 hidden transition-opacity items-center justify-center"
+      >
         <div class="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
       </div>
 
-      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-        {% paginate collection.products by section.settings.products_per_page %}
-          {% for product in collection.products %}
-            {% render 'product-card'
-              , product_item: product %}
-          {% endfor %}
+      <!-- Main Div -->
+      <div class="">
+        <!-- Top -->
+        <div class="flex flex-col justify-between gap-4 pb-6 md:flex-row md:items-end">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight">{{ collection.title | default: 'Casual' }}</h1>
+          </div>
+          <div class="flex items-center justify-between gap-4 md:justify-end">
+            <p class="text-sm text-gray-500" id="ProductCount">
+              Showing {{ collection.products.size }} of {{ collection.products_count }} Products
+            </p>
 
-          {% if paginate.pages > 1 %}
-            <div class="col-span-full flex justify-center mt-10">
-              {{ paginate | default_pagination }}
-            </div>
-          {% endif %}
-        {% endpaginate %}
+            <p class="text-sm">Sort By: <span class="text-sm font-medium">Most Popular ^</span></p>
+          </div>
+        </div>
+        <!-- end -->
+
+        <!-- Product Div -->
+        <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {% paginate collection.products by section.settings.products_per_page %}
+            {% for product in collection.products %}
+              {% render 'product-card', product_item: product %}
+            {% endfor %}
+
+            {% if paginate.pages > 1 %}
+              <div class="col-span-full mt-10">
+                <div class="flex items-center justify-between bg-gray-100 rounded-xl px-4 py-3">
+                  <!-- Previous -->
+                  <div>
+                    {% if paginate.previous %}
+                      <a
+                        href="{{ paginate.previous.url }}"
+                        class="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 transition"
+                      >
+                        ← Previous
+                      </a>
+                    {% endif %}
+                  </div>
+
+                  <!-- Numbers -->
+                  <div class="flex items-center gap-2 text-sm">
+                    {% for part in paginate.parts %}
+                      {% if part.is_link %}
+                        <a
+                          href="{{ part.url }}"
+                          class="px-3 py-1 rounded-md hover:bg-gray-200 transition"
+                        >
+                          {{ part.title }}
+                        </a>
+                      {% else %}
+                        <span class="px-3 py-1 rounded-md bg-gray-200 font-medium">
+                          {{ part.title }}
+                        </span>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+
+                  <!-- Next -->
+                  <div>
+                    {% if paginate.next %}
+                      <a
+                        href="{{ paginate.next.url }}"
+                        class="flex items-center gap-2 px-4 py-2 bg-white border rounded-lg hover:bg-gray-50 transition"
+                      >
+                        Next →
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endpaginate %}
+        </div>
       </div>
     </main>
   </div>
@@ -125,24 +240,26 @@
     const overlay = document.querySelector('#GridOverlay');
 
     const updateView = async (url) => {
-      if(overlay) overlay.classList.replace('hidden', 'flex');
-      
+      if (overlay) overlay.classList.replace('hidden', 'flex');
+
       try {
         const response = await fetch(`${url}${url.includes('?') ? '&' : '?'}section_id=${sectionId}`);
         const text = await response.text();
         const html = new DOMParser().parseFromString(text, 'text/html');
-        
+
         // Dynamic Content Swap
-        document.querySelector('#ProductGridContainer').innerHTML = html.querySelector('#ProductGridContainer').innerHTML;
-        document.querySelector('#ProductFiltersContainer').innerHTML = html.querySelector('#ProductFiltersContainer').innerHTML;
+        document.querySelector('#ProductGridContainer').innerHTML =
+          html.querySelector('#ProductGridContainer').innerHTML;
+        document.querySelector('#ProductFiltersContainer').innerHTML =
+          html.querySelector('#ProductFiltersContainer').innerHTML;
         document.querySelector('#ProductCount').innerHTML = html.querySelector('#ProductCount').innerHTML;
 
         // Sync Browser URL
         window.history.pushState({ path: url }, '', url);
       } catch (err) {
-        console.error("AJAX Error:", err);
+        console.error('AJAX Error:', err);
       } finally {
-        if(overlay) overlay.classList.replace('flex', 'hidden');
+        if (overlay) overlay.classList.replace('flex', 'hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     };
@@ -162,7 +279,7 @@
       if (e.target.id === 'PriceRangeSlider') {
         const val = e.target.value;
         document.querySelector('#PriceValueDisplay').textContent = `$${val}`;
-        
+
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
           const url = new URL(window.location.href);
@@ -176,23 +293,23 @@
 </script>
 
 {% schema %}
-  {
-    "name": "Collection Grid",
-    "settings": [
-      {
-        "type": "range",
-        "id": "products_per_page",
-        "min": 6,
-        "max": 24,
-        "step": 3,
-        "label": "Products per page",
-        "default": 9
-      }
-    ],
-    "presets": [
-      {
-        "name": "Collection Grid"
-      }
-    ]
-  }
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "label": "Products per page",
+      "default": 9
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid"
+    }
+  ]
+}
 {% endschema %}
