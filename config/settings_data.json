@@ -35,6 +35,42 @@
       },
       "footer-v1": {
         "type": "footer-v1",
+        "blocks": {
+          "footer_column_XjUFEP": {
+            "type": "footer_column",
+            "settings": {
+              "heading": "Company",
+              "menu": "footer"
+            }
+          },
+          "footer_column_JncnLe": {
+            "type": "footer_column",
+            "settings": {
+              "heading": "Company",
+              "menu": "main-menu"
+            }
+          },
+          "footer_column_yKjWHK": {
+            "type": "footer_column",
+            "settings": {
+              "heading": "Company",
+              "menu": "main-menu"
+            }
+          },
+          "footer_column_hJmQFW": {
+            "type": "footer_column",
+            "settings": {
+              "heading": "Company",
+              "menu": "main-menu"
+            }
+          }
+        },
+        "block_order": [
+          "footer_column_XjUFEP",
+          "footer_column_JncnLe",
+          "footer_column_yKjWHK",
+          "footer_column_hJmQFW"
+        ],
         "settings": {
           "logo_text": "SHOP.CO",
           "description": "We have clothes that suits your style and which you’re proud to wear. From women to men."
