@@ -1,8 +1,8 @@
 <section class="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10" id="ProductSection-{{ section.id }}">
   
   <!-- Breadcrumb -->
-  <nav class="flex flex-wrap items-center text-xs sm:text-sm text-gray-400 mb-6 sm:mb-8 gap-x-2">
-    <a href="/" class="hover:text-black transition">Home</a>
+  <nav class="flex flex-wrap items-center  px-2 py-6  font-satoshi font-light text-lg sm:text-sm text-gray-400 mb-8 sm:mb-8 gap-x-2">
+    <a href="/" class="hover:text-black transition ">Home</a>
     <span>&gt;</span>
     <a href="/collections/all" class="hover:text-black transition">Shop</a>
     {% if product.collections.first %}
@@ -68,19 +68,20 @@
   </div>
 
       <!-- Price -->
-      <div class="flex flex-wrap items-center gap-3 sm:gap-4 py-1" id="ProductPriceWrapper-{{ section.id }}">
-    <span class="text-product-price-desktop font-satoshi font-satoshi--weight text-2xl sm:text-[32px] leading-none" data-variant-price>
-      {{ product.selected_or_first_available_variant.price | money }}
+      <div class="flex items-center gap-4 py-1">
+    <span class="text-product-price-desktop font-satoshi font-satoshi--weight text-[32px] leading-none">
+      {{ product.price | money }}
     </span>
 
-    {% assign first_variant = product.selected_or_first_available_variant %}
-    <span class="text-gray-400 line-through text-xl sm:text-[32px] font-satoshi-discount leading-none {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}" data-variant-compare-price>
-      {{ first_variant.compare_at_price | money }}
-    </span>
+    {% if product.compare_at_price > product.price %}
+      <span class="text-gray-400 line-through text-[32px] font-satoshi-discount leading-none">
+        {{ product.compare_at_price | money }}
+      </span>
 
-    <span class="bg-red-500 text-white text-sm px-3 py-1.5 rounded-lg font-satoshi-percentage {% unless first_variant.compare_at_price > first_variant.price %}hidden{% endunless %}" data-variant-savings>
-      -{{ first_variant.compare_at_price | minus: first_variant.price | times: 100 | divided_by: first_variant.compare_at_price }}%
-    </span>
+      <span class="bg-red-100 text-red-500 text-sm px-3 py-1 rounded-full font-satoshi-percentage">
+        -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
+      </span>
+    {% endif %}
   </div>
 
   <p class="text-gray-500 text-sm sm:text-[16px] leading-snug w-full max-w-[590px] mt-1 sm:mt-3">
@@ -111,7 +112,7 @@
             {% if option.name contains 'Color' or option.name contains 'Colour' %}
               {% comment %} Dynamic color mapping logic {% endcomment %}
               {% assign color_val = value | downcase %}
-              {% case color_val %}
+              {% comment %} {% case color_val %}
                 {% when 'olive' %}{% assign color_val = '#556b2f' %}
                 {% when 'navy' %}{% assign color_val = '#1e3a5f' %}
                 {% when 'teal' %}{% assign color_val = '#0d9488' %}
@@ -120,7 +121,7 @@
                 {% when 'blue' %}{% assign color_val = '#2563eb' %}
                 {% when 'red' %}{% assign color_val = '#dc2626' %}
                 {% when 'gray' or 'grey' %}{% assign color_val = '#6b7280' %}
-              {% endcase %}
+              {% endcase %} {% endcomment %}
               
               <span
                 class="color-swatch w-10 h-10 rounded-full border-2 border-transparent peer-checked:border-gray-300 peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
