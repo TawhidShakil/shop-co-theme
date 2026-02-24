@@ -78,7 +78,7 @@
         {{ product.compare_at_price | money }}
       </span>
 
-      <span class="bg-red-100 text-red-500 text-sm px-3 py-1 rounded-full font-satoshi-percentage">
+      <span class="bg-red-200 text-red-500 text-sm px-3 py-1 rounded-full font-satoshi-percentage">
         -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
       </span>
     {% endif %}
