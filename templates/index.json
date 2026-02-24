@@ -80,13 +80,20 @@
           "settings": {
             "logo": "shopify://shop_images/prada-logo-1_1.png"
           }
+        },
+        "logo_6JWcqR": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group_1.png"
+          }
         }
       },
       "block_order": [
         "logo_zFfU6i",
         "logo_kM9XRn",
         "logo_q3tmb6",
-        "logo_tLVq3a"
+        "logo_tLVq3a",
+        "logo_6JWcqR"
       ],
       "name": "Logo List",
       "settings": {
