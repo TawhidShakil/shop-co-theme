@@ -13,14 +13,6 @@
       "type": "hello-world",
       "settings": {}
     },
-    "header_hRMXyg": {
-      "type": "header",
-      "name": "Header",
-      "settings": {
-        "menu": "main-menu",
-        "enable_search_box": true
-      }
-    },
     "collections_FHLQjj": {
       "type": "collections",
       "name": "t:general.collections_grid",
@@ -109,7 +101,6 @@
   },
   "order": [
     "main",
-    "header_hRMXyg",
     "collections_FHLQjj",
     "featured_collection_Hr444K",
     "featured_collection_BaXn4J",
