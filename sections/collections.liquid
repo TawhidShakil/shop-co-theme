@@ -5,53 +5,41 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1>{{ 'collections.title' | t }}</h1>
-
-<div
-  class="collections {{ section.settings.grid_item_width }}"
-  style="--grid-gap: {{ section.settings.grid_gap }}px"
->
-  {% for collection in collections %}
-    <a class="collection-card" href="{{ collection.url }}">
-      {% if collection.featured_image %}
-        {% render 'image',
-          class: 'collection-card__image',
-          image: collection.featured_image,
-          width: 600,
-          height: 600,
-          crop: 'center'
-        %}
-      {% endif %}
-
-      <div class="collection-card__content">
-        <p>{{ collection.title }}</p>
-
-        {% if collection.description %}
-          <p>{{ collection.description | strip_html | truncatewords: 15 }}</p>
-        {% endif %}
-      </div>
-    </a>
-  {% endfor %}
+<div class="py-4">
+  <h1 class="text-2xl font-semibold mb-6">{{ 'collections.title' | t }}</h1>
 </div>
 
-{% stylesheet %}
-  .collections {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(var(--collection-card-size), 100%), 1fr));
-    gap: var(--grid-gap);
-  }
-  .collections--compact {
-    --collection-card-size: 160px;
-  }
-  .collections--full {
-    --collection-card-size: 280px;
-  }
-  .collection-card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-{% endstylesheet %}
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+  {% for collection in collections %}
+    <div class="bg-[#F0EEED] w-full max-w-[280px] rounded-xl p-4 gap-3 flex flex-col items-center text-center group transition-all duration-300 hover:shadow-md">
+      <!-- Collection name -->
+      <h3 class="text-base font-semibold text-black mb-3">
+        {{ collection.title }}
+      </h3>
+
+      <div class="w-[220px] h-[180px] flex items-center justify-center bg-transparent rounded-lg overflow-hidden">
+        {% if collection.featured_image %}
+          <img
+            src="{{ collection.featured_image | image_url: width: 500 }}"
+            alt="{{ collection.title }}"
+            class="max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          >
+        {% else %}
+          {{ 'collection-1' | placeholder_svg_tag: 'w-full h-full opacity-20' }}
+        {% endif %}
+      </div>
+
+      <!-- Explore button -->
+      <a
+        href="{{ collection.url }}"
+        class="mt-4 w-full bg-black text-white text-sm font-medium py-2 rounded-lg hover:bg-gray-800 transition"
+      >
+        Explore
+      </a>
+    </div>
+  {% endfor %}
+</div>
 
 {% schema %}
 {
