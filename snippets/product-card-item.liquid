@@ -1,4 +1,4 @@
-<div class="w-[163px] h-[352px] md:max-w-[268px] md:max-h-[400px] bg-[#F6F6F6] rounded-[10px] p-6 flex flex-col items-center relative group h-full transition-all duration-300">
+<div class="w-[163px] md:max-w-[268px] md:max-h-[400px] bg-[#F6F6F6] rounded-[10px] p-6 flex flex-col items-center relative group h-full transition-all duration-300">
   
 <style>
   .font-inter { font-family: 'Inter', sans-serif; }
@@ -20,16 +20,18 @@
       <img 
         src="{{ card_product.featured_image | image_url: width: 400 }}" 
         alt="{{ card_product.title | escape }}" 
-        class="max-h-[104px] max-w-[104px] md:max-h-[160px] md:max-w-[160]  object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105"
+        class="max-h-[104px] max-w-[104px] md:max-h-[160px] md:max-w-[160px]  object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105"
         loading="lazy"
+        width="160"
+        height="160"
       >
     {% else %}
       {{ 'product-1' | placeholder_svg_tag: 'w-full h-full opacity-20' }}
     {% endif %}
   </a>
 
-  <div class="text-center flex flex-col gap-2  flex-grow py-4">
-    <h3 class="text-base font-medium text-black leading-tight line-clamp-2 h-[3rem] flex items-center justify-center max-w-[130px]">
+  <div class="text-center flex flex-col gap-2 grow py-4">
+    <h3 class="text-base font-medium text-black leading-tight line-clamp-2 h-12 flex items-center justify-center max-w-[130px]">
       <a href="{{ card_product.url }}">{{ card_product.title }}</a>
     </h3>
     <p class="text-2xl font-semibold text-black tracking-tight">
