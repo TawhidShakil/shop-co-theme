@@ -13,6 +13,9 @@
   /* For Mobile*/
   --text-hero-mobile: 36px;
   --text-hero-mobile--line-height: var(--hero-line-height);
+
+  /* paragraph*/
+  --text-para--font-weight: 400;
   /* ---- 2. Collection typography  */
   --text-collectionTitle-desktop: 48px;
   --text-collectionTitle--line-height: 1;
@@ -100,4 +103,14 @@
   line-height: 22px;
   font-weight: 400 !important;
   color: #00000099 !important;
+}
+
+/* -- Design for Hero section -- */
+@utility fashion-hero-heading{
+  @apply font-integral;
+  font-size: 64px;
+  font-weight: 700 !important;
+  text-transform: capitalize;
+  color: #000000 !important;
+
 }
