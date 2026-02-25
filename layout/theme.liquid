@@ -51,12 +51,15 @@
   </head>
 
   <body>
-    {%  section 'announcement-bar' %} 
-    {%  section 'header' %}  
+  
    
+    {% comment %} {% section 'hero' %} {% endcomment %}
+    {%  section 'ann-v2' %} 
+    {% section 'header-v2' %}
 
     {{ content_for_layout }}
-    {% section 'newsletter-banner' %}
-    {% sections 'footer-group' %}
+    {% render 'cart-drawer' %}
+    
+    {% section 'footer-v1' %}
   </body>
 </html>

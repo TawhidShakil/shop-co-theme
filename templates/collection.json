@@ -11,7 +11,10 @@
   "sections": {
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "products_per_page": 9,
+        "menu": "collections"
+      }
     }
   },
   "order": [
