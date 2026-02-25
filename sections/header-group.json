@@ -11,12 +11,16 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
+    "announcement-bar":{
+      "type": "ann-v2"
+    },
     "header": {
-      "type": "header",
+      "type": "header-v2",
       "settings": {}
     }
   },
   "order": [
+    "announcement-bar",
     "header"
   ],
 }
