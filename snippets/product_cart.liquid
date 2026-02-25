@@ -43,8 +43,11 @@
     </div>
 
     <div class="flex justify-between items-end mt-2">
-      <p id="price" class="font-satoshi text-product-price-desktop">
-        {{ item.final_line_price | money }}
+      <p id="price" class="font-satoshi text-product-price-desktop flex items-center gap-2">
+        <span>{{ item.final_line_price | money }}</span>
+        {% if item.original_line_price > item.final_line_price %}
+          <span class="text-black/40 line-through text-sm md:text-base font-normal">{{ item.original_line_price | money }}</span>
+        {% endif %}
       </p>
 
       <div id="quantity-selector-{{ item.index }}" class="quantity-selector flex items-center justify-between bg-[#F0EEED] rounded-full px-3 md:px-5 py-2 md:gap-5">

@@ -13,20 +13,93 @@
       "type": "hello-world",
       "settings": {}
     },
-    "header_hRMXyg": {
-      "type": "header",
-      "name": "Header",
+    "hero_WLjD89": {
+      "type": "hero",
+      "blocks": {
+        "stat_8axtLk": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        },
+        "stat_WejW6a": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        },
+        "stat_4TaXpQ": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        }
+      },
+      "block_order": [
+        "stat_8axtLk",
+        "stat_WejW6a",
+        "stat_4TaXpQ"
+      ],
+      "name": "Fashion Hero",
       "settings": {
-        "menu": "main-menu",
-        "enable_search_box": true
+        "heading_line_1": "FIND CLOTHES",
+        "heading_line_2": "THAT MATCHES",
+        "heading_line_3": "YOUR STYLE",
+        "subtext": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
+        "button_label": "Shop Now",
+        "button_link": "",
+        "hero_image": "shopify://shop_images/Rectangle_2_858b0465-9a09-4af8-a378-db7f207ef63a.png"
       }
     },
-    "collections_FHLQjj": {
-      "type": "collections",
-      "name": "t:general.collections_grid",
+    "logo_list_waRF6r": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_zFfU6i": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group.png"
+          }
+        },
+        "logo_kM9XRn": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/zara-logo-1_1.png"
+          }
+        },
+        "logo_q3tmb6": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/gucci-logo-1_1.png"
+          }
+        },
+        "logo_tLVq3a": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/prada-logo-1_1.png"
+          }
+        },
+        "logo_6JWcqR": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "logo_zFfU6i",
+        "logo_kM9XRn",
+        "logo_q3tmb6",
+        "logo_tLVq3a",
+        "logo_6JWcqR"
+      ],
+      "name": "Logo List",
       "settings": {
-        "grid_item_width": "collections--full",
-        "grid_gap": 10
+        "enable": false,
+        "speed": 4,
+        "direction": "ltr"
       }
     },
     "featured_collection_Hr444K": {
@@ -109,8 +182,8 @@
   },
   "order": [
     "main",
-    "header_hRMXyg",
-    "collections_FHLQjj",
+    "hero_WLjD89",
+    "logo_list_waRF6r",
     "featured_collection_Hr444K",
     "featured_collection_BaXn4J",
     "category_grid_section_JHinHa"
