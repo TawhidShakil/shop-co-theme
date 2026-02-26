@@ -75,6 +75,18 @@
           "logo_text": "SHOP.CO",
           "description": "We have clothes that suits your style and which you’re proud to wear. From women to men."
         }
+      },
+      "ann-v2": {
+        "type": "ann-v2",
+        "settings": {
+          "bg_color": "#000000",
+          "text_color": "#ffffff",
+          "padding_top": 15,
+          "padding_bottom": 15,
+          "text": "Sign up and get 20% off to your first order.",
+          "link": "shopify://pages/contact",
+          "link_label": "Sign Up"
+        }
       }
     },
     "content_for_index": [],
