@@ -78,14 +78,17 @@
         <div id="fc-products-{{ section.id }}" class="flex">
             {% for product in section.settings.collection.products limit: section.settings.product_shows %}
                 <div class="fc-product-{{ section.id }}" data-index="{{ forloop.index }}">
-                    <a href="{{ product.url }}" style="display: block;">
+
+                    <div class="w-[295px] h-[295px]">
+                        <a href="{{ product.url }}" class="block">
                         <img 
-                            src="{{ product.featured_image | image_url: width: 295, height: 295 }}" 
-                            alt="{{ product.title }}"
-                            class="w-[295px] h-[295px] object-cover"
-                            loading="lazy"
+                        src="{{ product.featured_image | image_url: width: 295, height: 295 }}" 
+                        alt="{{ product.title | escape }}"
+                        class="w-[295px] h-[295px] object-cover"
+                        loading="lazy"
                         >
-                    </a>
+                        </a>
+                    </div>
 
                     <h2 id="fc-product-title-{{ section.id }}" class="font-satoshi text-product-title-desktop">{{ product.title }}</h2>
                     <h2 id="fc-product-rating-{{ section.id }}">⭐4.9(120)</h2>
