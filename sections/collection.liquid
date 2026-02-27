@@ -17,120 +17,112 @@
             >
           </a>
         </div>
-        <!-- Hard Coded -->
-        {% comment %} <div class="py-2 border-b border-gray-300">
-          <ul class="text-xs">
-            <li class="flex justify-between p-1">
-              <span class="text-gray-600">T-Shirt</span>
-              <button>></button>
-            </li>
-
-            <li class="flex justify-between p-1">
-              <span class="text-gray-600">Shirt</span>
-              <button>></button>
-            </li>
-
-            <li class="flex justify-between p-1">
-              <span class="text-gray-600">Shorts</span>
-              <button>></button>
-            </li>
-            <li class="flex justify-between p-1">
-              <span class="text-gray-600">Hoodie</span>
-              <button>></button>
-            </li>
-            <li class="flex justify-between p-1">
-              <span class="text-gray-600">Jeans</span>
-              <button>></button>
-            </li>
-          </ul>
-        </div> {% endcomment %}
-        <!-- End Hard Coded -->
         <ul class="text-xs">
           {% for link in section.settings.menu.links %}
-            <li class="flex justify-between items-center p-2 rounded hover:bg-gray-50">
-              <a href="{{ link.url }}" class="text-gray-700">
-                {{ link.title }}
-              </a>
-              <span class="text-gray-400">›</span>
+            <li class="menu-item">
+              <!-- Parent -->
+              <div class="flex justify-between items-center p-2 rounded hover:bg-gray-50">
+                <a href="{{ link.url }}" class="text-gray-700">
+                  {{ link.title }}
+                </a>
+
+                {% if link.links != blank %}
+                  <button class="menu-toggle text-gray-400">›</button>
+                {% endif %}
+              </div>
+
+              <!-- Dropdown -->
+              {% if link.links != blank %}
+                <ul class="submenu hidden pl-4">
+                  {% for childlink in link.links %}
+                    <li class="p-2 hover:bg-gray-50">
+                      <a href="{{ childlink.url }}">
+                        {{ childlink.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
             </li>
           {% endfor %}
         </ul>
-        <!-- Dynamic Code -->
-        {% comment %}
-          <ul class="text-xs">
-            {% for category in categories %}
-              <li class="flex justify-between p-1">
-                <span>{{ category.title }}</span>
-                <button>&gt;</button>
-              </li>
-            {% endfor %}
-          </ul>
-        {% endcomment %}
-        <!-- Dynamic Code -->
 
         {%- for filter in collection.filters -%}
           <div class="mb-8 border-b border-gray-300 pb-8 filter-group">
-            <div class="flex justify-between py-3">
-              <h3 class="mb-4 font-bold">{{ filter.label }}</h3>
-              <a> ^ </a>
+            <div class="flex justify-between items-center py-3">
+              <div class="title-div">
+                <h3 class="mb-4 font-bold">{{ filter.label }}</h3>
+              </div>
+              <div class="button-div">
+                <button
+                  type="button"
+                  class="flex justify-between items-center w-full py-3 filter-toggle"
+                >
+                  <span class="arrow transition-transform duration-300"> ^ </span>
+                </button>
+              </div>
             </div>
-            {%- case filter.type -%}
-              {%- when 'list' -%}
-                {%- if filter.label contains 'Color' or filter.label contains 'color' -%}
-                  <div class="flex flex-wrap gap-3">
-                    {%- for value in filter.values -%}
-                      {%- liquid
-                        # TOGGLE LOGIC: Use url_to_remove if active to allow deselection
-                        if value.active
-                          assign target_url = value.url_to_remove
-                        else
-                          assign target_url = value.url_to_add
-                        endif
-                      -%}
-                      <a
-                        href="{{ target_url }}"
-                        class="js-filter-link h-8 w-8 rounded-full border border-black/10 transition-all hover:scale-110 {% if value.active %}ring-2 ring-black ring-offset-2{% endif %}"
-                        style="background-color: {{ value.label | downcase }};"
-                        title="{{ value.label }}"
-                      ></a>
-                    {%- endfor -%}
-                  </div>
-                {%- else -%}
-                  <div class="flex flex-wrap gap-2">
-                    {%- for value in filter.values -%}
-                      {%- liquid
-                        if value.active
-                          assign target_url = value.url_to_remove
-                        else
-                          assign target_url = value.url_to_add
-                        endif
-                      -%}
-                      <a
-                        href="{{ target_url }}"
-                        class="js-filter-link rounded-full px-3 py-2 text-xs font-medium transition-colors {% if value.active %}bg-black text-white{% else %}bg-gray-100 text-gray-600 hover:bg-black hover:text-white{% endif %}"
-                      >
-                        {{ value.label }}
-                      </a>
-                    {%- endfor -%}
-                  </div>
-                {%- endif -%}
+            <div class="filter-content">
+              {%- case filter.type -%}
+                {%- when 'list' -%}
+                  {%- if filter.label contains 'Color' or filter.label contains 'color' -%}
+                    <div class="flex flex-wrap gap-3">
+                      {%- for value in filter.values -%}
+                        {%- liquid
+                          # TOGGLE LOGIC: Use url_to_remove if active to allow deselection
+                          if value.active
+                            assign target_url = value.url_to_remove
+                          else
+                            assign target_url = value.url_to_add
+                          endif
+                        -%}
+                        <a
+                          href="{{ target_url }}"
+                          class="js-filter-link h-8 w-8 rounded-full border border-black/10 transition-all hover:scale-110 {% if value.active %}ring-2 ring-black ring-offset-2{% endif %}"
+                          style="background-color: {{ value.label | downcase }};"
+                          title="{{ value.label }}"
+                        ></a>
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    <div class="flex flex-wrap gap-2">
+                      {%- for value in filter.values -%}
+                        {%- liquid
+                          if value.active
+                            assign target_url = value.url_to_remove
+                          else
+                            assign target_url = value.url_to_add
+                          endif
+                        -%}
+                        <a
+                          href="{{ target_url }}"
+                          class="js-filter-link rounded-full px-3 py-2 text-xs font-medium transition-colors {% if value.active %}bg-black text-white{% else %}bg-gray-100 text-gray-600 hover:bg-black hover:text-white{% endif %}"
+                        >
+                          {{ value.label }}
+                        </a>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
 
-              {%- when 'price_range' -%}
-                <div class="price-range-wrapper">
-                  <input
-                    type="range"
-                    min="0"
-                    max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                    value="{{ filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' }}"
-                    id="PriceRangeSlider"
-                    class="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black"
-                  >
-                  <div class="flex justify-between text-xs font-medium mt-2">
-                    <span>$0</span>
-                    <span id="PriceValueDisplay">{{ filter.max_value.value | default: filter.range_max | money }}</span>
+                {%- when 'price_range' -%}
+                  <div class="price-range-wrapper">
+                    <input
+                      type="range"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      value="{{ filter.max_value.value | default: filter.range_max | money_without_currency | replace: ',', '' }}"
+                      id="PriceRangeSlider"
+                      class="h-1.5 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-black"
+                    >
+                    <div class="flex justify-between text-xs font-medium mt-2">
+                      <span>$0</span>
+                      <span id="PriceValueDisplay">
+                        {{- filter.max_value.value | default: filter.range_max | money -}}
+                      </span>
+                    </div>
                   </div>
-                </div>
-            {%- endcase -%}
+              {%- endcase -%}
+            </div>
           </div>
         {%- endfor -%}
 
@@ -165,7 +157,29 @@
               Showing {{ collection.products.size }} of {{ collection.products_count }} Products
             </p>
 
-            <p class="text-sm">Sort By: <span class="text-sm font-medium">Most Popular ^</span></p>
+            <!-- Most Popular -->
+            <div class="relative inline-block text-left">
+              <button
+                id="SortToggle"
+                class="text-sm font-medium flex items-center gap-1"
+              >
+                Sort By:
+                <span id="CurrentSort">Most Popular</span>
+                <span>⌄</span>
+              </button>
+
+              <div
+                id="SortMenu"
+                class="hidden absolute right-0 mt-2 w-42 bg-white rounded-xl border shadow-md z-20 text-sm"
+              >
+                <a href="?sort_by=best-selling" class="block px-4 py-2 hover:bg-gray-50">Most Popular</a>
+                <a href="?sort_by=manual" class="block px-4 py-2 hover:bg-gray-50">Featured</a>
+                <a href="?sort_by=price-ascending" class="block px-4 py-2 hover:bg-gray-50">Price: Low to High</a>
+                <a href="?sort_by=price-descending" class="block px-4 py-2 hover:bg-gray-50">Price: High to Low</a>
+                <a href="?sort_by=created-descending" class="block px-4 py-2 hover:bg-gray-50">Newest</a>
+                <a href="?sort_by=title-ascending" class="block px-4 py-2 hover:bg-gray-50">A → Z</a>
+              </div>
+            </div>
           </div>
         </div>
         <!-- end -->
@@ -244,7 +258,49 @@
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   }
 </style>
+<script>
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.menu-toggle');
+    if (!btn) return;
 
+    const item = btn.closest('.menu-item');
+    const submenu = item.querySelector('.submenu');
+
+    submenu.classList.toggle('hidden');
+
+    btn.classList.toggle('rotate-90');
+  });
+</script>
+<!-- Most Popular Section JS -->
+<script>
+  document.addEventListener('click', (e) => {
+    const toggle = e.target.closest('#SortToggle');
+    const menu = document.querySelector('#SortMenu');
+
+    if (toggle) {
+      menu.classList.toggle('hidden');
+      return;
+    }
+
+    if (!e.target.closest('#SortMenu')) {
+      menu.classList.add('hidden');
+    }
+  });
+</script>
+<!-- End Most Popular Section JS -->
+<script>
+  document.addEventListener('click', (e) => {
+    const toggle = e.target.closest('.filter-toggle');
+    if (!toggle) return;
+
+    const group = toggle.closest('.filter-group');
+    const content = group.querySelector('.filter-content');
+    const arrow = toggle.querySelector('.arrow');
+
+    content.classList.toggle('hidden');
+    arrow.classList.toggle('rotate-180');
+  });
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const sectionId = document.querySelector('#MainCollectionSection').dataset.id;
