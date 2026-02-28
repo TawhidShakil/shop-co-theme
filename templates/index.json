@@ -178,6 +178,81 @@
       "settings": {
         "category_title": "Browse By Dress Style"
       }
+    },
+    "happy_coustomer_tcy9HH": {
+      "type": "happy-coustomer",
+      "blocks": {
+        "testimonial_NR4ERH": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_xUKKKR": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_X3fF4W": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_8RCVeD": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_FCRrbn": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_EJ8Qpw": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_9pyzmg": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_cY4JMr": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_NR4ERH",
+        "testimonial_xUKKKR",
+        "testimonial_X3fF4W",
+        "testimonial_8RCVeD",
+        "testimonial_FCRrbn",
+        "testimonial_EJ8Qpw",
+        "testimonial_9pyzmg",
+        "testimonial_cY4JMr"
+      ],
+      "name": "Our Happy Coustomer",
+      "settings": {
+        "title": "OUR HAPPY CUSTOMERS"
+      }
     }
   },
   "order": [
@@ -186,6 +261,7 @@
     "logo_list_waRF6r",
     "featured_collection_Hr444K",
     "featured_collection_BaXn4J",
-    "category_grid_section_JHinHa"
+    "category_grid_section_JHinHa",
+    "happy_coustomer_tcy9HH"
   ]
 }
