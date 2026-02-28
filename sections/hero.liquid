@@ -1,112 +1,117 @@
-<section class="bg-[#f4f4f4]">
-  <div class="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-8 py-12 lg:py-20">
-    
-    <div class="grid lg:grid-cols-2 items-center gap-14">
-      
-      <!-- LEFT -->
-      <div class="text-left">
-        
-        <!-- Heading -->
-        <h1 class="text-hero-desktop font-integral md:text-[64px] text-[36px]">
-          <span class="block">{{ section.settings.heading_line_1 }}</span>
-          <span class="block">{{ section.settings.heading_line_2 }}</span>
-          <span class="block">{{ section.settings.heading_line_3 }}</span>
-        </h1>
+<section class="full-width bg-[#f4f4f4]  lg:px-[100px]">
+  <div class="max-w-[1440px] flex flex-col md:flex-row ">
+    <!-- LEFT -->
+    <div class="w-full md:w-[650px] lg:w-[750px] flex flex-col gap-4 text-left px-2 md:py-12 lg:py-16 ">
+      <!-- Heading -->
+      <h1 class="text-hero-desktop font-integral text-[36px] text-center md:text-left md:text-5xl lg:text-6xl">
+        {{ section.settings.heading }}
+      </h1>
 
-        <!-- Paragraph -->
-        <p class="
-          mt-5
+      <!-- Paragraph -->
+      <p
+        class="
+          text-center md:text-left
           text-[#6b7280]
-          text-[14px]
-          sm:text-[15px]
+          text-sm
+          sm:text-base
           leading-relaxed
-          max-w-sm
+          max-w-xl
           mx-auto
           lg:mx-0
-        ">
-          {{ section.settings.subtext }}
-        </p>
+        "
+      >
+        {{ section.settings.subtext }}
+      </p>
 
-        <!-- Button -->
-        {% if section.settings.button_label != blank %}
-          <a href="{{ section.settings.button_link }}"
-            class="
-              mt-7
-              w-full
-              sm:w-auto
-              inline-flex
-              justify-center
-              items-center
-              bg-black
-              text-white
-              px-8
-              py-4
-              rounded-[40px]
-              text-[15px]
-              font-medium
-              transition
-            ">
-            {{ section.settings.button_label }}
-          </a>
-        {% endif %}
+      <!-- Button -->
+      {% if section.settings.button_label != blank %}
+        <button
+          href="{{ section.settings.button_link }}"
+          class="
+            w-full md:max-w-[210px] max-h-[52px]
+            inline-flex
+            justify-center
+            items-center
+            bg-black
+            text-white
+            px-8
+            py-2
+            rounded-full
+            text-sm
+            font-medium
+            transition
+          "
+        >
+          {{ section.settings.button_label }}
+        </button>
+      {% endif %}
 
-<!-- Stats -->
-<div class="py-6">
+      <!-- Stats -->
+      <div class="">
+        <div class="grid grid-cols-2 lg:grid-cols-3 text-center lg:text-left font-satoshi">
+          {% for block in section.blocks %}
+            <div
+              class="
+                {% if forloop.index == 3 %}
+                  col-span-2 lg:col-span-1
+                {% endif %}
+              "
+            >
+              <h3 class="text-[22px] lg:text-[28px] font-bold text-[#2b2b2b]">
+                {{ block.settings.stat_number }}
+              </h3>
 
-  <div class="grid grid-cols-2 lg:grid-cols-3 gap-y-8 text-center lg:text-left font-satoshi">
-
-    {% for block in section.blocks %}
-      <div class="
-        {% if forloop.index == 3 %}
-          col-span-2 lg:col-span-1
-        {% endif %}
-        
-      ">
-
-        <h3 class="text-[22px] lg:text-[28px] font-bold text-[#2b2b2b]">
-          {{ block.settings.stat_number }}
-        </h3>
-
-        <p class="text-xs lg:text-sm text-gray-500 mt-1">
-          {{ block.settings.stat_label }}
-        </p>
-
+              <p class="text-xs lg:text-sm text-gray-500 mt-1">
+                {{ block.settings.stat_label }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
       </div>
-    {% endfor %}
-
-  </div>
-
-</div>
-
-      </div>
-
-
-      <!-- IMAGE -->
-      <div class="relative flex justify-center lg:justify-end mt-4 sm:mt-6 lg:mt-0">
-        
-        {% if section.settings.hero_image %}
-          <img 
-            src="{{ section.settings.hero_image | image_url: width: 2000 }}"
-            alt="Hero Image"
-            class="
-              w-full
-              max-w-[420px]
-              sm:max-w-[500px]
-              lg:max-w-[600px]
-              object-contain
-            "
-          >
-        {% endif %}
-
-
-
-      </div>
-
     </div>
 
+    <!-- IMAGE -->
+    <div class="flex">
+      {% if section.settings.hero_image %}
+        <img
+          src="{{ section.settings.hero_image | image_url: width: 2000 }}"
+          alt="Hero Image"
+          class="
+            w-full
+            h-full
+
+            object-fit
+          "
+        >
+      {% endif %}
+      <!-- Star -->
+      <svg
+        class="
+          absolute
+          top-100 right-12
+          md:top-12 md:right-20
+          lg:top-24 lg:right-42 w-10 h-10 text-yellow-400
+        "
+        fill="black"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 .587l3.668 7.431L24 9.748l-6 5.845 1.416 8.262L12 19.771l-7.416 4.084L6 15.593 0 9.748l8.332-1.73z"/>
+      </svg>
+
+      <svg
+        class="
+          absolute top-118 right-72
+          md:top-36 md:right-100
+          lg:top-52 lg:right-[544px] w-10 h-10 text-yellow-400
+        "
+        fill="black"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 .587l3.668 7.431L24 9.748l-6 5.845 1.416 8.262L12 19.771l-7.416 4.084L6 15.593 0 9.748l8.332-1.73z"/>
+      </svg>
+    </div>
   </div>
 </section>
-
 
 {% schema %}
 {
@@ -114,21 +119,9 @@
   "settings": [
     {
       "type": "text",
-      "id": "heading_line_1",
-      "label": "Heading Line 1",
-      "default": "FIND CLOTHES"
-    },
-    {
-      "type": "text",
-      "id": "heading_line_2",
-      "label": "Heading Line 2",
-      "default": "THAT MATCHES"
-    },
-    {
-      "type": "text",
-      "id": "heading_line_3",
-      "label": "Heading Line 3",
-      "default": "YOUR STYLE"
+      "id": "heading",
+      "label": "Heading",
+      "default": "FIND CLOTHES THAT MATCHES YOUR STYLE"
     },
     {
       "type": "textarea",
@@ -177,11 +170,7 @@
   "presets": [
     {
       "name": "Fashion Hero",
-      "blocks": [
-        { "type": "stat" },
-        { "type": "stat" },
-        { "type": "stat" }
-      ]
+      "blocks": [{ "type": "stat" }, { "type": "stat" }, { "type": "stat" }]
     }
   ]
 }
