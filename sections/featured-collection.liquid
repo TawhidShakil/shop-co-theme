@@ -79,12 +79,12 @@
             {% for product in section.settings.collection.products limit: section.settings.product_shows %}
                 <div class="fc-product-{{ section.id }}" data-index="{{ forloop.index }}">
 
-                    <div class="w-[295px] h-[295px]">
-                        <a href="{{ product.url }}" class="block">
+                    <div class="w-full aspect-square">
+                        <a href="{{ product.url }}" class="block w-full h-full">
                         <img 
                         src="{{ product.featured_image | image_url: width: 295, height: 295 }}" 
                         alt="{{ product.title | escape }}"
-                        class="w-[295px] h-[295px] object-cover"
+                        class="w-full h-full object-cover"
                         loading="lazy"
                         >
                         </a>
@@ -254,9 +254,13 @@
         padding-right: 20px;
     }
 
+    #fc-products-{{ section.id }}{
+        gap: 16px;
+    }
+
     /* 2 products per row */
     .fc-product-{{ section.id }} {
-        width: calc(50% - 10px);
+        width: calc((100% - 16px) / 2);
     }
 
     /* Image fills the card, stays square */
