@@ -16,8 +16,6 @@
     {% endif %}
   </nav>
 
-
-  
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
     <!-- LEFT: Images -->
     <div class="flex flex-col-reverse md:flex-row gap-4">
@@ -152,7 +150,7 @@
                       </svg>
                     </span>
                   {% else %}
-                    <span class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white peer-checked:border-black transition-colors">
+                    <span class="px-4 py-3 bg-white border border-gray-200 rounded-lg text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white peer-checked:border-black transition-colors">
                       {{ value }}
                     </span>
                   {% endif %}
@@ -236,21 +234,21 @@
 <section class="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12" id="ProductTabsSection">
   <div class="flex flex-col sm:flex-row border-b border-gray-200 mb-8 relative overflow-x-auto" role="tablist">
     <button
-      class="tab-trigger  cursor-pointer flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent whitespace-nowrap"
+      class="tab-trigger flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent whitespace-nowrap"
       data-tab-target="#tab-details"
     >
       Product Details
     </button>
 
     <button
-      class="tab-trigger   cursor-pointer flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-black font-bold border-b-2 border-black transition whitespace-nowrap"
+      class="tab-trigger flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-black font-bold border-b-2 border-black transition whitespace-nowrap"
       data-tab-target="#tab-reviews"
     >
       Rating & Reviews
     </button>
 
     <button
-      class="tab-trigger   cursor-pointer flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent whitespace-nowrap"
+      class="tab-trigger flex-1 min-w-0 py-3 sm:pb-4 px-2 text-center text-xs sm:text-base text-gray-500 font-medium hover:text-black transition border-b-2 border-transparent whitespace-nowrap"
       data-tab-target="#tab-faqs"
     >
       FAQs
@@ -267,7 +265,52 @@
       </div>
     </div>
 
-    
+    <div id="tab-reviews" class="tab-pane animate-in fade-in duration-300">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full py-6">
+          <div class="flex items-baseline gap-2">
+            <h2 class="text-xl md:text-2xl font-bold text-black">All Reviews</h2>
+            <span class="text-sm md:text-base text-gray-500">(451)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Start of Judge.me code -->
+      {% assign has_legacy = false -%}
+      {%- if product.metafields.judgeme.widget.size > 20 %}{% assign has_legacy = true %}{% endif %}
+      <div style="clear:both"></div>
+      <div
+        id="judgeme_product_reviews"
+        class="jdgm-widget jdgm-review-widget"
+        data-product-title="{{ product.title | escape }}"
+        data-id="{{ product.id }}"
+        data-product-id="{{ product.id }}"
+        data-widget="review"
+        data-auto-install="false"
+        data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
+        data-entry-point="review_widget.js"
+        data-entry-key="review-widget/main.js"
+      >
+        {% if has_legacy %}
+          <div class="jdgm-legacy-widget-content" style="display: none;">{{ product.metafields.judgeme.widget }}</div>
+        {% endif %}
+      </div>
+      {% if product.metafields.judgeme.review_widget_data %}
+        <script>
+          jdgm.data ||= {}; jdgm.data.reviewWidget ||= {}; jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }}
+        </script>
+      {% endif %}
+      <!-- End of Judge.me code -->
+
+      <div class="flex justify-center mt-8 sm:mt-10">
+        <button
+          id="LoadMoreAction"
+          class="px-6 sm:px-10 py-3 sm:py-4 border border-gray-200 rounded-full text-sm sm:text-base font-bold hover:bg-gray-50 transition w-full sm:w-auto max-w-sm sm:max-w-none"
+        >
+          Load More Reviews
+        </button>
+      </div>
+    </div>
 
     <div id="tab-faqs" class="tab-pane hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div class="py-8 sm:py-12 max-w-3xl mx-auto">
