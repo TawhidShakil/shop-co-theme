@@ -134,7 +134,7 @@
                     {% endcomment %}
 
                     <span
-                      class="color-swatch w-10 h-10 rounded-full sm:rounded-full border-2 border-transparent peer-checked:border-gray-300 peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
+                      class="color-swatch w-10 h-10 rounded-full  border-2 border-transparent peer-checked:border-gray-300 peer-checked:[&_svg]:opacity-100 flex items-center justify-center relative transition-all"
                       style="background-color: {{ color_val }};"
                     >
                       <svg
@@ -150,7 +150,7 @@
                       </svg>
                     </span>
                   {% else %}
-                    <span class="px-4 py-3 bg-white border border-gray-200 rounded-lg text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white peer-checked:border-black transition-colors">
+                    <span class="px-4 py-3 bg-white border border-gray-200 rounded-full text-[16px] text-gray-700 peer-checked:bg-black peer-checked:text-white peer-checked:border-black transition-colors">
                       {{ value }}
                     </span>
                   {% endif %}
