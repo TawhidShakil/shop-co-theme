@@ -21,6 +21,21 @@
     </div>
 
     {% if cart.item_count > 0 %}
+        {%- assign total_original_price = 0 -%}
+        {%- assign total_savings = 0 -%}
+        {%- for item in cart.items -%}
+          {%- if item.variant.compare_at_price > item.variant.price -%}
+            {%- assign item_original = item.variant.compare_at_price | times: item.quantity -%}
+            {%- assign saving = item.variant.compare_at_price | minus: item.variant.price | times: item.quantity -%}
+          {%- else -%}
+            {%- assign item_original = item.original_line_price -%}
+            {%- assign saving = 0 -%}
+          {%- endif -%}
+          {%- assign total_original_price = total_original_price | plus: item_original -%}
+          {%- assign total_savings = total_savings | plus: saving -%}
+        {%- endfor -%}
+        {%- assign total_savings = total_savings | plus: cart.total_discounts -%}
+
         <div class="lg:col-span-4 border border-black/10 rounded-[20px] p-5 md:p-6 flex flex-col gap-6 sticky top-8">
         <h2 id="order-summary" class="font-satoshi text-product-price-desktop">Order Summary</h2>
         
@@ -31,26 +46,31 @@
               Subtotal
             </span>
             <span class="text-black font-bold">
-              {{ cart.original_total_price | money }}
+              {{ total_original_price | money }}
             </span>
           </div>
 
           <!-- Discount -->
-          <div class="flex justify-between items-center font-satoshi text-product-title-desktop">
-            <span class="text-black/60">Discount</span>
-            <span class="text-red-500 font-bold">
-              -{{ cart.total_discounts | money }}
-            </span>
-          </div>
+          {%- if total_savings > 0 -%}
+            <div id="discount-row" class="flex justify-between items-center font-satoshi text-product-title-desktop">
+              <span class="text-black/60">Discount</span>
+              <span class="text-red-500 font-bold">
+                -{{ total_savings | money }}
+              </span>
+            </div>
+          {%- endif -%}
 
-          <!-- Delivery Fee -->
+          {%- assign shipping_fee = 0 -%}
+          {%- if cart.total_price < 5000 -%} {%  comment  %} $50.00 threshold {%  endcomment  %}
+            {%- assign shipping_fee = 1500 -%} {%  comment  %} $15.00 flat fee {%  endcomment  %}
+          {%- endif -%}
+
           <div class="flex justify-between items-center font-satoshi text-product-title-desktop">
             <span class="text-black/60">Delivery Fee</span>
             <span class="text-black font-bold">
-              {{ 0 | money }}
+              {% if shipping_fee == 0 %}Free{% else %}{{ shipping_fee | money }}{% endif %}
             </span>
           </div>
-        </div>
 
         <div id="order-summary-total" class="border-t border-black/10 pt-4 flex justify-between items-center font-satoshi text-product-title-desktop">
             <span class="text-black">Total</span>
@@ -62,9 +82,9 @@
                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-black/40">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
                 </span>
-                <input id="prome-input-field" type="text" placeholder="Add promo code" class="w-full bg-[#F0EEED] rounded-full pl-12 pr-4 py-3 focus:outline-none">
+                <input id="prome-input-field" type="text" name="discount" placeholder="Add promo code" class="w-full bg-[#F0EEED] rounded-full pl-12 pr-4 py-3 focus:outline-none">
             </div>
-            <button type="button" class="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-black/90 transition-colors">Apply</button>
+            <button type="submit" name="update" class="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-black/90 transition-colors">Apply</button>
         </div>
 
         <button 

@@ -13,12 +13,93 @@
       "type": "hello-world",
       "settings": {}
     },
-    "collections_FHLQjj": {
-      "type": "collections",
-      "name": "t:general.collections_grid",
+    "hero_WLjD89": {
+      "type": "hero",
+      "blocks": {
+        "stat_8axtLk": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        },
+        "stat_WejW6a": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        },
+        "stat_4TaXpQ": {
+          "type": "stat",
+          "settings": {
+            "stat_number": "200+",
+            "stat_label": "International Brands"
+          }
+        }
+      },
+      "block_order": [
+        "stat_8axtLk",
+        "stat_WejW6a",
+        "stat_4TaXpQ"
+      ],
+      "name": "Fashion Hero",
       "settings": {
-        "grid_item_width": "collections--full",
-        "grid_gap": 10
+        "heading_line_1": "FIND CLOTHES",
+        "heading_line_2": "THAT MATCHES",
+        "heading_line_3": "YOUR STYLE",
+        "subtext": "Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.",
+        "button_label": "Shop Now",
+        "button_link": "",
+        "hero_image": "shopify://shop_images/Rectangle_2_858b0465-9a09-4af8-a378-db7f207ef63a.png"
+      }
+    },
+    "logo_list_waRF6r": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_zFfU6i": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group.png"
+          }
+        },
+        "logo_kM9XRn": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/zara-logo-1_1.png"
+          }
+        },
+        "logo_q3tmb6": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/gucci-logo-1_1.png"
+          }
+        },
+        "logo_tLVq3a": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/prada-logo-1_1.png"
+          }
+        },
+        "logo_6JWcqR": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/Group_1.png"
+          }
+        }
+      },
+      "block_order": [
+        "logo_zFfU6i",
+        "logo_kM9XRn",
+        "logo_q3tmb6",
+        "logo_tLVq3a",
+        "logo_6JWcqR"
+      ],
+      "name": "Logo List",
+      "settings": {
+        "enable": false,
+        "speed": 4,
+        "direction": "ltr"
       }
     },
     "featured_collection_Hr444K": {
@@ -97,13 +178,90 @@
       "settings": {
         "category_title": "Browse By Dress Style"
       }
+    },
+    "happy_coustomer_tcy9HH": {
+      "type": "happy-coustomer",
+      "blocks": {
+        "testimonial_NR4ERH": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_xUKKKR": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_X3fF4W": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_8RCVeD": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_FCRrbn": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_EJ8Qpw": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_9pyzmg": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        },
+        "testimonial_cY4JMr": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Sarah M.",
+            "review_text": "I'm blown away by the quality and style..."
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_NR4ERH",
+        "testimonial_xUKKKR",
+        "testimonial_X3fF4W",
+        "testimonial_8RCVeD",
+        "testimonial_FCRrbn",
+        "testimonial_EJ8Qpw",
+        "testimonial_9pyzmg",
+        "testimonial_cY4JMr"
+      ],
+      "name": "Our Happy Coustomer",
+      "settings": {
+        "title": "OUR HAPPY CUSTOMERS"
+      }
     }
   },
   "order": [
     "main",
-    "collections_FHLQjj",
+    "hero_WLjD89",
+    "logo_list_waRF6r",
     "featured_collection_Hr444K",
     "featured_collection_BaXn4J",
-    "category_grid_section_JHinHa"
+    "category_grid_section_JHinHa",
+    "happy_coustomer_tcy9HH"
   ]
 }
