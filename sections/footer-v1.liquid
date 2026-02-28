@@ -20,12 +20,27 @@
         </svg>
         <!-- Email Input -->
         <input
+          id="EmailInput"
           type="email"
           placeholder="Enter Your Email Address"
-          class="w-full sm:min-w-[250px] md:min-w-[280px] lg:min-w-[349px] pl-6 bg-transparent outline-none rounded-full"
+          class="w-full pl-6 bg-transparent outline-none rounded-full"
         >
       </div>
-      <button class="bg-white w-full lg:min-w-[349px] rounded-full p-2 text-xs">Subscribe To News</button>
+      <button
+        id="SubscribeBtn"
+        disabled
+        class="
+          w-full lg:min-w-[349px]
+          rounded-full
+          p-2 text-xs
+          bg-white text-black
+          border border-black
+          transition-all duration-300
+          cursor-not-allowed
+        "
+      >
+        Subscribe To News
+      </button>
     </div>
   </div>
 </section>
@@ -157,7 +172,32 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('input', () => {
+    const emailInput = document.getElementById('EmailInput');
+    const button = document.getElementById('SubscribeBtn');
 
+    if (!emailInput || !button) return;
+
+    const email = emailInput.value;
+
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (validEmail) {
+      button.disabled = false;
+
+      button.classList.remove('bg-white', 'text-black', 'cursor-not-allowed');
+
+      button.classList.add('bg-green-400', 'text-black', 'cursor-pointer');
+    } else {
+      button.disabled = true;
+
+      button.classList.add('bg-white', 'text-black', 'cursor-not-allowed');
+
+      button.classList.remove('bg-black', 'text-white');
+    }
+  });
+</script>
 {% schema %}
 {
   "name": "Footer",
