@@ -24,12 +24,22 @@
     "1772036846d6167e54": {
       "type": "apps",
       "blocks": {
+        "judge_me_reviews_review_widget_EYULeR": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        },
         "judge_me_reviews_preview_badge_DixUq4": {
           "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {}
         }
       },
       "block_order": [
+        "judge_me_reviews_review_widget_EYULeR",
         "judge_me_reviews_preview_badge_DixUq4"
       ],
       "settings": {}
